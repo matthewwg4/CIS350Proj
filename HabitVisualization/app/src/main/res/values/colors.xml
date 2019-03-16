@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#431159</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorRecyclerView">#CCAACC</color>
+    <color name="colorRecyclerView1">#f9eaf9</color>
 </resources>
