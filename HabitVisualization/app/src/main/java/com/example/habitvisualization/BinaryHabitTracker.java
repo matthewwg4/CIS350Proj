@@ -15,8 +15,7 @@ public class BinaryHabitTracker extends HabitTracker {
         return HabitType.BINARY;
     }
 
-    @Override
-    public void putDateInfo(Date date, boolean isDone, float unitValue, int happiness) {
-        super.putDateInfo(date, isDone, 0, happiness);
+    public void putDateInfo(Date date, boolean isDone, int happiness) {
+        super.tracking.add(new DateInfo(date, isDone, 0, happiness));
     }
 }

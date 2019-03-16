@@ -19,5 +19,9 @@ public class NumericalHabitTracker extends HabitTracker{
 
     @Override
     public String getUnitName() {return unitName;}
+    
+    public void putDateInfo(Date date, float value, int happiness) {
+        super.tracking.add(new DateInfo(date, false, value, happiness));
+    }
 }
 

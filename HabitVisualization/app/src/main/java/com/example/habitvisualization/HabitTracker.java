@@ -1,6 +1,6 @@
 package com.example.habitvisualization;
 
-import android.support.v7.util.SortedList;
+//import android.support.v7.util.SortedList;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,10 +25,6 @@ public class HabitTracker {
             }
         }
         return null; // There is no data related to the input date
-    }
-
-    public void putDateInfo(Date date, boolean isDone, float unitValue, int happiness) {
-        tracking.add(new DateInfo(date, isDone, unitValue, happiness));
     }
 
     /*The below is only useful and override if HabitTracker is NumericalHabitTracker */
