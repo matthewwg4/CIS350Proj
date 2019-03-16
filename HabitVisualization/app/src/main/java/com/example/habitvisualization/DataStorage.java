@@ -12,4 +12,9 @@ public class DataStorage { // Fake data
     public HabitTracker getHabitTracker(String habitName) {
         return habits.get(habitName);
     }
+
+    public void putHabitTracker(HabitTracker habit) {
+        habits.put(habit.getHabitName(), habit);
+    }
+
 }

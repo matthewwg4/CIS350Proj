@@ -2,14 +2,15 @@ package com.example.habitvisualization;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class NumericalHabitTracker extends HabitTracker{
     private String unitName;
 
-    public NumericalHabitTracker() {
-        unitName = "Undefined";
-        this.tracking = new ArrayList<>();
+    public NumericalHabitTracker(String habitName, Set<String> addTags, boolean isPrivate, String unitName) {
+        super(habitName, addTags, isPrivate);
+        this.unitName = unitName;
     }
 
     @Override

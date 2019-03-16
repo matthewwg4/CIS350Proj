@@ -2,12 +2,13 @@ package com.example.habitvisualization;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class BinaryHabitTracker extends HabitTracker {
 
-    public BinaryHabitTracker() {
-        this.tracking = new ArrayList<>();
+    public BinaryHabitTracker(String habitName, Set<String> addTags, boolean isPrivate) {
+        super(habitName, addTags, isPrivate);
     }
 
     @Override
