@@ -1,5 +1,6 @@
 package com.example.habitvisualization;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -66,11 +67,12 @@ public class TrendViewerActivity extends AppCompatActivity {
         /* Initialize bar graph so that the user can view their happiness
          * in correlation to their other unit input across days*/
         barChart = (BarChart) findViewById(R.id.barChartView);
-        createBarGraph("2016.05.05", "2016.05.07", "");
+        createBarGraph("2016.05.05", "2016.05.11", "");
     }
 
     // Input data in the x-axis
-    private void createBarGraph(String dateOldestStr, String dateNewestStr, String graphName) {
+    private void createBarGraph(String dateOldestStr, String dateNewestStr,
+                                String graphName) {
         Log.d(TAG, "createBarGraph: is called");
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
@@ -103,8 +105,8 @@ public class TrendViewerActivity extends AppCompatActivity {
 
             Log.d(TAG, "createBarGraph: dates.size() is " + Integer.toString(dates.size()));
             for(int j = 0; j< dates.size();j++){
-                max = 100f;
-                barEntries.add(new BarEntry(j * 2,j * 10));
+                max = 10f;
+                barEntries.add(new BarEntry(j, j));
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -115,9 +117,9 @@ public class TrendViewerActivity extends AppCompatActivity {
         dataSets.add((IBarDataSet) barDataSet);
 
         BarData barData = new BarData(barDataSet);
-        barData.setBarWidth(0.9f); // set custom bar width
+        barData.setBarWidth(0.3f); // set custom bar width
         barChart.setData(barData);
-
+        barChart.setFitBars(true); // make the x-axis fit exactly all bars
         barChart.invalidate(); // refresh
 
         //Title of the bar chart
@@ -125,21 +127,6 @@ public class TrendViewerActivity extends AppCompatActivity {
         description.setText(graphName);
         barChart.setDescription(description);
 
-        //Set the x axis
-        // the labels that should be drawn on the XAxis
-        final String[] quarters = new String[] { "Q1", "Q2", "Q3", "Q4"};
-
-        IAxisValueFormatter formatter = new IAxisValueFormatter() {
-
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return quarters[(int) value];
-            }
-        };
-
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
-        xAxis.setValueFormatter(formatter);
     }
 
     private ArrayList<String> getList(Calendar startDate, Calendar endDate) {
@@ -161,21 +148,21 @@ public class TrendViewerActivity extends AppCompatActivity {
         return list;
     }
 
-    private String getDate(Calendar calendar) {
-        Log.d(TAG, "getDate: calendar.getTime() is " + calendar.getTime().toString());
-        String curDate = calendar.get(Calendar.YEAR) + "." +
-                (calendar.get(Calendar.MONTH) + 1) + "." +
-                calendar.get(Calendar.DATE);
-        Log.d(TAG, "getDate: curDate is " + curDate);
-
-        try {
-            Date date = new SimpleDateFormat("yyyy.MM.dd").parse(curDate);
-            curDate = new SimpleDateFormat("yyyy.MM.dd").format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return curDate;
-    }
+//    private String getDate(Calendar calendar) {
+//        Log.d(TAG, "getDate: calendar.getTime() is " + calendar.getTime().toString());
+//        String curDate = calendar.get(Calendar.YEAR) + "." +
+//                (calendar.get(Calendar.MONTH) + 1) + "." +
+//                calendar.get(Calendar.DATE);
+//        Log.d(TAG, "getDate: curDate is " + curDate);
+//
+//        try {
+//            Date date = new SimpleDateFormat("yyyy.MM.dd").parse(curDate);
+//            curDate = new SimpleDateFormat("yyyy.MM.dd").format(date);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return curDate;
+//    }
 
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recyclerView");
@@ -194,8 +181,48 @@ public class TrendViewerActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
+    /*Input: expects to have 7 elements only to view data a 7 days, where the most recent in
+    that*/
+    private void setUpXAxis(String[] xAxisStrs) {
+        String[] xAxisStrs = new String[] {"99", "100", "101", "102", "103", "104", "105"};
+        XAxisValueFormatter xAxisValueFormatter = new XAxisValueFormatter(xAxisStrs);
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(10f);
+        xAxis.setTextColor(Color.RED);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(xAxisValueFormatter);
+    }
+
+    private void getDatesForXAxis() {
+
+    }
+
     public void changeGraph(String habitNameChosen) {
         Log.d(TAG, "changeGraph: chosen habit is " + habitNameChosen);
     }
 
+}
+
+class XAxisValueFormatter implements IAxisValueFormatter {
+
+    private String[] mValues;
+
+    public XAxisValueFormatter(String[] values) {
+        this.mValues = values;
+    }
+
+    @Override
+    public String getFormattedValue(float value, AxisBase axis) {
+        // "value" represents the position of the label on the axis (x or y)
+//        return mValues[(int) value];
+        if (value >= 0) {
+            if (mValues.length > (int) value) {
+                return mValues[(int) value];
+            } else return "";
+        } else {
+            return "";
+        }
+    }
 }
