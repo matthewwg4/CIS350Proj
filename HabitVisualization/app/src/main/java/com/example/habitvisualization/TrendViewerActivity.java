@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -16,6 +17,10 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,25 +36,31 @@ public class TrendViewerActivity extends AppCompatActivity {
     private static final String TAG = "TrendViewerActivity";
 
     private DataStorage dataStorage;
-    Random random; //testing purpose
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter recyclerViewAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    // Declaring variables as data for bar chart below
-    private BarChart barChart;
-    ArrayList<BarEntry> barEntries;
-    // End variables above are data for bar chart
-
+    private GraphView graph;
+    private SimpleDateFormat dateFormat;
+    private Calendar calendar;
+    private final int numDateShow = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate is called");
+        Log.d(TAG, "onCreate: started.");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG, "onCreate: started.");
+        dateFormat = new SimpleDateFormat("MM/dd");
+
+        // Set default values ------------------------------------
+        calendar = Calendar.getInstance();
+        Date defaultLatestDate = calendar.getTime();
+        Log.d(TAG, "onCreate: defaultLatestDate is " +
+                defaultLatestDate.toString());
+        Log.d(TAG, "onCreate: formatted defaultLatestDate is " +
+                dateFormat.format(defaultLatestDate));
 
         //testing purpose below-----------------------------------
         dataStorage = new DataStorage();
@@ -62,107 +73,47 @@ public class TrendViewerActivity extends AppCompatActivity {
         /* Initialize recycler view so the user can choose a habit to display
          * on the chart*/
         initRecyclerView();
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        graph = findViewById(R.id.graph);
 
-        /* Initialize bar graph so that the user can view their happiness
-         * in correlation to their other unit input across days*/
-        barChart = (BarChart) findViewById(R.id.barChartView);
-        createBarGraph("2016.05.05", "2016.05.11", "");
-    }
+        //Testing purpose
 
-    // Input data in the x-axis
-    private void createBarGraph(String dateOldestStr, String dateNewestStr,
-                                String graphName) {
-        Log.d(TAG, "createBarGraph: is called");
+        DataPoint[] dataPoints = getDataPoints(defaultLatestDate);
+        Date newestDate = defaultLatestDate;
+        calendar.add(Calendar.DATE, -numDateShow + 1);
+        Date oldestDate = new Date((long) dataPoints[0].getX());
+        calendar.add(Calendar.DATE, +numDateShow + 1);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-        ArrayList<String> dates = new ArrayList<>();
-
-        try {
-            Date dateNewest = simpleDateFormat.parse(dateNewestStr);
-            Date dateOldest = simpleDateFormat.parse(dateOldestStr);
-
-            Calendar calenDateNewest = Calendar.getInstance();
-            Calendar calenDateOldest = Calendar.getInstance();
-            calenDateNewest.clear();
-            calenDateOldest.clear();
-
-            calenDateNewest.setTime(dateNewest);
-            calenDateOldest.setTime(dateOldest);
-
-            String endDateStr = calenDateNewest.getTime().toString();
-            String startDateStr = calenDateOldest.getTime().toString();
-
-            Log.d(TAG, "createBarGraph: startDate is " + startDateStr);
-            Log.d(TAG, "createBarGraph: endDate is " + endDateStr);
-
-
-            dates = getList(calenDateOldest, calenDateNewest);
-
-            barEntries = new ArrayList<>();
-            float max = 0f;
-            float value = 0f;
-
-            Log.d(TAG, "createBarGraph: dates.size() is " + Integer.toString(dates.size()));
-            for(int j = 0; j< dates.size();j++){
-                max = 10f;
-                barEntries.add(new BarEntry(j, j));
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        BarDataSet barDataSet = new BarDataSet(barEntries,"Happiness level");
-        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        dataSets.add((IBarDataSet) barDataSet);
-
-        BarData barData = new BarData(barDataSet);
-        barData.setBarWidth(0.3f); // set custom bar width
-        barChart.setData(barData);
-        barChart.setFitBars(true); // make the x-axis fit exactly all bars
-        barChart.invalidate(); // refresh
-
-        //Title of the bar chart
-        Description description = new Description();
-        description.setText(graphName);
-        barChart.setDescription(description);
+        setXAxis(oldestDate, newestDate);
+        setLineGraph(dataPoints);
 
     }
 
-    private ArrayList<String> getList(Calendar startDate, Calendar endDate) {
-        String startDateStr = startDate.getTime().toString();
-        String endDateStr = endDate.getTime().toString();
+    // -------------------------------------------------------------------
+    // PRIVATE FUNCTIONS -------------------------------------------
+    // -------------------------------------------------------------------
 
-        Log.d(TAG, "getList: startDate is " + startDateStr);
-        Log.d(TAG, "getList: endDate is " + endDateStr);
+    private void setXAxis(Date oldestDate, Date newestDate) {
+        // set date label formatter
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, dateFormat));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(numDateShow);
 
-        ArrayList<String>  list = new ArrayList();
-        while(startDate.compareTo(endDate) <= 0) {
-            String dateStr = startDate.get(Calendar.YEAR) + "." +
-                    (startDate.get(Calendar.MONTH) + 1) + "." +
-                    startDate.get(Calendar.DATE);
-            list.add(dateStr);
-            startDate.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        Log.d(TAG, "getList: number of element in list is " + Integer.toString(list.size()));
-        return list;
+        // set manual x bounds to have nice steps
+        graph.getViewport().setMinX(oldestDate.getTime());
+        graph.getViewport().setMaxX(newestDate.getTime());
+        graph.getViewport().setXAxisBoundsManual(true);
+
+        // as we use dates as labels, the human rounding to nice readable numbers is not necessary
+        graph.getGridLabelRenderer().setHumanRounding(false);
     }
 
-//    private String getDate(Calendar calendar) {
-//        Log.d(TAG, "getDate: calendar.getTime() is " + calendar.getTime().toString());
-//        String curDate = calendar.get(Calendar.YEAR) + "." +
-//                (calendar.get(Calendar.MONTH) + 1) + "." +
-//                calendar.get(Calendar.DATE);
-//        Log.d(TAG, "getDate: curDate is " + curDate);
-//
-//        try {
-//            Date date = new SimpleDateFormat("yyyy.MM.dd").parse(curDate);
-//            curDate = new SimpleDateFormat("yyyy.MM.dd").format(date);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return curDate;
-//    }
+    private void setLineGraph(DataPoint[] dataPoints) {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
+        graph.addSeries(series);
+    }
+
+    private void setBarGraph(DataPoint[] dataPoints) {
+        
+    }
 
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recyclerView");
@@ -181,48 +132,28 @@ public class TrendViewerActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
-    /*Input: expects to have 7 elements only to view data a 7 days, where the most recent in
-    that*/
-    private void setUpXAxis(String[] xAxisStrs) {
-        String[] xAxisStrs = new String[] {"99", "100", "101", "102", "103", "104", "105"};
-        XAxisValueFormatter xAxisValueFormatter = new XAxisValueFormatter(xAxisStrs);
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(10f);
-        xAxis.setTextColor(Color.RED);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setDrawGridLines(false);
-        xAxis.setValueFormatter(xAxisValueFormatter);
+    private DataPoint[] getDataPoints(Date latestChosenDate) {
+        DataPoint[] dataPoints = new DataPoint[numDateShow];
+        calendar.setTime(latestChosenDate);
+        Date curDate;
+        for (int i = 0; i < dataPoints.length; i++) {
+            curDate = calendar.getTime();
+            //Testing: i in the below
+            DataPoint newDataPoint = new DataPoint(curDate, i);
+            dataPoints[dataPoints.length - i - 1] = newDataPoint;
+            calendar.add(Calendar.DATE, -1);
+        }
+        // Reset calendar to the current time
+calendar.add(Calendar.DATE, numDateShow);
+        return dataPoints;
     }
 
-    private void getDatesForXAxis() {
-
-    }
+    // -------------------------------------------------------------------
+    // PUBLIC FUNCTIONS -------------------------------------------
+    // -------------------------------------------------------------------
 
     public void changeGraph(String habitNameChosen) {
         Log.d(TAG, "changeGraph: chosen habit is " + habitNameChosen);
     }
 
-}
-
-class XAxisValueFormatter implements IAxisValueFormatter {
-
-    private String[] mValues;
-
-    public XAxisValueFormatter(String[] values) {
-        this.mValues = values;
-    }
-
-    @Override
-    public String getFormattedValue(float value, AxisBase axis) {
-        // "value" represents the position of the label on the axis (x or y)
-//        return mValues[(int) value];
-        if (value >= 0) {
-            if (mValues.length > (int) value) {
-                return mValues[(int) value];
-            } else return "";
-        } else {
-            return "";
-        }
-    }
 }
