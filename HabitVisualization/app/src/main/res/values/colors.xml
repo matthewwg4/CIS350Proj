@@ -6,5 +6,5 @@
     <color name="colorRecyclerViewText">#FFFFFF</color>
     <color name="colorRecyclerView">#622D7A</color>
     <color name="colorRecyclerView1">#622D7A</color>
-    <color name="colorBarGraphNumerical">#A172B2</color>
+    <color name="colorBarGraph">#A172B2</color>
 </resources>
