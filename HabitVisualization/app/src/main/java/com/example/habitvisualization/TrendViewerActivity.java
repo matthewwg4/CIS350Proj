@@ -41,7 +41,7 @@ public class TrendViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dateFormat = new SimpleDateFormat("E");
+        dateFormat = new SimpleDateFormat("EE");
 
         // Set default values ------------------------------------
         calendar = Calendar.getInstance();
@@ -54,9 +54,15 @@ public class TrendViewerActivity extends AppCompatActivity {
         //testing purpose below-----------------------------------
         dataStorage = new DataStorage();
 
-        dataStorage.addNewHabitTracker("A", new HabitTracker());
-        dataStorage.addNewHabitTracker("B", new HabitTracker());
-        dataStorage.addNewHabitTracker("C", new HabitTracker());
+        dataStorage.addNewHabitTracker("A", new NumericalHabitTracker());
+        HabitTracker habitTrackerA = dataStorage.getHabitTracker("A");
+        habitTrackerA.putDateInfo(calendar.getTime(), true, 10, 3);
+        calendar.add(Calendar.DATE, -3);
+        Date oldestDateA = calendar.getTime();
+        habitTrackerA.putDateInfo(oldestDateA, true, 300, 8);
+        calendar = Calendar.getInstance();
+
+        dataStorage.addNewHabitTracker("B", new BinaryHabitTracker());
         //testing purpose above------------------------------------
 
         /* Initialize recycler view so the user can choose a habit to display
@@ -75,15 +81,23 @@ public class TrendViewerActivity extends AppCompatActivity {
 
         String yAxisLeftTitle = getResources().getString(R.string.happiness_unit);
         setYAxisLeft(yAxisLeftTitle);
+        setYAxisRight("TEST RIGHT AXIS TITLE", 0, 100);
         setXAxis(oldestDateOnAxis, newestDateOnAxis);
         setBarGraph(dataPoints);
         setLineGraph(dataPoints);
-        changeGraph("TEST TITLE");
+        changeGraph("A"); //testing purpose
     }
 
     // -------------------------------------------------------------------
-    // PRIVATE FUNCTIONS -------------------------------------------
+    // PRIVATE FUNCTIONS -------------------------------------------------
     // -------------------------------------------------------------------
+
+    //The right axis corresponds to the non-happiness data input by the user
+    private void setYAxisRight(String axisTitle, float minY, float maxY) {
+        graph.getSecondScale().setMinY(minY);
+        graph.getSecondScale().setMaxY(maxY);
+        graph.getSecondScale().setVerticalAxisTitle(axisTitle);
+    }
 
     // The left axis corresponds to happiness scale from 1 to 10
     private void setYAxisLeft(String axisTitle) {
@@ -109,17 +123,19 @@ public class TrendViewerActivity extends AppCompatActivity {
         graph.getGridLabelRenderer().setHumanRounding(false);
     }
 
+    // Line graph corresponds to level of happiness
     private void setLineGraph(DataPoint[] dataPoints) {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
         graph.addSeries(series);
     }
 
+    // Bar graph corresponds to the data that is not the level of happiness
     private void setBarGraph(DataPoint[] dataPoints) {
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
-               return ContextCompat.getColor(getBaseContext(), R.color.colorBarGraphNumerical);
+                return ContextCompat.getColor(getBaseContext(), R.color.colorBarGraphNumerical);
             }
         });
         series.setSpacing(1);
@@ -143,6 +159,7 @@ public class TrendViewerActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewAdapter);
     }
 
+    //TESTING
     private DataPoint[] getDataPoints(Date latestChosenDate) {
         DataPoint[] dataPoints = new DataPoint[numDateShow];
         calendar.setTime(latestChosenDate);
@@ -159,6 +176,68 @@ public class TrendViewerActivity extends AppCompatActivity {
         return dataPoints;
     }
 
+    //This is to be input into the line graph
+    private DataPoint[] getDataPointsHappiness(Date latestChosenDate, List<DateInfo> dateInfos) {
+        DataPoint[] dataPoints = new DataPoint[numDateShow];
+        if (dateInfos == null) {
+            Log.d(TAG, "getDataPointsHappiness: invalid input");
+        } else {
+            calendar.setTime(latestChosenDate);
+            calendar.add(Calendar.DATE, -numDateShow + 1);
+            Date oldestDateShown = calendar.getTime();
+            calendar = Calendar.getInstance(); //reset the date
+
+            // Find the range of indices for newest and oldest input dates between
+            // latestChosenDate and oldestDateShown
+            int indexDataInfos = dateInfos.size() - 1;
+            boolean existInputWithinRange = false;
+            int indexLatestInputDateWithinRange = 0;
+            int indexOldestInputDateWithinRange = 0;
+            while (indexDataInfos >= 0) {
+                Date curDate = dateInfos.get(indexDataInfos).getDate();
+                if (curDate.before(latestChosenDate) && curDate.after(oldestDateShown)) {
+                    if (!existInputWithinRange) {
+                        indexLatestInputDateWithinRange = indexDataInfos;
+                        existInputWithinRange = true;
+                    } else {
+                        indexOldestInputDateWithinRange = indexDataInfos;
+                    }
+                }
+                indexDataInfos--;
+            }
+
+            Date latestInputDateWithinRange = dateInfos.get(indexLatestInputDateWithinRange).getDate();
+            Date oldestInputDateWithinRange = dateInfos.get(indexOldestInputDateWithinRange).getDate();
+
+            // Between indexLatestInputDateWithinRage and indexOldestInputDateWithinRange;
+            int indexBetweenFoundIndices = indexLatestInputDateWithinRange;
+            Date curDate;
+            for (int i = 0; i < dataPoints.length; i++) {
+                curDate = calendar.getTime();
+                float happiness = 0f;
+
+                if (curDate.after(oldestInputDateWithinRange) &&
+                        curDate.before(latestInputDateWithinRange)) {
+                    for (int j = indexBetweenFoundIndices; j >= indexOldestInputDateWithinRange; j++) {
+                        Date inputDate = dateInfos.get(j).getDate();
+                        if (curDate.equals(inputDate)) {
+                            happiness = dateInfos.get(indexBetweenFoundIndices).getHappiness();
+                            indexBetweenFoundIndices--;
+                        }
+                    }
+                }
+
+                DataPoint newDataPoint = new DataPoint(curDate, happiness);
+                dataPoints[dataPoints.length - i - 1] = newDataPoint;
+                calendar.add(Calendar.DATE, -1);
+            }
+
+            // Reset calendar to the current time
+            calendar = Calendar.getInstance();
+        }
+        return dataPoints;
+    }
+
     private void setGraphTitle(String habitNameChosen, Date newestDate) {
         calendar.setTime(newestDate);
         calendar.add(Calendar.DATE, -numDateShow + 1);
@@ -171,16 +250,28 @@ public class TrendViewerActivity extends AppCompatActivity {
     }
 
     // -------------------------------------------------------------------
-    // PUBLIC FUNCTIONS -------------------------------------------
+    // PUBLIC FUNCTIONS --------------------------------------------------
     // -------------------------------------------------------------------
 
     public void changeGraph(String habitNameChosen) {
         Log.d(TAG, "changeGraph: chosen habit is " + habitNameChosen);
-//Testing purpose
-       calendar = Calendar.getInstance();
 
-       // Default newest date is calendar.getTime() --> now
-      setGraphTitle(habitNameChosen, calendar.getTime());
+        HabitTracker habitTracker = dataStorage.getHabitTracker(habitNameChosen);
+
+        if (habitTracker != null) {
+            List<DateInfo> dateInfos = habitTracker.getTracking();
+
+            //Set general graph data
+            Date latestChosenDate = calendar.getTime();
+            setGraphTitle(habitNameChosen, latestChosenDate);
+
+            //Set happiness data (line graph)
+            DataPoint[] happyDataPoints = getDataPointsHappiness(latestChosenDate, dateInfos);
+
+            //Set numerical/binary data (bar graph)
+        } else {
+            Log.d(TAG, "changeGraph: cannot find a habitTracker with the given habit name");
+        }
     }
 
 }

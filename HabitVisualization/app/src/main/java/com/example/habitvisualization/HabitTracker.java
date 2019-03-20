@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class HabitTracker {
+public abstract class HabitTracker {
     protected ArrayList<DateInfo> tracking;
 
     public List<DateInfo> getTracking() {
