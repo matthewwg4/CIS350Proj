@@ -73,7 +73,8 @@ public class TrendViewerActivity extends AppCompatActivity {
         Date oldestDateOnAxis = calendar.getTime();
         calendar = Calendar.getInstance();
 
-        setYAxisLeft();
+        String yAxisLeftTitle = getResources().getString(R.string.happiness_unit);
+        setYAxisLeft(yAxisLeftTitle);
         setXAxis(oldestDateOnAxis, newestDateOnAxis);
         setBarGraph(dataPoints);
         setLineGraph(dataPoints);
@@ -85,10 +86,11 @@ public class TrendViewerActivity extends AppCompatActivity {
     // -------------------------------------------------------------------
 
     // The left axis corresponds to happiness scale from 1 to 10
-    private void setYAxisLeft() {
+    private void setYAxisLeft(String axisTitle) {
         graph.getGridLabelRenderer().setHumanRounding(true);
         graph.getGridLabelRenderer().setNumVerticalLabels(11);
-    graph.getViewport().setMinY(0f);
+        graph.getGridLabelRenderer().setVerticalAxisTitle(axisTitle);
+        graph.getViewport().setMinY(0f);
         graph.getViewport().setMaxY(10f);
         graph.getViewport().setYAxisBoundsManual(true);
     }
@@ -162,7 +164,7 @@ public class TrendViewerActivity extends AppCompatActivity {
         calendar.add(Calendar.DATE, -numDateShow + 1);
         Date oldestDate = calendar.getTime();
 
-        SimpleDateFormat dateFormatForTitle = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat dateFormatForTitle = new SimpleDateFormat("EEE MM/dd/yyyy");
         String title = habitNameChosen + " from " + dateFormatForTitle.format(oldestDate)
                 + " to " + dateFormatForTitle.format(newestDate);
         graph.setTitle(title);
@@ -175,9 +177,6 @@ public class TrendViewerActivity extends AppCompatActivity {
     public void changeGraph(String habitNameChosen) {
         Log.d(TAG, "changeGraph: chosen habit is " + habitNameChosen);
 //Testing purpose
-        Date newestDate = calendar.getTime();
-        calendar.add(Calendar.DATE, -numDateShow + 1);
-        Date oldestDate = calendar.getTime();
        calendar = Calendar.getInstance();
 
        // Default newest date is calendar.getTime() --> now

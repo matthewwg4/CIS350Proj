@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Habit Visualization</string>
+    <string name="happiness_unit">Happiness</string>
 </resources>
