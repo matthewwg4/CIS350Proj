@@ -52,7 +52,8 @@ public class TrendViewerActivity extends AppCompatActivity {
         dataStorage = new DataStorage();
         dataStorage.addNewHabitTracker("A", new NumericalHabitTracker());
         HabitTracker habitTrackerA = dataStorage.getHabitTracker("A");
-        habitTrackerA.putDateInfo(calendar.getTime(), true, 10, 3);
+        Date tryDate = calendar.getTime();
+        habitTrackerA.putDateInfo(tryDate, true, 10, 3);
         calendar.add(Calendar.DATE, -3);
         Date oldestDateA = calendar.getTime();
         habitTrackerA.putDateInfo(oldestDateA, true, 300, 8);
@@ -173,84 +174,95 @@ public class TrendViewerActivity extends AppCompatActivity {
         return dataPoints;
     }
 
+    private DataPoint[] getDataPointsUnitValues(Date latestChosenDate, List<DateInfo> dateInfos) {
+        DataPoint[] dataPoints = new DataPoint[numDateShow];
+        if (dateInfos == null) {
+            Log.d(TAG, "getDataPointsHappiness: invalid input");
+        } else {
+            try {
+                SimpleDateFormat ymdFormat = new SimpleDateFormat("yy/MM/dd");
+
+                // Find the latest date to be shown and the earliest date to be shown
+                // and eliminate the time (only keep year, month and date)
+                Date latestDateNoTime = ymdFormat.parse(ymdFormat.format(latestChosenDate).toString());
+                calendar = Calendar.getInstance(); // reset calendar
+
+                // Iterate through all of the dates from the latestChosenDate to
+                // seven days prior to this day
+                for (int indexDataPoints = 0; indexDataPoints < numDateShow; indexDataPoints ++) {
+                    calendar.add(Calendar.DATE, - indexDataPoints);
+                    Log.d(TAG, "calendar.getTime()" + calendar.getTime().toString());
+                    Date curDateToShow = ymdFormat.parse(ymdFormat.format(calendar.getTime()).toString());
+                    Log.d(TAG, "curDateToShow" + curDateToShow.toString());
+                    float unitValue = 0;
+
+                    // Check if there is data on the date of curDateToShow
+                    int indexDateInfos = 0;
+                    while (indexDateInfos < dateInfos.size()) {
+                        Date curDateInDateInfos = dateInfos.get(indexDateInfos).getDate();
+                        curDateInDateInfos = ymdFormat.parse(ymdFormat.format(curDateInDateInfos));
+                        if (firstDateEqualsSecondDate(curDateToShow, curDateInDateInfos)) {
+                            unitValue = dateInfos.get(indexDateInfos).getUnitValue();
+                            break;
+                        }
+                        indexDateInfos++;
+                    }
+
+                    dataPoints[numDateShow - indexDataPoints - 1] =
+                            new DataPoint(curDateToShow, unitValue);
+                    // Reset calendar to the current time
+                    calendar = Calendar.getInstance();
+                }
+            } catch (ParseException e) {
+                Log.d(TAG, "getDataPointsUnitValue: got parse exception");
+            }
+        }
+        return dataPoints;
+    }
+
     //This is to be input into the line graph
     private DataPoint[] getDataPointsHappiness(Date latestChosenDate, List<DateInfo> dateInfos) {
         DataPoint[] dataPoints = new DataPoint[numDateShow];
         if (dateInfos == null) {
             Log.d(TAG, "getDataPointsHappiness: invalid input");
         } else {
-            calendar.setTime(latestChosenDate);
-            calendar.add(Calendar.DATE, -numDateShow + 1);
-            Date oldestDateShown = calendar.getTime();
-            calendar = Calendar.getInstance(); //reset the date
+            try {
+                SimpleDateFormat ymdFormat = new SimpleDateFormat("yy/MM/dd");
 
-            // Find the range of indices for newest and oldest input dates between
-            // latestChosenDate and oldestDateShown
-            int indexDataInfos = dateInfos.size() - 1;
-            boolean existInputWithinRange = false;
-            int indexLatestInputDateWithinRange = 0;
-            int indexOldestInputDateWithinRange = 0;
-            while (indexDataInfos >= 0) {
-                Date curDate = dateInfos.get(indexDataInfos).getDate();
-                if (curDate.before(latestChosenDate) && curDate.after(oldestDateShown)) {
-                    if (!existInputWithinRange) {
-                        indexLatestInputDateWithinRange = indexDataInfos;
-                        existInputWithinRange = true;
-                    } else {
-                        indexOldestInputDateWithinRange = indexDataInfos;
-                    }
-                }
-                indexDataInfos--;
-            }
+                // Find the latest date to be shown and the earliest date to be shown
+                // and eliminate the time (only keep year, month and date)
+                Date latestDateNoTime = ymdFormat.parse(ymdFormat.format(latestChosenDate).toString());
+                calendar = Calendar.getInstance(); // reset calendar
 
-            Log.d(TAG, "getDataPointsHappiness: indexLatestInputDateWithinRange  is " +
-                    Integer.toString(indexLatestInputDateWithinRange));
-            Log.d(TAG, "getDataPointsHappiness: indexOldestInputDateWithinRange  is " +
-                    Integer.toString(indexOldestInputDateWithinRange));
+                // Iterate through all of the dates from the latestChosenDate to
+                // seven days prior to this day
+                for (int indexDataPoints = 0; indexDataPoints < numDateShow; indexDataPoints ++) {
+                    calendar.add(Calendar.DATE, - indexDataPoints);
+                    Log.d(TAG, "calendar.getTime()" + calendar.getTime().toString());
+                    Date curDateToShow = ymdFormat.parse(ymdFormat.format(calendar.getTime()).toString());
+                    Log.d(TAG, "curDateToShow" + curDateToShow.toString());
+                    int happiness = 0;
 
-            Date latestInputDateWithinRange = dateInfos.get(indexLatestInputDateWithinRange).getDate();
-            Date oldestInputDateWithinRange = dateInfos.get(indexOldestInputDateWithinRange).getDate();
-
-            Log.d(TAG, "getDataPointsHappiness: latestInputDateWithinRange is " +
-                    latestInputDateWithinRange.toString());
-            Log.d(TAG, "getDataPointsHappiness: oldestInputDateWithinRange  is " +
-                    oldestInputDateWithinRange.toString());
-
-            // Between indexLatestInputDateWithinRage and indexOldestInputDateWithinRange;
-            int indexBetweenFoundIndices = indexLatestInputDateWithinRange;
-            Date curDate;
-            for (int i = 0; i < dataPoints.length; i++) {
-                curDate = calendar.getTime();
-                float happiness = 0f;
-//                Log.d(TAG, "getDataPointsHappiness: indexLatestInputDateWithinRange  is " +
-//                        Integer.toString(indexBetweenFoundIndices));
-                Log.d(TAG, "getDataPointsHappiness: curDate  is " +
-                        curDate.toString());
-                if ((firstDateBeforeSecondDate(curDate, latestInputDateWithinRange) &&
-                        firstDateAfterSecondDate(curDate, oldestInputDateWithinRange)) ||
-                        firstDateEqualsSecondDate(curDate, latestInputDateWithinRange) ||
-                        firstDateEqualsSecondDate(curDate, oldestInputDateWithinRange)) {
-                    for (int j = indexBetweenFoundIndices; j >= indexOldestInputDateWithinRange; j--) {
-                        Date inputDate = dateInfos.get(j).getDate();
-                        if (curDate.equals(inputDate)) {
-                            happiness = dateInfos.get(indexBetweenFoundIndices).getHappiness();
-                            indexBetweenFoundIndices--;
+                    // Check if there is data on the date of curDateToShow
+                    int indexDateInfos = 0;
+                    while (indexDateInfos < dateInfos.size()) {
+                        Date curDateInDateInfos = dateInfos.get(indexDateInfos).getDate();
+                        curDateInDateInfos = ymdFormat.parse(ymdFormat.format(curDateInDateInfos));
+                       if (firstDateEqualsSecondDate(curDateToShow, curDateInDateInfos)) {
+                            happiness = dateInfos.get(indexDateInfos).getHappiness();
+                            break;
                         }
+                        indexDateInfos++;
                     }
+
+                    dataPoints[numDateShow - indexDataPoints - 1] =
+                            new DataPoint(curDateToShow, happiness);
+                    // Reset calendar to the current time
+                    calendar = Calendar.getInstance();
                 }
-                DataPoint newDataPoint = new DataPoint(curDate, happiness);
-                dataPoints[dataPoints.length - i - 1] = newDataPoint;
-                calendar.add(Calendar.DATE, -i - 1);
+            } catch (ParseException e) {
+                Log.d(TAG, "getDataPointsHappiness: got parse exception");
             }
-        }
-        // Reset calendar to the current time
-        calendar = Calendar.getInstance();
-        Log.d(TAG, "reset calendar");
-        //Debugging purpose
-        for (int i = 0; i < dataPoints.length; i ++) {
-            Log.d(TAG, "i = " + Integer.toString(i));
-            Log.d(TAG, "Date = " + (new Date((long) dataPoints[i].getX())).toString());
-            Log.d(TAG, "Happiness = " + Integer.toString((int) dataPoints[i].getY()));
         }
         return dataPoints;
     }
@@ -281,9 +293,10 @@ public class TrendViewerActivity extends AppCompatActivity {
         calendar = Calendar.getInstance(); // reset calendar
 
         if (date1Year == date2Year && date1Month == date2Month
-                && date1Date == date2Date) {return true;}
-                else {
-                    return false;
+                && date1Date == date2Date) {
+            return true;
+        } else {
+            return false;
         }
     }
 
