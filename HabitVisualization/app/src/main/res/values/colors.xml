@@ -3,6 +3,8 @@
     <color name="colorPrimary">#622d7a</color>
     <color name="colorPrimaryDark">#431159</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorRecyclerView">#CCAACC</color>
-    <color name="colorRecyclerView1">#f9eaf9</color>
+    <color name="colorRecyclerViewText">#FFFFFF</color>
+    <color name="colorRecyclerView">#622D7A</color>
+    <color name="colorRecyclerView1">#622D7A</color>
+    <color name="colorBarGraphNumerical">#A172B2</color>
 </resources>
