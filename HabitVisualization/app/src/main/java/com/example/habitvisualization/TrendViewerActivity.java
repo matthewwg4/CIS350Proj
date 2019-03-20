@@ -14,6 +14,7 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,14 +47,9 @@ public class TrendViewerActivity extends AppCompatActivity {
         // Set default values ------------------------------------
         calendar = Calendar.getInstance();
         Date defaultLatestDate = calendar.getTime();
-        Log.d(TAG, "onCreate: defaultLatestDate is " +
-                defaultLatestDate.toString());
-        Log.d(TAG, "onCreate: formatted defaultLatestDate is " +
-                dateFormat.format(defaultLatestDate));
 
         //testing purpose below-----------------------------------
         dataStorage = new DataStorage();
-
         dataStorage.addNewHabitTracker("A", new NumericalHabitTracker());
         HabitTracker habitTrackerA = dataStorage.getHabitTracker("A");
         habitTrackerA.putDateInfo(calendar.getTime(), true, 10, 3);
@@ -75,17 +71,14 @@ public class TrendViewerActivity extends AppCompatActivity {
         DataPoint[] dataPoints = getDataPoints(defaultLatestDate);
 
         Date newestDateOnAxis = defaultLatestDate;
-        calendar.add(Calendar.DATE, -numDateShow + 1);
-        Date oldestDateOnAxis = calendar.getTime();
-        calendar = Calendar.getInstance();
 
         String yAxisLeftTitle = getResources().getString(R.string.happiness_unit);
         setYAxisLeft(yAxisLeftTitle);
         setYAxisRight("TEST RIGHT AXIS TITLE", 0, 100);
-        setXAxis(oldestDateOnAxis, newestDateOnAxis);
-        setBarGraph(dataPoints);
-        setLineGraph(dataPoints);
+        setXAxis(newestDateOnAxis);
         changeGraph("A"); //testing purpose
+        setBarGraph(dataPoints);
+//        setLineGraph(dataPoints);
     }
 
     // -------------------------------------------------------------------
@@ -109,7 +102,11 @@ public class TrendViewerActivity extends AppCompatActivity {
         graph.getViewport().setYAxisBoundsManual(true);
     }
 
-    private void setXAxis(Date oldestDate, Date newestDate) {
+    private void setXAxis(Date newestDate) {
+        calendar.add(Calendar.DATE, -numDateShow + 1);
+        Date oldestDate = calendar.getTime();
+        calendar = Calendar.getInstance(); //reset the date
+
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, dateFormat));
         graph.getGridLabelRenderer().setNumHorizontalLabels(numDateShow);
@@ -206,8 +203,18 @@ public class TrendViewerActivity extends AppCompatActivity {
                 indexDataInfos--;
             }
 
+            Log.d(TAG, "getDataPointsHappiness: indexLatestInputDateWithinRange  is " +
+                    Integer.toString(indexLatestInputDateWithinRange));
+            Log.d(TAG, "getDataPointsHappiness: indexOldestInputDateWithinRange  is " +
+                    Integer.toString(indexOldestInputDateWithinRange));
+
             Date latestInputDateWithinRange = dateInfos.get(indexLatestInputDateWithinRange).getDate();
             Date oldestInputDateWithinRange = dateInfos.get(indexOldestInputDateWithinRange).getDate();
+
+            Log.d(TAG, "getDataPointsHappiness: latestInputDateWithinRange is " +
+                    latestInputDateWithinRange.toString());
+            Log.d(TAG, "getDataPointsHappiness: oldestInputDateWithinRange  is " +
+                    oldestInputDateWithinRange.toString());
 
             // Between indexLatestInputDateWithinRage and indexOldestInputDateWithinRange;
             int indexBetweenFoundIndices = indexLatestInputDateWithinRange;
@@ -215,10 +222,15 @@ public class TrendViewerActivity extends AppCompatActivity {
             for (int i = 0; i < dataPoints.length; i++) {
                 curDate = calendar.getTime();
                 float happiness = 0f;
-
-                if (curDate.after(oldestInputDateWithinRange) &&
-                        curDate.before(latestInputDateWithinRange)) {
-                    for (int j = indexBetweenFoundIndices; j >= indexOldestInputDateWithinRange; j++) {
+//                Log.d(TAG, "getDataPointsHappiness: indexLatestInputDateWithinRange  is " +
+//                        Integer.toString(indexBetweenFoundIndices));
+                Log.d(TAG, "getDataPointsHappiness: curDate  is " +
+                        curDate.toString());
+                if ((firstDateBeforeSecondDate(curDate, latestInputDateWithinRange) &&
+                        firstDateAfterSecondDate(curDate, oldestInputDateWithinRange)) ||
+                        firstDateEqualsSecondDate(curDate, latestInputDateWithinRange) ||
+                        firstDateEqualsSecondDate(curDate, oldestInputDateWithinRange)) {
+                    for (int j = indexBetweenFoundIndices; j >= indexOldestInputDateWithinRange; j--) {
                         Date inputDate = dateInfos.get(j).getDate();
                         if (curDate.equals(inputDate)) {
                             happiness = dateInfos.get(indexBetweenFoundIndices).getHappiness();
@@ -226,14 +238,19 @@ public class TrendViewerActivity extends AppCompatActivity {
                         }
                     }
                 }
-
                 DataPoint newDataPoint = new DataPoint(curDate, happiness);
                 dataPoints[dataPoints.length - i - 1] = newDataPoint;
-                calendar.add(Calendar.DATE, -1);
+                calendar.add(Calendar.DATE, -i - 1);
             }
-
-            // Reset calendar to the current time
-            calendar = Calendar.getInstance();
+        }
+        // Reset calendar to the current time
+        calendar = Calendar.getInstance();
+        Log.d(TAG, "reset calendar");
+        //Debugging purpose
+        for (int i = 0; i < dataPoints.length; i ++) {
+            Log.d(TAG, "i = " + Integer.toString(i));
+            Log.d(TAG, "Date = " + (new Date((long) dataPoints[i].getX())).toString());
+            Log.d(TAG, "Happiness = " + Integer.toString((int) dataPoints[i].getY()));
         }
         return dataPoints;
     }
@@ -249,8 +266,60 @@ public class TrendViewerActivity extends AppCompatActivity {
         graph.setTitle(title);
     }
 
+    //Only compare the year, month and date within month
+    private boolean firstDateEqualsSecondDate(Date date1, Date date2) {
+        calendar.setTime(date1);
+        int date1Year = calendar.get(Calendar.YEAR);
+        int date1Month = calendar.get(Calendar.MONTH);
+        int date1Date = calendar.get(Calendar.DATE);
+
+        calendar.setTime(date2);
+        int date2Year = calendar.get(Calendar.YEAR);
+        int date2Month = calendar.get(Calendar.MONTH);
+        int date2Date = calendar.get(Calendar.DATE);
+
+        calendar = Calendar.getInstance(); // reset calendar
+
+        if (date1Year == date2Year && date1Month == date2Month
+                && date1Date == date2Date) {return true;}
+                else {
+                    return false;
+        }
+    }
+
+    private boolean firstDateBeforeSecondDate(Date date1, Date date2) {
+        SimpleDateFormat ymdFormat = new SimpleDateFormat("yy/MM/dd");
+        try {
+            Date date1NoTime = ymdFormat.parse(ymdFormat.format(date1));
+            Date date2NoTime = ymdFormat.parse(ymdFormat.format(date2));
+            if (date1NoTime.before(date2NoTime)) {
+                return true;
+            }
+        } catch (ParseException e) {
+            Log.d(TAG, "firstDateBeforeSecondDate: parse exception");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean firstDateAfterSecondDate(Date date1, Date date2) {
+        SimpleDateFormat ymdFormat = new SimpleDateFormat("yy/MM/dd");
+        try {
+            Date date1NoTime = ymdFormat.parse(ymdFormat.format(date1));
+            Date date2NoTime = ymdFormat.parse(ymdFormat.format(date2));
+            if (date1NoTime.after(date2NoTime)) {
+                return true;
+            }
+        } catch (ParseException e) {
+            Log.d(TAG, "firstDateAfterSecondDate: parse exception");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     // -------------------------------------------------------------------
-    // PUBLIC FUNCTIONS --------------------------------------------------
+    // PUBLIC FUNCTIONS --------------------------------------------------s
     // -------------------------------------------------------------------
 
     public void changeGraph(String habitNameChosen) {
@@ -267,6 +336,7 @@ public class TrendViewerActivity extends AppCompatActivity {
 
             //Set happiness data (line graph)
             DataPoint[] happyDataPoints = getDataPointsHappiness(latestChosenDate, dateInfos);
+            setLineGraph(happyDataPoints);
 
             //Set numerical/binary data (bar graph)
         } else {
