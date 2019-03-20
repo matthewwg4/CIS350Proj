@@ -33,7 +33,7 @@ public class TrendViewerActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private GraphView graph;
-    private SimpleDateFormat dateFormat;
+    private final SimpleDateFormat dateFormat =  new SimpleDateFormat("E");;
     private Calendar calendar;
     private final int numDateShow = 7;
 
@@ -43,7 +43,6 @@ public class TrendViewerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dateFormat = new SimpleDateFormat("EE");
 
         // Set default values ------------------------------------
         calendar = Calendar.getInstance();
@@ -90,41 +89,20 @@ public class TrendViewerActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
 
         dataStorage.addNewHabitTracker("B", new BinaryHabitTracker());
+
+
         //testing purpose above------------------------------------
 
         /* Initialize recycler view so the user can choose a habit to display
          * on the chart*/
         initRecyclerView();
         graph = findViewById(R.id.graph);
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, -1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
-        graph.addSeries(series);
+        Date newestDateOnAxis = defaultLatestDate;
 
-// styling
-        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
-            @Override
-            public int get(DataPoint data) {
-                return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
-            }
-        });
-
-        series.setSpacing(50);
-
-// draw values on top
-        series.setDrawValuesOnTop(true);
-        series.setValuesOnTopColor(Color.RED);
-//series.setValuesOnTopSize(50);
-//        Date newestDateOnAxis = defaultLatestDate;
-//
+        changeGraph("A"); //testing purpose
 //        String yAxisLeftTitle = getResources().getString(R.string.happiness_unit);
 //        setYAxisLeft(yAxisLeftTitle);
 //        setXAxis(newestDateOnAxis);
-//        changeGraph("A"); //testing purpose
     }
 
     // -------------------------------------------------------------------
@@ -149,19 +127,15 @@ public class TrendViewerActivity extends AppCompatActivity {
     }
 
     private void setXAxis(Date newestDate) {
+        calendar.setTime(newestDate);
         calendar.add(Calendar.DATE, -numDateShow + 1);
         Date oldestDate = calendar.getTime();
         calendar = Calendar.getInstance(); //reset the date
 
-        // set date label formatter
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, dateFormat));
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter
+                (this, dateFormat));
         graph.getGridLabelRenderer().setNumHorizontalLabels(numDateShow);
-        graph.getGridLabelRenderer().setHorizontalAxisTitleTextSize(2);
-
-        // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(oldestDate.getTime());
-        graph.getViewport().setMaxX(newestDate.getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setXAxisBoundsManual(true); // set manual x bounds to have nice steps
 
         // as we use dates as labels, the human rounding to nice readable numbers is not necessary
         graph.getGridLabelRenderer().setHumanRounding(false);
@@ -177,8 +151,7 @@ public class TrendViewerActivity extends AppCompatActivity {
                 return ContextCompat.getColor(getBaseContext(), R.color.colorBarGraph);
             }
         });
-        series.setSpacing(10);
-        series.setDrawValuesOnTop(true);
+        series.setSpacing(30);
     }
 
     // Bar graph corresponds to the data that is not the level of happiness
@@ -373,20 +346,13 @@ public class TrendViewerActivity extends AppCompatActivity {
         if (habitTracker != null) {
             List<DateInfo> dateInfos = habitTracker.getTracking();
 
-            //Set general graph data
             Date latestChosenDate = calendar.getTime();
-            setGraphTitle(habitNameChosen, latestChosenDate);
 
             //Set happiness data (line graph)
             DataPoint[] happyDataPoints = getDataPointsHappiness(latestChosenDate, dateInfos);
             setBarGraphHappiness(happyDataPoints);
 
-            //Set numerical/binary data (bar graph)
-            // Numerical data
-            DataPoint[] unitValueDataPoints = getDataPointsUnitValues(latestChosenDate, dateInfos);
-//            setBarGraphUnitValue(unitValueDataPoints);
-//                        setYAxisRight("TEST RIGHT AXIS TITLE", 0, 100);
-
+            setXAxis(latestChosenDate);
         } else {
             Log.d(TAG, "changeGraph: cannot find a habitTracker with the given habit name");
         }
