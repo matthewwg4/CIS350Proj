@@ -7,4 +7,7 @@
     <color name="colorRecyclerView">#622D7A</color>
     <color name="colorRecyclerView1">#622D7A</color>
     <color name="colorBarGraph">#A172B2</color>
+    <color name="colorBarGraphPositive">#A172B2</color>
+    <color name="colorBarGraphNegative">#97ACACAC</color>
+    <color name="colorLegendBackground">#d1d1d1</color>
 </resources>
