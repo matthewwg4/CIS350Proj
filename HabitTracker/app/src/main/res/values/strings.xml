@@ -116,4 +116,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_custom_resource" />
     <string name="title_activity_custom_survey"/>
+    <string name="action_goto_add" >Add</string>
+    <string name="action_goto_current">Current</string>
+    <string name="action_goto_past">Past</string>
+    <string name="action_goto_add_existing">Add Existing</string>
+    <string name="action_goto_create_new">Create New</string>
+    <string name="text_search_by">Search By:</string>
 </resources>
