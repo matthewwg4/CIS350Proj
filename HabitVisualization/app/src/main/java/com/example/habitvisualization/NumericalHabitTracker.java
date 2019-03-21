@@ -14,7 +14,7 @@ public class NumericalHabitTracker extends HabitTracker{
 
     @Override
     public HabitType getHabitType() {
-        return HabitType.BINARY;
+        return HabitType.NUMERICAL;
     }
 
     @Override

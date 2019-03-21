@@ -1,5 +1,6 @@
 package com.example.habitvisualization;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -33,7 +34,8 @@ public class TrendViewerActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private GraphView graph;
-    private final SimpleDateFormat dateFormat =  new SimpleDateFormat("E");;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("E");
+    ;
     private Calendar calendar;
     private final int numDateShow = 7;
 
@@ -79,7 +81,7 @@ public class TrendViewerActivity extends AppCompatActivity {
         calendar.add(Calendar.DATE, -1);
         tryDate = calendar.getTime();
         habitTrackerA.putDateInfo(tryDate, true, 30, 4);
-   //6
+        //6
 
         calendar.add(Calendar.DATE, -1);
         tryDate = calendar.getTime();
@@ -110,17 +112,14 @@ public class TrendViewerActivity extends AppCompatActivity {
     // -------------------------------------------------------------------
 
     //The right axis corresponds to the non-happiness data input by the user
-    private void setYAxisRight(String axisTitle, float minY, float maxY) {
+    private void setYAxisRight(float minY, float maxY) {
         graph.getSecondScale().setMinY(minY);
         graph.getSecondScale().setMaxY(maxY);
-        graph.getSecondScale().setVerticalAxisTitle(axisTitle);
     }
 
     // The left axis corresponds to happiness scale from 1 to 10
-    private void setYAxisLeft(String axisTitle) {
-        graph.getGridLabelRenderer().setHumanRounding(true);
+    private void setYAxisLeft() {
         graph.getGridLabelRenderer().setNumVerticalLabels(11);
-//        graph.getGridLabelRenderer().setVerticalAxisTitle(axisTitle);
         graph.getViewport().setMinY(0f);
         graph.getViewport().setMaxY(10f);
         graph.getViewport().setYAxisBoundsManual(true);
@@ -151,7 +150,7 @@ public class TrendViewerActivity extends AppCompatActivity {
                 return ContextCompat.getColor(getBaseContext(), R.color.colorBarGraph);
             }
         });
-        series.setSpacing(30);
+        series.setSpacing(50);
     }
 
     // Bar graph corresponds to the data that is not the level of happiness
@@ -192,11 +191,9 @@ public class TrendViewerActivity extends AppCompatActivity {
 
                 // Iterate through all of the dates from the latestChosenDate to
                 // seven days prior to this day
-                for (int indexDataPoints = 0; indexDataPoints < numDateShow; indexDataPoints ++) {
-                    calendar.add(Calendar.DATE, - indexDataPoints);
-                    Log.d(TAG, "calendar.getTime()" + calendar.getTime().toString());
+                for (int indexDataPoints = 0; indexDataPoints < numDateShow; indexDataPoints++) {
+                    calendar.add(Calendar.DATE, -indexDataPoints);
                     Date curDateToShow = ymdFormat.parse(ymdFormat.format(calendar.getTime()).toString());
-                    Log.d(TAG, "curDateToShow" + curDateToShow.toString());
                     float unitValue = 0;
 
                     // Check if there is data on the date of curDateToShow
@@ -239,11 +236,9 @@ public class TrendViewerActivity extends AppCompatActivity {
 
                 // Iterate through all of the dates from the latestChosenDate to
                 // seven days prior to this day
-                for (int indexDataPoints = 0; indexDataPoints < numDateShow; indexDataPoints ++) {
-                    calendar.add(Calendar.DATE, - indexDataPoints);
-                    Log.d(TAG, "calendar.getTime()" + calendar.getTime().toString());
-                    Date curDateToShow = ymdFormat.parse(ymdFormat.format(calendar.getTime()).toString());
-                    Log.d(TAG, "curDateToShow" + curDateToShow.toString());
+                for (int indexDataPoints = 0; indexDataPoints < numDateShow; indexDataPoints++) {
+                    calendar.add(Calendar.DATE, -indexDataPoints);
+                   Date curDateToShow = ymdFormat.parse(ymdFormat.format(calendar.getTime()).toString());
                     int happiness = 0;
 
                     // Check if there is data on the date of curDateToShow
@@ -251,7 +246,7 @@ public class TrendViewerActivity extends AppCompatActivity {
                     while (indexDateInfos < dateInfos.size()) {
                         Date curDateInDateInfos = dateInfos.get(indexDateInfos).getDate();
                         curDateInDateInfos = ymdFormat.parse(ymdFormat.format(curDateInDateInfos));
-                       if (firstDateEqualsSecondDate(curDateToShow, curDateInDateInfos)) {
+                        if (firstDateEqualsSecondDate(curDateToShow, curDateInDateInfos)) {
                             happiness = dateInfos.get(indexDateInfos).getHappiness();
                             break;
                         }
@@ -344,15 +339,28 @@ public class TrendViewerActivity extends AppCompatActivity {
         HabitTracker habitTracker = dataStorage.getHabitTracker(habitNameChosen);
 
         if (habitTracker != null) {
+            graph.removeAllSeries();
             List<DateInfo> dateInfos = habitTracker.getTracking();
 
             Date latestChosenDate = calendar.getTime();
 
-            //Set happiness data (line graph)
+            //Set happiness data (bar graph)
             DataPoint[] happyDataPoints = getDataPointsHappiness(latestChosenDate, dateInfos);
             setBarGraphHappiness(happyDataPoints);
 
+            HabitType habitType = habitTracker.getHabitType();
+            if (habitType == HabitType.NUMERICAL) {
+                Log.d(TAG, "nume");
+                DataPoint[] unitValueDataPoints = getDataPointsUnitValues(latestChosenDate, dateInfos);
+                setLineGraphUnitValue(unitValueDataPoints);
+                setYAxisRight(0, 500); //TOBE changed
+            } else {
+
+            }
+
+            setGraphTitle(habitNameChosen, latestChosenDate);
             setXAxis(latestChosenDate);
+            setYAxisLeft();
         } else {
             Log.d(TAG, "changeGraph: cannot find a habitTracker with the given habit name");
         }
