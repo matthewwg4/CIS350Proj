@@ -376,7 +376,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return mPassword.equals(usersDatabase.getUserInfo().get(mEmail).password);
             }
 
-            return true;
+            return false;
         }
 
         @Override
