@@ -122,4 +122,8 @@
     <string name="action_goto_add_existing">Add Existing</string>
     <string name="action_goto_create_new">Create New</string>
     <string name="text_search_by">Search By:</string>
+
+    <!-- Strings for different habit pages -->
+    <string name="current_habits_page">Current Habits</string>
+    <string name="past_habits_page">Past Habits</string>
 </resources>
