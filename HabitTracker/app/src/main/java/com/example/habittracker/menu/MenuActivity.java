@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.FakeSurveyDatabase;
 import com.example.habittracker.datamanagement.Survey;
+import com.example.habittracker.habits.HabitsActivity;
 import com.example.habittracker.login.R;
 import com.example.habittracker.resources.ResourcesActivity;
 import com.example.habittracker.surveys.SurveyActivity;
@@ -31,6 +32,14 @@ public class MenuActivity extends AppCompatActivity {
 
     }
     //add onclick methods for habit and viz buttons during integration
+
+    public void gotoHabits(View v) {
+        String msg = getIntent().getStringExtra("user");
+        Intent i = new Intent(getApplicationContext(), HabitsActivity.class);
+        i.putExtra("user", msg);
+
+        startActivity(i);
+    }
 
     public void gotoResources(View v) {
         String msg = getIntent().getStringExtra("user");

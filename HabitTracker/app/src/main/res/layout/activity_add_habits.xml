@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.habittracker.menu.MenuActivity">
+    tools:context="com.example.habittracker.habits.AddHabitsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -46,31 +46,16 @@
                 android:id="@+id/habits_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="gotoHabits"
-                android:text="@string/action_goto_habits"
+                android:onClick="gotoAddExisting"
+                android:text="@string/action_goto_add_existing"
                 android:textSize="40sp" />
 
             <Button
                 android:id="@+id/visualization_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_goto_visualization"
-                android:textSize="40sp"/>
-
-            <Button
-                android:id="@+id/resources_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="gotoResources"
-                android:text="@string/action_goto_resources"
-                android:textSize="40sp"/>
-
-            <Button
-                android:id="@+id/surveys_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="gotoSurveys"
-                android:text="@string/action_goto_surveys"
+                android:onClick="gotoCreateNew"
+                android:text="@string/action_goto_create_new"
                 android:textSize="40sp" />
 
         </LinearLayout>
