@@ -5,7 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
+import com.example.habittracker.datamanagement.FakeUserDatabase;
+import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.login.R;
 
 public class PastHabitsActivity extends AppCompatActivity {
@@ -17,32 +21,28 @@ public class PastHabitsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.resources_name);
         setSupportActionBar(toolbar);
 
+        for (HabitTracker h : FakeUserDatabase.getInstance().getUserInfo().get((String)getIntent().getStringExtra("user")).getHabits()) {
+            final String habit = h.getHabitName();
+            Button myButton = new Button(this);
+            myButton.setText(habit);
+            myButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String msg = getIntent().getStringExtra("user");
+                    Intent i = new Intent(getApplicationContext(), HabitForm.class);
+                    i.putExtra("user", msg);
+                    i.putExtra("habit", habit);
+                    i.putExtra("time", "past");
+
+                    startActivity(i);
+                }
+            });
+            LinearLayout layout = (LinearLayout) findViewById(R.id.lin_layout);
+            layout.addView(myButton);
+        }
     }
     //add onclick methods for habit and viz buttons during integration
 
-    public void gotoAdd(View v) {
-        String msg = getIntent().getStringExtra("user");
-        Intent i = new Intent(getApplicationContext(), AddHabitsActivity.class);
-        i.putExtra("user", msg);
-
-        startActivity(i);
-    }
-
-    public void gotoCurrent(View v) {
-        String msg = getIntent().getStringExtra("user");
-        Intent i = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
-        i.putExtra("user", msg);
-
-        startActivity(i);
-    }
-
-    public void gotoPast(View v) {
-        String msg = getIntent().getStringExtra("user");
-        Intent i = new Intent(getApplicationContext(), PastHabitsActivity.class);
-        i.putExtra("user", msg);
-
-        startActivity(i);
-    }
 
     //    public void gotoResources(View v) {
 //        String msg = getIntent().getStringExtra("user");

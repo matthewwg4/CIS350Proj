@@ -1,5 +1,5 @@
 package com.example.habittracker.datamanagement;
 
-enum HabitType {
+public enum HabitType {
     BINARY, NUMERICAL;
 }

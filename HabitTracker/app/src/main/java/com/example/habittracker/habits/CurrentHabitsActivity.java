@@ -29,10 +29,11 @@ public class CurrentHabitsActivity extends AppCompatActivity {
             myButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String msg = getIntent().getStringExtra("user");
+                     String msg = getIntent().getStringExtra("user");
                      Intent i = new Intent(getApplicationContext(), HabitForm.class);
                      i.putExtra("user", msg);
                      i.putExtra("habit", habit);
+                     i.putExtra("time", "current");
 
                      startActivity(i);
                 }
