@@ -115,8 +115,8 @@
     <string name="title_activity_survey">Surveys</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_custom_resource" />
-    <string name="title_activity_custom_survey"/>
-    <string name="action_goto_add" >Add</string>
+    <string name="title_activity_custom_survey" />
+    <string name="action_goto_add">Add</string>
     <string name="action_goto_current">Current</string>
     <string name="action_goto_past">Past</string>
     <string name="action_goto_add_existing">Add Existing</string>
@@ -126,4 +126,5 @@
     <!-- Strings for different habit pages -->
     <string name="current_habits_page">Current Habits</string>
     <string name="past_habits_page">Past Habits</string>
+    <string name="title_activity_habit_form">HabitForm</string>
 </resources>
