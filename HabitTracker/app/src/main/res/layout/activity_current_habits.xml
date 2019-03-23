@@ -26,45 +26,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="395dp"-->
-            <!--android:layout_height="508dp"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginLeft="8dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:layout_marginRight="8dp"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:orientation="vertical"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintHorizontal_bias="0.47"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent">-->
+        <LinearLayout
+            android:id="@+id/lin_layout"
+            android:layout_width="395dp"
+            android:layout_height="508dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <!--&lt;!&ndash;<Button&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/habits_button"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:text="@string/action_goto_add"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textSize="40sp" />&ndash;&gt;-->
+            <!--<Button-->
+                <!--android:id="@+id/habits_button"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/action_goto_add"-->
+                <!--android:textSize="40sp" />-->
 
-            <!--&lt;!&ndash;<Button&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/visualization_button"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:text="@string/action_goto_current"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textSize="40sp" />&ndash;&gt;-->
+            <!--<Button-->
+                <!--android:id="@+id/visualization_button"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/action_goto_current"-->
+                <!--android:textSize="40sp" />-->
 
-            <!--&lt;!&ndash;<Button&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/resources_button"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:onClick="gotoResources"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:text="@string/action_goto_past"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:textSize="40sp" />&ndash;&gt;-->
+            <!--<Button-->
+                <!--android:id="@+id/resources_button"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:onClick="gotoResources"-->
+                <!--android:text="@string/action_goto_past"-->
+                <!--android:textSize="40sp" />-->
 
-        <!--</LinearLayout>-->
+        </LinearLayout>
 
         <TextView
             android:id="@+id/CurrentHabitsPage"

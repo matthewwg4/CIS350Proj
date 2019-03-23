@@ -73,7 +73,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:textSize="40sp"
-                android:text="Habit" />
+                android:text="" />
 
             <Button
                 android:id="@+id/resources_button"

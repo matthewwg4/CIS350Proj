@@ -3,6 +3,10 @@ package com.example.habittracker.habits;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.habittracker.login.R;
 
@@ -14,6 +18,21 @@ public class CurrentHabitsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_current_habits);
         Toolbar toolbar = findViewById(R.id.resources_name);
         setSupportActionBar(toolbar);
+
+
+        Button myButton = new Button(this);
+        myButton.setText("Push Me");
+        myButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText
+                        (getApplicationContext(), "You just took directions from a button", Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+        });
+        LinearLayout layout = (LinearLayout) findViewById(R.id.lin_layout);
+        layout.addView(myButton);
 
     }
     //add onclick methods for habit and viz buttons during integration
