@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="search_by_types">, Name, ID, Tag</string-array>
+    <string-array name="listArray">
+        <item>----</item>
+        <item>Name</item>
+        <item>ID</item>
+        <item>Tag</item>
+    </string-array>
 </resources>

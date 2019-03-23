@@ -56,36 +56,31 @@
                     android:textSize="40sp" />
 
                 <Spinner
-                    android:id="@+id/spinner2"
+                    android:id="@+id/spinner"
                     android:layout_width="203dp"
                     android:layout_height="match_parent"
                     android:dropDownWidth="wrap_content"
-                    android:entries="@array/search_by_types"
-                    android:textSize="40sp"
-                    android:spinnerMode="dropdown" />
+                    android:entries="@array/listArray"
+                    android:spinnerMode="dropdown"
+                    android:textSize="40sp" />
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/habits_button"
+            <EditText
+                android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/action_goto_add"
-                android:textSize="40sp" />
-
-            <Button
-                android:id="@+id/visualization_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/action_goto_current"
-                android:textSize="40sp" />
+                android:ems="10"
+                android:inputType="text"
+                android:textSize="40sp"
+                android:text="Habit" />
 
             <Button
                 android:id="@+id/resources_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="gotoResources"
-                android:text="@string/action_goto_past"
+                android:text="Search"
                 android:textSize="40sp" />
 
         </LinearLayout>
