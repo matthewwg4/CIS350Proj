@@ -1,6 +1,5 @@
-package com.example.habitvisualization;
+package com.example.habitvisualization.FakeData;
 
-import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 

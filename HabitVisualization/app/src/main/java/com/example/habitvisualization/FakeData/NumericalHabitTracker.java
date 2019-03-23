@@ -1,10 +1,8 @@
-package com.example.habitvisualization;
+package com.example.habitvisualization.FakeData;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TreeMap;
 
-public class NumericalHabitTracker extends HabitTracker{
+public class NumericalHabitTracker extends HabitTracker {
     private String unitName;
 
     public NumericalHabitTracker() {

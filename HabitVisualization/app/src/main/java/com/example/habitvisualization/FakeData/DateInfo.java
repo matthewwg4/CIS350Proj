@@ -1,4 +1,4 @@
-package com.example.habitvisualization;
+package com.example.habitvisualization.FakeData;
 
 import java.util.Date;
 

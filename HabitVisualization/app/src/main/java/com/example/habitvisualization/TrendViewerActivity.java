@@ -1,7 +1,5 @@
 package com.example.habitvisualization;
 
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.habitvisualization.FakeData.BinaryHabitTracker;
+import com.example.habitvisualization.FakeData.DataStorage;
+import com.example.habitvisualization.FakeData.DateInfo;
+import com.example.habitvisualization.FakeData.HabitTracker;
+import com.example.habitvisualization.FakeData.HabitType;
+import com.example.habitvisualization.FakeData.HabitViewAdapter;
+import com.example.habitvisualization.FakeData.NumericalHabitTracker;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
-import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;

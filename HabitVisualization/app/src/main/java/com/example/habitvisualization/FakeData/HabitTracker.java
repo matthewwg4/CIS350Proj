@@ -1,7 +1,7 @@
-package com.example.habitvisualization;
+package com.example.habitvisualization.FakeData;
 
-import android.support.v7.util.SortedList;
 import android.util.Log;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
