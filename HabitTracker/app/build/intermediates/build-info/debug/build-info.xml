@@ -7,25 +7,25 @@
     format="10"
     ir-eligibility="COMPATIBLE"
     plugin-version="3.3.2"
-    timestamp="1553415430725"
+    timestamp="1553415798217"
     token="-5459303295226292086"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="457" />
+        duration="678" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="65" />
+        duration="39" />
     <task
         name="verifier"
-        duration="28" />
+        duration="5" />
 
     <artifact
-        location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+        location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
         type="SPLIT" />
 
     <build
@@ -75,19 +75,19 @@
     <build
         build-mode="COLD"
         ir-eligibility="COMPATIBLE"
-        timestamp="1553415223350"
+        timestamp="1553415430725"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
             type="SPLIT" />
     </build>
     <build
         build-mode="COLD"
         ir-eligibility="COMPATIBLE"
-        timestamp="1553415430725"
+        timestamp="1553415798217"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
             type="SPLIT" />
     </build>
 
