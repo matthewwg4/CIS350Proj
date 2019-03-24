@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.example.habittracker.datamanagement.DateInfo;
@@ -47,6 +48,12 @@ public class TrendViewerActivity extends AppCompatActivity {
 
     private FakeUserDatabase fakeUserDatabase = FakeUserDatabase.getInstance();
 
+    private String habitNameDisplay;
+    private Date latestDateDisplay;
+
+    private float oldX = 0;
+    private float oldY = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: started.");
@@ -56,7 +63,7 @@ public class TrendViewerActivity extends AppCompatActivity {
 
         // Set default values ------------------------------------
         calendar = Calendar.getInstance();
-        Date defaultLatestDate = calendar.getTime();
+latestDateDisplay = calendar.getTime();
 
         Bundle extras = getIntent().getExtras();
         String userName;
@@ -78,6 +85,7 @@ public class TrendViewerActivity extends AppCompatActivity {
                 if (habitTrackerSet.size() == 0) {
                     Log.d(TAG, "onCreate: this user has no habits being tracked");
                     setGraphTitle("No habit to show", calendar.getTime());
+                    habitNameDisplay = null;
                     setXAxis(calendar.getTime());
                     setYAxisLeft();
                     setLegend();
@@ -85,6 +93,7 @@ public class TrendViewerActivity extends AppCompatActivity {
                     HabitTracker habitTrackerDisplay = null;
                     for (HabitTracker h : habitTrackerSet) {
                         habitTrackerDisplay = h;
+                        habitNameDisplay = h.getHabitName();
                         break;
                     }
                     changeGraph(habitTrackerDisplay.getHabitName());
@@ -125,13 +134,16 @@ public class TrendViewerActivity extends AppCompatActivity {
 
     private void setXAxis(Date newestDate) {
         calendar.setTime(newestDate);
+        graph.getViewport().setMaxX((double)calendar.getTime().getTime());
         calendar.add(Calendar.DATE, -numDateShow + 1);
+        graph.getViewport().setMinX((double)calendar.getTime().getTime());
+
         calendar = Calendar.getInstance(); //reset the date
 
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter
                 (this, dateFormat));
         graph.getGridLabelRenderer().setNumHorizontalLabels(numDateShow);
-        graph.getViewport().setXAxisBoundsManual(true); // set manual x bounds to have nice steps
+//        graph.getViewport().setXAxisBoundsManual(true); // set manual x bounds to have nice steps
 
         // as we use dates as labels, the human rounding to nice readable numbers is not necessary
         graph.getGridLabelRenderer().setHumanRounding(false);
@@ -461,22 +473,26 @@ public class TrendViewerActivity extends AppCompatActivity {
             }
         }
 
+        if (habitNameChosen != habitNameDisplay) {
+            habitNameDisplay = habitNameChosen;
+            latestDateDisplay = calendar.getTime();
+        }
+
         if (habitTracker != null) {
             List<DateInfo> dateInfos = habitTracker.getTracking();
             HabitType habitType = habitTracker.getHabitType();
 
             graph.removeAllSeries();
             graph.clearSecondScale();
-            Date latestChosenDate = calendar.getTime();
 
             if (habitType == HabitType.NUMERICAL) {
                 // Set happiness data (bar graph)
                 DataPoint[] happyDataPoints =
-                        getDataPointsHappinessNumerical(latestChosenDate, dateInfos);
+                        getDataPointsHappinessNumerical(latestDateDisplay, dateInfos);
                 setBarGraphHappinessNumerical(happyDataPoints);
 
                 // Set unit value data (line graph)
-                DataPoint[] unitValueDataPoints = getDataPointsUnitValues(latestChosenDate, dateInfos);
+                DataPoint[] unitValueDataPoints = getDataPointsUnitValues(latestDateDisplay, dateInfos);
                 setLineGraphUnitValue(unitValueDataPoints, habitTracker.getUnitName());
                 setYAxisRight(dateInfos);
             } else {
@@ -489,17 +505,17 @@ public class TrendViewerActivity extends AppCompatActivity {
 
                 //Get happiness on days that a certain activity is done
                 DataPoint[] happyDataPointsPos =
-                        getDataPointsHappinessBinaryPositive(latestChosenDate, dateInfos);
+                        getDataPointsHappinessBinaryPositive(latestDateDisplay, dateInfos);
                 setBarGraphHappinessBinaryPositive(habitNameChosen, happyDataPointsPos);
 
                 //Get happiness on days that a certain activity is not done
                 DataPoint[] happyDataPointsNeg =
-                        getDataPointsHappinessBinaryNegative(latestChosenDate, dateInfos);
+                        getDataPointsHappinessBinaryNegative(latestDateDisplay, dateInfos);
                 setBarGraphHappinessBinaryNegative(habitNameChosen, happyDataPointsNeg);
             }
 
-            setGraphTitle(habitNameChosen, latestChosenDate);
-            setXAxis(latestChosenDate);
+            setGraphTitle(habitNameChosen, latestDateDisplay);
+            setXAxis(latestDateDisplay);
             setYAxisLeft();
             setLegend();
             setAxisDescription(habitTracker.getUnitName(), habitType);
@@ -508,4 +524,46 @@ public class TrendViewerActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        Log.d(TAG, "onTouchEvent: called");
+
+        int motionEvent = e.getAction();
+        if (motionEvent == MotionEvent.ACTION_DOWN) {
+            Log.d(TAG, "onTouchEvent: action down detected");
+            oldX = e.getX();
+            oldY = e.getY();
+        } else if (motionEvent == MotionEvent.ACTION_UP) {
+            Log.d(TAG, "onTouchEvent: action up detected");
+            float newX = e.getX();
+            float newY = e.getY();
+
+            if (Math.abs(newX - oldX) > Math.abs(newY - oldY)) {
+                if (newX > oldX) {
+                    Log.d(TAG, "onTouchEvent: swiped left");
+                    // Swiped left -> user can see data about 7 days previous to the oldest
+                    // currently display date
+                    calendar.setTime(latestDateDisplay);
+                    calendar.add(Calendar.DATE, -numDateShow);
+                    latestDateDisplay = calendar.getTime();
+                    changeGraph(habitNameDisplay);
+                    calendar = Calendar.getInstance();
+                    Log.d(TAG, "onTouchEvent: latestDateDisplay is set to "
+                            + latestDateDisplay.toString());
+                } else {
+                    Log.d(TAG, "onTouchEvent: swiped right");
+                    // Swiped right -> user can see data about 7 days after to the newest
+                    // currently display date
+                    calendar.setTime(latestDateDisplay);
+                    calendar.add(Calendar.DATE, numDateShow);
+                    latestDateDisplay = calendar.getTime();
+                    Log.d(TAG, "onTouchEvent: latestDateDisplay is set to "
+                            + latestDateDisplay.toString());
+                    calendar = Calendar.getInstance();
+                    changeGraph(habitNameDisplay);
+                }
+            }
+        }
+        return true;
+    }
 }
