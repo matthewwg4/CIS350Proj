@@ -10,6 +10,7 @@ public class DateInfo {
     private int happiness;
 
     public DateInfo(Date date, boolean isDone, float unitValue, int happiness) {
+        this.date = date;
         this.isDone = isDone;
         this.unitValue = unitValue;
         this.happiness = happiness;
