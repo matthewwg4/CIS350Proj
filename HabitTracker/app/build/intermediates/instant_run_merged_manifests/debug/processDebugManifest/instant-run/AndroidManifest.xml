@@ -55,6 +55,10 @@
             android:label="@string/title_activity_survey"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="com.example.habittracker.resources.ResourcesSearchResultActivity"
+            android:label="@string/title_activity_resources_search_result"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name="com.example.habittracker.resources.CustomResourceActivity"
             android:label="@string/title_activity_custom_resource"
             android:theme="@style/AppTheme.NoActionBar" />

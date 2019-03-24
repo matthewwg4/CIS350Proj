@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parent_layout"
-    tools:context=".TrendViewerActivity">
+    tools:context="com.example.habittracker.visualization.TrendViewerActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

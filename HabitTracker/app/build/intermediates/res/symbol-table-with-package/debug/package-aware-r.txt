@@ -1195,6 +1195,9 @@ id resource_list
 id resource_name
 id resources_button
 id resources_name
+id resources_search_button
+id resources_search_entry
+id resources_searched
 id right
 id right_icon
 id right_side
@@ -1266,6 +1269,7 @@ id time
 id title
 id titleDividerNoCustom
 id title_template
+id toolbar
 id top
 id topPanel
 id touch_outside
@@ -1342,12 +1346,14 @@ layout activity_login
 layout activity_menu
 layout activity_past_habits
 layout activity_resources
+layout activity_resources_search_result
 layout activity_survey
 layout activity_visualization
 layout content_custom_resource
 layout content_custom_survey
 layout content_menu
 layout content_resources
+layout content_resources_search_result
 layout content_survey
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -1477,6 +1483,7 @@ string title_activity_custom_resource
 string title_activity_custom_survey
 string title_activity_menu
 string title_activity_resources
+string title_activity_resources_search_result
 string title_activity_survey
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
