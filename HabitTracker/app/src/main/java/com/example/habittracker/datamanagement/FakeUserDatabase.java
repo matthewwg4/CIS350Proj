@@ -27,4 +27,7 @@ public class FakeUserDatabase extends DataSource {
         users.put(u.username, u);
     }
 
+    public UserEntry getTheUserEntry(String userName) {
+        return users.get(userName);
+    }
 }

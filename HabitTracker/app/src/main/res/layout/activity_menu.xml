@@ -46,6 +46,7 @@
                 android:id="@+id/habits_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="gotoHabits"
                 android:text="@string/action_goto_habits"
                 android:textSize="40sp" />
 
@@ -54,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_goto_visualization"
+                android:onClick="goToVisualization"
                 android:textSize="40sp"/>
 
             <Button
