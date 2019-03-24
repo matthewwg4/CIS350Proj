@@ -5,112 +5,89 @@
     build-mode="COLD"
     density="420dpi"
     format="10"
+    ir-eligibility="COMPATIBLE"
     plugin-version="3.3.2"
-    timestamp="1552944732764"
-    token="3531818984016011685"
-    verifier="METHOD_DELETED" >
+    timestamp="1553416093634"
+    token="-5459303295226292086"
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="1573" />
+        duration="560" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="250" />
+        duration="21" />
     <task
         name="verifier"
-        duration="25" />
+        duration="8" />
 
     <artifact
-        location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+        location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
         type="SPLIT" />
 
     <build
         build-mode="FULL"
-        ir-eligibility="R_CLASS_CHANGE"
-        timestamp="1552928704128"
-        verifier="COLD_SWAP_REQUESTED" >
+        timestamp="1553414993938"
+        verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\resources\instant-run\debug\resources-debug.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
             type="SPLIT_MAIN" />
     </build>
     <build
         build-mode="COLD"
-        ir-eligibility="R_CLASS_CHANGE"
-        timestamp="1552940905368"
+        ir-eligibility="COMPATIBLE"
+        timestamp="1553415430725"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
             type="SPLIT" />
-        <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
-            type="SPLIT_MAIN" />
     </build>
     <build
         build-mode="COLD"
-        timestamp="1552944732764"
-        verifier="METHOD_DELETED" >
+        ir-eligibility="COMPATIBLE"
+        timestamp="1553416093634"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="C:\Users\Jialin\AndroidStudioProjects\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
+            location="D:\Academia\S19\CIS350\350S19-22\HabitTracker\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
             type="SPLIT" />
     </build>
 

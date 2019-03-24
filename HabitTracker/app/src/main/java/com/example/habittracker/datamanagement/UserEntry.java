@@ -24,4 +24,8 @@ public class UserEntry {
     public Set<HabitTracker> getHabits() {
         return habits;
     }
+
+    public void putAllHabits(Set<HabitTracker> allHabits) {
+        habits = allHabits;
+    }
 }

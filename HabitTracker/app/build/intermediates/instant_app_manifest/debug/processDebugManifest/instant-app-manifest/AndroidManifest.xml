@@ -24,6 +24,30 @@
         android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
+            android:name="com.example.habittracker.habits.HabitsActivity"
+            android:label="Habits"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.habittracker.habits.AddHabitsActivity"
+            android:label="Add Habits"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.habittracker.habits.CurrentHabitsActivity"
+            android:label="Current Habits"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.habittracker.habits.PastHabitsActivity"
+            android:label="Past Habits"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.habittracker.habits.AddExistingHabitActivity"
+            android:label="Add Existing Habit"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.habittracker.habits.CreateNewHabitActivity"
+            android:label="Create New Habits"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name="com.example.habittracker.surveys.CustomSurveyActivity"
             android:label="@string/title_activity_custom_survey"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -42,6 +66,10 @@
         <activity
             android:name="com.example.habittracker.menu.MenuActivity"
             android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.habittracker.visualization.TrendViewerActivity"
+            android:label="TrendViewer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.habittracker.login.LoginActivity"

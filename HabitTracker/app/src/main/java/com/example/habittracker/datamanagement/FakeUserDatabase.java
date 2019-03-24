@@ -1,5 +1,6 @@
 package com.example.habittracker.datamanagement;
 
+import java.util.Set;
 import java.util.TreeMap;
 
 public class FakeUserDatabase extends DataSource {
@@ -8,6 +9,10 @@ public class FakeUserDatabase extends DataSource {
     private FakeUserDatabase() {
         UserEntry u1 = new UserEntry("user1@email.com", "password1");
         UserEntry u2 = new UserEntry("user2@email.com", "password2");
+
+        FakeHabitDatabase fakeHabitDatabase = new FakeHabitDatabase();
+        Set<HabitTracker> allHabits = fakeHabitDatabase.getAllHabitTrackers();
+        u1.putAllHabits(allHabits);
 
         users.put(u1.username, u1);
         users.put(u2.username, u2);
@@ -19,7 +24,7 @@ public class FakeUserDatabase extends DataSource {
         return fud;
     }
 
-    public TreeMap<String, UserEntry>  getUserInfo() {
+    public TreeMap<String, UserEntry> getUserInfo() {
         return users;
     }
 
