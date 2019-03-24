@@ -126,7 +126,6 @@
     <!-- Strings for different habit pages -->
     <string name="current_habits_page">Current Habits</string>
     <string name="past_habits_page">Past Habits</string>
-
     <string name="happiness_unit">Happiness</string>
     <string name="happiness_unit_positive">Performed</string>
     <string name="happiness_unit_negative">Not performed</string>

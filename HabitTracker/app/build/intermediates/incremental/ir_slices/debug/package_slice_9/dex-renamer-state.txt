@@ -1,0 +1,4 @@
+#Mon Mar 18 13:05:42 EDT 2019
+base.0=C\:\\Users\\Jialin\\AndroidStudioProjects\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\9
+path.0=classes.dex
+renamed.0=classes.dex

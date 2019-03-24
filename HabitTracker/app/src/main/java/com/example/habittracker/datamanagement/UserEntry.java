@@ -24,5 +24,4 @@ public class UserEntry {
     public Set<HabitTracker> getHabits() {
         return habits;
     }
-
 }
