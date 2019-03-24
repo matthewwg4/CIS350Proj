@@ -191,6 +191,9 @@ public class TrendViewerActivity extends AppCompatActivity {
         Log.d(TAG, "initRecyclerView: init recyclerView");
 
         List<String> habitNamesList = new ArrayList<>();
+        for (HabitTracker h : habitTrackerSet) {
+            habitNamesList.add(h.getHabitName());
+        }
 
         recyclerView = findViewById(R.id.recyclerView_habitNames);
 

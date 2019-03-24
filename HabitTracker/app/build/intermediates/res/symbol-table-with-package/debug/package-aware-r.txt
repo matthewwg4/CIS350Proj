@@ -25,6 +25,7 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+array listArray
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -425,6 +426,10 @@ attr searchViewStyle
 attr seekBarStyle
 attr selectableItemBackground
 attr selectableItemBackgroundBorderless
+attr seriesColor
+attr seriesData
+attr seriesTitle
+attr seriesType
 attr showAsAction
 attr showDividers
 attr showMotionSpec
@@ -606,8 +611,15 @@ color cardview_light_background
 color cardview_shadow_end_color
 color cardview_shadow_start_color
 color colorAccent
+color colorBarGraph
+color colorBarGraphNegative
+color colorBarGraphPositive
+color colorLegendBackground
 color colorPrimary
 color colorPrimaryDark
+color colorRecyclerView
+color colorRecyclerView1
+color colorRecyclerViewText
 color design_bottom_navigation_shadow_color
 color design_default_color_primary
 color design_default_color_primary_dark
@@ -905,6 +917,7 @@ dimen notification_small_icon_size_as_large
 dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
+dimen recyclerViewSize
 dimen subtitle_corner_radius
 dimen subtitle_outline_width
 dimen subtitle_shadow_offset
@@ -1037,8 +1050,10 @@ drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id ALT
 id CTRL
+id CurrentHabitsPage
 id FUNCTION
 id META
+id PastHabitsPage
 id SHIFT
 id SYM
 id action0
@@ -1068,6 +1083,7 @@ id all
 id always
 id async
 id auto
+id axisDescription
 id barrier
 id beginning
 id blocking
@@ -1099,6 +1115,7 @@ id design_navigation_view
 id dimensions
 id direct
 id disableHome
+id editText
 id edit_query
 id email
 id email_login_form
@@ -1118,8 +1135,10 @@ id fixed
 id forever
 id ghost_view
 id gone
+id graph
 id group_divider
 id groups
+id habitName
 id habits_button
 id home
 id homeAsUp
@@ -1134,6 +1153,7 @@ id item_touch_helper_previous_elevation
 id labeled
 id largeLabel
 id left
+id lin_layout
 id line1
 id line3
 id listMode
@@ -1160,6 +1180,7 @@ id packed
 id parallax
 id parent
 id parentPanel
+id parent_layout
 id parent_matrix
 id password
 id percent
@@ -1167,6 +1188,7 @@ id pin
 id progress_circular
 id progress_horizontal
 id radio
+id recyclerView_habitNames
 id register_button
 id resource_info
 id resource_list
@@ -1207,6 +1229,7 @@ id snackbar_text
 id snap
 id snapMargins
 id spacer
+id spinner
 id split_action_bar
 id spread
 id spread_inside
@@ -1234,6 +1257,7 @@ id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
+id textView
 id text_input_password_toggle
 id textinput_counter
 id textinput_error
@@ -1307,12 +1331,19 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_add_existing_habit
+layout activity_add_habits
+layout activity_create_new_habit
+layout activity_current_habits
 layout activity_custom_resource
 layout activity_custom_survey
+layout activity_habits
 layout activity_login
 layout activity_menu
+layout activity_past_habits
 layout activity_resources
 layout activity_survey
+layout activity_visualization
 layout content_custom_resource
 layout content_custom_survey
 layout content_menu
@@ -1353,6 +1384,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout visualization_recycleview_holder
 menu menu_resources
 mipmap ic_launcher
 mipmap ic_launcher_round
@@ -1395,7 +1427,12 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string action_goto_add
+string action_goto_add_existing
+string action_goto_create_new
+string action_goto_current
 string action_goto_habits
+string action_goto_past
 string action_goto_resources
 string action_goto_surveys
 string action_goto_visualization
@@ -1408,6 +1445,7 @@ string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string character_counter_content_description
 string character_counter_pattern
+string current_habits_page
 string error_existing_email_signup
 string error_field_required
 string error_incorrect_password
@@ -1416,10 +1454,14 @@ string error_invalid_email_signup
 string error_invalid_password
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string happiness_unit
+string happiness_unit_negative
+string happiness_unit_positive
 string hide_bottom_view_on_scroll_behavior
 string large_text
 string mtrl_chip_close_icon_content_description
 string password_toggle_content_description
+string past_habits_page
 string path_password_eye
 string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
@@ -1430,6 +1472,7 @@ string prompt_password
 string search_menu_title
 string status_bar_notification_info_overflow
 string submit_survey
+string text_search_by
 string title_activity_custom_resource
 string title_activity_custom_survey
 string title_activity_menu
@@ -1983,6 +2026,7 @@ styleable FontFamilyFont android_font android_fontWeight android_fontStyle andro
 styleable ForegroundLinearLayout android_foreground android_foregroundGravity foregroundInsidePadding
 styleable GradientColor android_startColor android_endColor android_type android_centerX android_centerY android_gradientRadius android_tileMode android_centerColor android_startX android_startY android_endX android_endY
 styleable GradientColorItem android_color android_offset
+styleable GraphViewXML android_title seriesColor seriesData seriesTitle seriesType
 styleable LinearConstraintLayout android_orientation
 styleable LinearLayoutCompat android_gravity android_orientation android_baselineAligned android_baselineAlignedChildIndex android_weightSum divider dividerPadding measureWithLargestChild showDividers
 styleable LinearLayoutCompat_Layout android_layout_gravity android_layout_width android_layout_height android_layout_weight

@@ -1,5 +1,7 @@
 package com.example.habittracker.datamanagement;
 
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -22,6 +24,15 @@ public class FakeHabitDatabase {
 
     public HabitTracker getHabitTracker(String habitName) {
         return habits.get(habitName);
+    }
+
+    public Set<HabitTracker> getAllHabitTrackers() {
+        Set<HabitTracker> habitsSet = new HashSet<>();
+        for (Map.Entry<String, HabitTracker> entry : habits.entrySet()) {
+            HabitTracker habitTracker = entry.getValue();
+            habitsSet.add(habitTracker);
+        }
+        return habitsSet;
     }
 
     public void putHabitTracker(HabitTracker habit) {
