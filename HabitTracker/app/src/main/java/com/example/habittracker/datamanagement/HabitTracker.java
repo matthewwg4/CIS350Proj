@@ -70,4 +70,8 @@ public abstract class HabitTracker {
     public void setUnitName(String unitName) {}
 
     public String getUnitName() {return null;}
+
+    public void addTracking(DateInfo d) {
+        tracking.add(d);
+    }
 }

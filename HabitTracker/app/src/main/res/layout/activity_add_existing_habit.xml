@@ -27,6 +27,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="395dp"
             android:layout_height="508dp"
             android:layout_marginStart="8dp"
@@ -42,48 +43,70 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/new_habit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="55dp"
-                    android:text="@string/text_search_by"
-                    android:textSize="40sp" />
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="203dp"
-                    android:layout_height="match_parent"
-                    android:dropDownWidth="wrap_content"
-                    android:entries="@array/listArray"
-                    android:spinnerMode="dropdown"
-                    android:textSize="40sp" />
-
-            </LinearLayout>
+                android:text="Enter a name for this habit" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/new_habit_name_entry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:textSize="40sp"
-                android:text="" />
-
-            <Button
-                android:id="@+id/resources_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="gotoResources"
-                android:text="Search"
                 android:textSize="40sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Is this habit private?" />
+
+            <EditText
+                android:id="@+id/privacy_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Y or N"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/habit_thing_tracking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What is being tracked?" />
+
+            <EditText
+                android:id="@+id/habit_thing_tracking_entry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="ex. meals, miles, time meditating"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/pick_habit_type_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="What type of habit is this?" />
+
+            <RadioGroup
+                android:id="@+id/habit_type_options"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </RadioGroup>
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/submit_new_habit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="createNewHabit"
+            android:text="Create New Habit"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            tools:layout_editor_absoluteX="8dp" />
     </android.support.constraint.ConstraintLayout>
 
 
