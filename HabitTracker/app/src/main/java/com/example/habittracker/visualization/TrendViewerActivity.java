@@ -1,5 +1,6 @@
 package com.example.habittracker.visualization;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,14 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.habittracker.datamanagement.DateInfo;
+import com.example.habittracker.datamanagement.FakeUserDatabase;
+import com.example.habittracker.datamanagement.HabitTracker;
+import com.example.habittracker.datamanagement.HabitType;
+import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.login.R;
-import com.example.habitvisualization.FakeData.BinaryHabitTracker;
-import com.example.habitvisualization.FakeData.DataStorage;
-import com.example.habitvisualization.FakeData.DateInfo;
-import com.example.habitvisualization.FakeData.HabitTracker;
-import com.example.habitvisualization.FakeData.HabitType;
-import com.example.habitvisualization.FakeData.HabitViewAdapter;
-import com.example.habitvisualization.FakeData.NumericalHabitTracker;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class TrendViewerActivity extends AppCompatActivity {
 
@@ -40,102 +40,57 @@ public class TrendViewerActivity extends AppCompatActivity {
 
     private GraphView graph;
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("E");
-    ;
     private Calendar calendar;
     private final int numDateShow = 7;
+
+    private Set<HabitTracker> habitTrackerSet;
+
+    private FakeUserDatabase fakeUserDatabase = FakeUserDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: started.");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_visualization);
 
 
         // Set default values ------------------------------------
         calendar = Calendar.getInstance();
         Date defaultLatestDate = calendar.getTime();
 
-        //testing purpose below-----------------------------------
-        dataStorage = new DataStorage();
-        dataStorage.addNewHabitTracker("A", new NumericalHabitTracker());
-        HabitTracker habitTrackerA = dataStorage.getHabitTracker("A");
-        Date tryDate = calendar.getTime();
-        habitTrackerA.putDateInfo(tryDate, true, 10, 3);
-//1
+        Bundle extras = getIntent().getExtras();
+        String userName;
+        if (extras != null) {
+            userName = extras.getString("user");
 
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerA.putDateInfo(tryDate, true, 3, 5);
-//2
+            //testing purpose below------------------------------------
+            UserEntry userEntry = fakeUserDatabase.getTheUserEntry(userName);
+            Log.d(TAG, "onCreate: user name is " + userName);
+            habitTrackerSet = userEntry.getHabits();
+            //testing purpose above------------------------------------
 
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerA.putDateInfo(tryDate, true, 300, 8);
-//3
+            /* Initialize recycler view so the user can choose a habit to display
+             * on the chart*/
+            initRecyclerView();
+            graph = findViewById(R.id.graph);
 
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerA.putDateInfo(tryDate, true, 30, 4);
-//4
+            if (habitTrackerSet.size() == 0) {
+                Log.d(TAG, "onCreate: this user has no habits being tracked");
+                setGraphTitle("No habit to show", calendar.getTime());
+                setXAxis(calendar.getTime());
+            } else {
+                HabitTracker habitTrackerDisplay = null;
+                for (HabitTracker h : habitTrackerSet) {
+                    habitTrackerDisplay = h;
+                    break;
+                }
+                changeGraph(habitTrackerDisplay.getHabitName());
+            }
 
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerA.putDateInfo(tryDate, true, 30, 4);
-//5
+            changeGraph("A"); //testing purpose
+        }
 
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerA.putDateInfo(tryDate, true, 30, 4);
-        //6
 
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerA.putDateInfo(tryDate, true, 10, 6);
-//7
-
-        calendar = Calendar.getInstance();
-
-        dataStorage.addNewHabitTracker("B", new BinaryHabitTracker());
-        HabitTracker habitTrackerB = dataStorage.getHabitTracker("B");
-        tryDate = calendar.getTime();
-        habitTrackerB.putDateInfo(tryDate, false, 10, 3);
-//1
-
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerB.putDateInfo(tryDate, true, 3, 5);
-//2
-
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerB.putDateInfo(tryDate, false, 300, 8);
-//3
-
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerB.putDateInfo(tryDate, false, 30, 4);
-//4
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerB.putDateInfo(tryDate, true, 30, 4);
-//5
-
-        calendar.add(Calendar.DATE, -1);
-        tryDate = calendar.getTime();
-        habitTrackerB.putDateInfo(tryDate, true, 30, 4);
-        //6
-
-        calendar = Calendar.getInstance();
-
-        //testing purpose above------------------------------------
-
-        /* Initialize recycler view so the user can choose a habit to display
-         * on the chart*/
-        initRecyclerView();
-        graph = findViewById(R.id.graph);
-        Date newestDateOnAxis = defaultLatestDate;
-
-        changeGraph("A"); //testing purpose
     }
 
     // -------------------------------------------------------------------
@@ -233,8 +188,7 @@ public class TrendViewerActivity extends AppCompatActivity {
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init recyclerView");
 
-        List<String> habitNamesList =
-                new ArrayList<>(dataStorage.getAllHabitNames());
+        List<String> habitNamesList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView_habitNames);
 
@@ -494,7 +448,13 @@ public class TrendViewerActivity extends AppCompatActivity {
     public void changeGraph(String habitNameChosen) {
         Log.d(TAG, "changeGraph: chosen habit is " + habitNameChosen);
 
-        HabitTracker habitTracker = dataStorage.getHabitTracker(habitNameChosen);
+        HabitTracker habitTracker = null;
+        for (HabitTracker h : habitTrackerSet) {
+            if (habitNameChosen.equals(h.getHabitName())) {
+                habitTracker = h;
+                break;
+            }
+        }
 
         if (habitTracker != null) {
             List<DateInfo> dateInfos = habitTracker.getTracking();

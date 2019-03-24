@@ -1,4 +1,4 @@
-package com.example.habitvisualization.FakeData;
+package com.example.habittracker.visualization;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.habitvisualization.R;
-import com.example.habitvisualization.TrendViewerActivity;
+import com.example.habittracker.login.R;
 
 import java.util.List;
 
@@ -53,7 +52,7 @@ public class HabitViewAdapter extends RecyclerView.Adapter<HabitViewAdapter.Habi
 
         // Create a new view
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.habit_listitem, parent, false);
+                .inflate(R.layout.visualization_recycleview_holder, parent, false);
         HabitViewHolder habitViewHolder = new HabitViewHolder(view);
         return habitViewHolder;
     }

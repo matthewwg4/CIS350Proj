@@ -13,7 +13,6 @@ import com.example.habitvisualization.FakeData.DataStorage;
 import com.example.habitvisualization.FakeData.DateInfo;
 import com.example.habitvisualization.FakeData.HabitTracker;
 import com.example.habitvisualization.FakeData.HabitType;
-import com.example.habitvisualization.FakeData.HabitViewAdapter;
 import com.example.habitvisualization.FakeData.NumericalHabitTracker;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;

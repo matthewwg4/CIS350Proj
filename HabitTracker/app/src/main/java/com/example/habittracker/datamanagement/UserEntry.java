@@ -1,6 +1,7 @@
 package com.example.habittracker.datamanagement;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 public class UserEntry {
     public String username;
@@ -14,5 +15,14 @@ public class UserEntry {
         this.habits = habits;
     }
 
+    public UserEntry(String u, String p) {
+        username = u;
+        password = p;
+        habits = new TreeSet<>();
+    }
+
+    public Set<HabitTracker> getHabits() {
+        return habits;
+    }
 
 }
