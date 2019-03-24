@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.habittracker.datamanagement.FakeHabitDatabase;
 import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
@@ -31,14 +32,15 @@ public class HabitForm extends AppCompatActivity {
         Set<HabitTracker> habits = FakeUserDatabase.getInstance().getUserInfo()
                 .get((String)getIntent().getStringExtra("user"))
                 .getHabits();
-        HabitTracker habit = null;
+        HabitTracker h1 = null;
         final String check = (String)getIntent().getStringExtra("habit");
         for (HabitTracker h : habits) {
             if (h.getHabitName().equals(check)) {
-                habit = h;
+                h1 = h;
                 break;
             }
         }
+        final HabitTracker habit = h1;
         if (habit == null) {
             return;
         }
@@ -77,6 +79,21 @@ public class HabitForm extends AppCompatActivity {
                     i.putExtra("habit", check);
 
                     startActivity(i);
+                }
+            });
+            linearLayout.addView(myButton);
+        }
+
+        if (((String)getIntent().getStringExtra("time")).equals("future")) {
+            Button myButton = new Button(this);
+            myButton.setText("Add Habit");
+            myButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FakeUserDatabase.getInstance()
+                            .getUserInfo().get((String)getIntent().getStringExtra("user"))
+                            .addHabit(habit);
+                    finishActivity(0);
                 }
             });
             linearLayout.addView(myButton);
