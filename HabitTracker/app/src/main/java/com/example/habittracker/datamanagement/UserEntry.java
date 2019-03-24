@@ -12,17 +12,22 @@ public class UserEntry {
     Set<HabitTracker> habits;
     //when integrated, add storage for habits
 
-    public UserEntry(String u, String p) {
-        username = u;
-        password = p;
-        this.habits = new HashSet<>();
-    }
 
     public void addHabit(HabitTracker habit) {
         habits.add(habit);
+
+    public UserEntry(String u, String p) {
+        username = u;
+        password = p;
+        habits = new TreeSet<>();
     }
 
     public Set<HabitTracker> getHabits() {
         return habits;
     }
+  
+    public void putAllHabits(Set<HabitTracker> allHabits) {
+        habits = allHabits;
+    }
+
 }

@@ -9,11 +9,11 @@ public class DateInfo {
     private float unitValue; // represents hours, calories, cups/bowls (engaged in this activity)
     private int happiness;
 
-    public DateInfo(Date ddate, boolean isDone, float unitValue, int happiness) {
+    public DateInfo(Date date, boolean isDone, float unitValue, int happiness) {
+        this.date = date;
         this.isDone = isDone;
         this.unitValue = unitValue;
         this.happiness = happiness;
-        date = ddate;
     }
 
     public boolean isDone() {

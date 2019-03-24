@@ -229,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email_login));
+            mEmailView.setError(getString(R.string.error_invalid_email_signup));
             focusView = mEmailView;
             cancel = true;
         }
@@ -373,10 +373,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             if(usersDatabase.getUserInfo().containsKey(mEmail)) {
-                return mPassword.equals(usersDatabase.getUserInfo().get(mEmail).password);
+                if(mPassword.equals(usersDatabase.getUserInfo().get(mEmail).password)) {
+                    return true;
+                } else {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    return false;
+                }
+            } else {
+                mPasswordView.setError(getString(R.string.error_invalid_email_login));
+                return false;
             }
-
-            return true;
         }
 
         @Override
@@ -390,7 +396,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 startActivity(i);
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
         }

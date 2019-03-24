@@ -41,6 +41,10 @@
             android:name="com.example.habittracker.surveys.SurveyActivity"
             android:label="@string/title_activity_survey"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity    
+            android:name="com.example.habittracker.resources.ResourcesSearchResultActivity"
+            android:label="@string/title_activity_resources_search_result"
+            android:theme="@style/AppTheme.NoActionBar" />     
         <activity
             android:name="com.example.habittracker.resources.CustomResourceActivity"
             android:label="@string/title_activity_custom_resource"
@@ -52,6 +56,10 @@
         <activity
             android:name="com.example.habittracker.menu.MenuActivity"
             android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.habittracker.visualization.TrendViewerActivity"
+            android:label="TrendViewer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"

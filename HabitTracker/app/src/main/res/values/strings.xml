@@ -6,7 +6,7 @@
     <string name="action_log_in">Log in</string>
     <string name="action_sign_up">Sign up</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email_login">This email address is invalid. Please check your spelling or tap "Register" to create a new account. </string>
+    <string name="error_invalid_email_login">This account does not exist. Please check your spelling or tap "Register" to create a new account. </string>
     <string name="error_invalid_email_signup">This email address is invalid. </string>
     <string name="error_existing_email_signup">This email address is already in use. </string>
     <string name="error_invalid_password">This password is too short</string>
@@ -115,8 +115,9 @@
     <string name="title_activity_survey">Surveys</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_custom_resource" />
-    <string name="title_activity_custom_survey" />
-    <string name="action_goto_add">Add</string>
+    <string name="title_activity_resources_search_result">Search Results</string>
+    <string name="title_activity_custom_survey"/>
+    <string name="action_goto_add" >Add</string>
     <string name="action_goto_current">Current</string>
     <string name="action_goto_past">Past</string>
     <string name="action_goto_add_existing">Add Existing</string>
@@ -126,6 +127,10 @@
     <!-- Strings for different habit pages -->
     <string name="current_habits_page">Current Habits</string>
     <string name="past_habits_page">Past Habits</string>
+
     <string name="title_activity_habit_form">HabitForm</string>
     <string name="title_activity_add_data">AddData</string>
+    <string name="happiness_unit">Happiness</string>
+    <string name="happiness_unit_positive">Performed</string>
+    <string name="happiness_unit_negative">Not performed</string>
 </resources>

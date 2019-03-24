@@ -13,6 +13,7 @@ import com.example.habittracker.habits.HabitsActivity;
 import com.example.habittracker.login.R;
 import com.example.habittracker.resources.ResourcesActivity;
 import com.example.habittracker.surveys.SurveyActivity;
+import com.example.habittracker.visualization.TrendViewerActivity;
 
 import java.util.TreeMap;
 
@@ -44,6 +45,14 @@ public class MenuActivity extends AppCompatActivity {
     public void gotoResources(View v) {
         String msg = getIntent().getStringExtra("user");
         Intent i = new Intent(getApplicationContext(), ResourcesActivity.class);
+        i.putExtra("user", msg);
+
+        startActivity(i);
+    }
+
+    public void goToVisualization(View v) {
+        String msg = getIntent().getStringExtra("user");
+        Intent i = new Intent(getApplicationContext(), TrendViewerActivity.class);
         i.putExtra("user", msg);
 
         startActivity(i);

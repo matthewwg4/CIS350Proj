@@ -13,12 +13,9 @@ public class FakeUserDatabase extends DataSource {
         UserEntry u1 = new UserEntry("user1@email.com", "password1");
         UserEntry u2 = new UserEntry("user2@email.com", "password2");
 
-        Set<String> tags = new TreeSet<>();
-        tags.add("health");
-        u1.addHabit(new BinaryHabitTracker("ate dinner", tags, true));
-        Set<String> tags2 = new TreeSet<>();
-        tags.add("");
-        u2.addHabit(new NumericalHabitTracker("number meals eaten", tags, true, "meals eaten"));
+        FakeHabitDatabase fakeHabitDatabase = new FakeHabitDatabase();
+        Set<HabitTracker> allHabits = fakeHabitDatabase.getAllHabitTrackers();
+        u1.putAllHabits(allHabits);
 
         users.put(u1.username, u1);
         users.put(u2.username, u2);
@@ -30,7 +27,7 @@ public class FakeUserDatabase extends DataSource {
         return fud;
     }
 
-    public TreeMap<String, UserEntry>  getUserInfo() {
+    public TreeMap<String, UserEntry> getUserInfo() {
         return users;
     }
 
@@ -38,4 +35,7 @@ public class FakeUserDatabase extends DataSource {
         users.put(u.username, u);
     }
 
+    public UserEntry getTheUserEntry(String userName) {
+        return users.get(userName);
+    }
 }
