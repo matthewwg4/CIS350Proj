@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,65 +50,28 @@ public class AddData extends AppCompatActivity {
 //        tv2.setText("Type: " + (habit.getHabitType() == HabitType.BINARY ? "Binary" : "Numerical"));
 //        tv2.setVisibility(View.VISIBLE);
 //        tv2.setTextSize(50);
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lin_layout);
+        //LinearLayout linearLayout = (LinearLayout) findViewById(R.id.lin_layout);
 //        linearLayout.addView(tv0);
 //        linearLayout.addView(tv1);
 //        linearLayout.addView(tv2);
         Set<HabitTracker> habits = FakeUserDatabase.getInstance().getUserInfo()
-                .get((String) getIntent().getStringExtra("user")).getHabits();
+                .get(getIntent().getStringExtra("user")).getHabits();
         String habit = getIntent().getStringExtra("habit");
+
+        TextView happ = (TextView) findViewById(R.id.happiness_text_add);
+        happ.setText("Happiness 1-10");
+        TextView didHab = (TextView) findViewById(R.id.do_text_add);
+
+        EditText didEntry = (EditText) findViewById(R.id.do_text_add_entry);
         for (HabitTracker h : habits) {
             if (h.getHabitName().equals(habit)) {
                 if (h.getHabitType() == HabitType.NUMERICAL) { //wanna add how many units done
-                    TextView tvSpace = new TextView(this);
-                    tvSpace.setText("");
-                    tvSpace.setVisibility(View.VISIBLE);
-                    tvSpace.setTextSize(50);
-                    TextView tv0 = new TextView(this); //numeric units
-                   // TextView tv1 = new TextView(this); //happiness
+                    didHab.setText("How much did you do it?");
+                    didEntry.setHint("For example, if you ran 3 miles, enter 3");
 
-
-                    TextView tv1 = findViewById(R.id.happiness);
-                    tv1.setText("Happiness 1-10: ");
-
-
-                    tv0.setText(h.getUnitName() + "completed:");
-                   // tv1.setText("Happiness 1-10: ");
-                    tv0.setVisibility(View.VISIBLE);
-                    tv1.setVisibility(View.VISIBLE);
-                    tv0.setTextSize(25);
-                    tv1.setTextSize(25);
-                    TextView tvSpace2 = new TextView(this);
-                    tvSpace2.setText("");
-                    tvSpace2.setVisibility(View.VISIBLE);
-                    tvSpace2.setTextSize(25);
-                    linearLayout.addView(tvSpace);
-                    linearLayout.addView(tv0);
-                    linearLayout.addView(tvSpace2);
-                    linearLayout.addView(tv1);
                 } else { //wanna say yes or no if did or not
-                    TextView tvSpace = new TextView(this);
-                    tvSpace.setText("");
-                    tvSpace.setVisibility(View.VISIBLE);
-                    tvSpace.setTextSize(50);
-                    TextView tv0 = new TextView(this); //completed yes or no
-                    TextView tv1 = findViewById(R.id.happiness);
-                    tv1.setText("Happiness 1-10: ");
-                  //  TextView tv1 = new TextView(this); //happiness
-                    tv0.setText("Completed Y/N:");
-                   // tv1.setText("Happiness 1-10: ");
-                    tv0.setVisibility(View.VISIBLE);
-                    tv1.setVisibility(View.VISIBLE);
-                    tv0.setTextSize(25);
-                    tv1.setTextSize(25);
-                    TextView tvSpace2 = new TextView(this);
-                    tvSpace2.setText("");
-                    tvSpace2.setVisibility(View.VISIBLE);
-                    tvSpace2.setTextSize(25);
-                    linearLayout.addView(tvSpace);
-                    linearLayout.addView(tv0);
-                    linearLayout.addView(tvSpace2);
-                    linearLayout.addView(tv1);
+                    didHab.setText("Did you do it?");
+                    didEntry.setHint("Y or N");
                 }
             }
         }

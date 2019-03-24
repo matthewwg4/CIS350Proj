@@ -8,37 +8,45 @@
     tools:context="com.example.habittracker.habits.AddData"
     tools:showIn="@layout/activity_add_data">
 
-    <!--stuff added pasted here except for very last line is attempts and uncertainties #hopeforbest-->
     <LinearLayout
+        android:id="@+id/lin_layout"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:fillViewport="true"
-        android:orientation="vertical"
-        android:weightSum="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--<android.support.constraint.ConstraintLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--</android.support.constraint.ConstraintLayout>-->
+
 
         <TextView
-            android:id="@+id/happiness"
+            android:id="@+id/do_text_add"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-            <!--android:text="TextView" -->
-            <!--/>-->
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <EditText
+            android:id="@+id/do_text_add_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/happiness_text_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <EditText
+            android:id="@+id/happiness_text_enter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="1-10 (10 being the most happy)"
+            android:inputType="textPersonName" />
+
     </LinearLayout>
-
-
-
-
-
-
 </android.support.constraint.ConstraintLayout>
