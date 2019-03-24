@@ -1,18 +1,18 @@
 #Internal package file, do not edit.
-#Sun Mar 24 05:05:19 EDT 2019
+#Sun Mar 24 08:50:16 EDT 2019
 4.path=classes.dex
 8.set=DEX
 6.path=classes.dex
 0.baseType=DIRECTORY
 10.path=classes.dex
 5.baseType=DIRECTORY
-1.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\19
+1.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\21
 8.path=classes.dex
-3.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\20
+3.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
 4.set=DEX
-5.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\21
-7.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\12
-9.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
+5.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\14
+7.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
+9.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\18
 1.baseType=DIRECTORY
 0.set=DEX
 6.baseType=DIRECTORY
@@ -25,16 +25,16 @@
 3.path=classes.dex
 10.set=DEX
 5.path=classes.dex
-0.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\16
+0.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\11
 7.path=classes.dex
 9.path=classes.dex
 6.set=DEX
-2.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\18
-4.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\11
+2.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
+4.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
 3.baseType=DIRECTORY
-6.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\13
-10.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17
-8.base=D\:\\Academia\\S19\\CIS350\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\15
+6.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\17
+10.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\20
+8.base=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\19
 2.set=DEX
 8.baseType=DIRECTORY
 9.set=DEX

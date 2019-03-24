@@ -13,7 +13,7 @@ public class FakeUserDatabase extends DataSource {
         UserEntry u1 = new UserEntry("user1@email.com", "password1");
         UserEntry u2 = new UserEntry("user2@email.com", "password2");
 
-        FakeHabitDatabase fakeHabitDatabase = new FakeHabitDatabase();
+        FakeHabitDatabase fakeHabitDatabase = FakeHabitDatabase.getInstance();
         Set<HabitTracker> allHabits = fakeHabitDatabase.getAllHabitTrackers();
         u1.putAllHabits(allHabits);
 
