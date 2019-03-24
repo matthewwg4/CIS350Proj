@@ -65,32 +65,34 @@ public class TrendViewerActivity extends AppCompatActivity {
 
             //testing purpose below------------------------------------
             UserEntry userEntry = fakeUserDatabase.getTheUserEntry(userName);
-            Log.d(TAG, "onCreate: user name is " + userName);
-            habitTrackerSet = userEntry.getHabits();
-            //testing purpose above------------------------------------
+            if (userEntry != null) {
+                Log.d(TAG, "onCreate: user name is " + userName);
+                habitTrackerSet = userEntry.getHabits();
+                //testing purpose above------------------------------------
 
-            /* Initialize recycler view so the user can choose a habit to display
-             * on the chart*/
-            initRecyclerView();
-            graph = findViewById(R.id.graph);
+                /* Initialize recycler view so the user can choose a habit to display
+                 * on the chart*/
+                initRecyclerView();
+                graph = findViewById(R.id.graph);
 
-            if (habitTrackerSet.size() == 0) {
-                Log.d(TAG, "onCreate: this user has no habits being tracked");
-                setGraphTitle("No habit to show", calendar.getTime());
-                setXAxis(calendar.getTime());
-                setYAxisLeft();
-                setLegend();
-            } else {
-                HabitTracker habitTrackerDisplay = null;
-                for (HabitTracker h : habitTrackerSet) {
-                    habitTrackerDisplay = h;
-                    break;
+                if (habitTrackerSet.size() == 0) {
+                    Log.d(TAG, "onCreate: this user has no habits being tracked");
+                    setGraphTitle("No habit to show", calendar.getTime());
+                    setXAxis(calendar.getTime());
+                    setYAxisLeft();
+                    setLegend();
+                } else {
+                    HabitTracker habitTrackerDisplay = null;
+                    for (HabitTracker h : habitTrackerSet) {
+                        habitTrackerDisplay = h;
+                        break;
+                    }
+                    changeGraph(habitTrackerDisplay.getHabitName());
                 }
-                changeGraph(habitTrackerDisplay.getHabitName());
             }
+        } else {
+            Log.d(TAG, "cannot find user entry. user does not exist in data base ?");
         }
-
-
     }
 
     // -------------------------------------------------------------------
