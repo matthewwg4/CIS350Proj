@@ -14,9 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name="com.example.habittracker.habits.AddData"
+            android:label="@string/title_activity_add_data"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name="com.example.habittracker.habits.HabitForm"
             android:label="@string/title_activity_habit_form"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.habittracker.habits.HabitsActivity"
             android:label="Habits"

@@ -49,7 +49,7 @@ public class AddExistingHabitActivity extends AppCompatActivity {
     //add onclick methods for habit and viz buttons during integration
 
     public void gotoExisitngHabits(View v) {
-        String searchWith = editText.getText().toString();
+        String searchWith = editText.getText().toString(); //gets the text from the textbox
         if (spinnerChoice.equals("----") || searchWith == null || searchWith.equals("")) {
             Toast.makeText
                     (getApplicationContext(), "Invalid Search", Toast.LENGTH_SHORT)

@@ -72,7 +72,7 @@ public class HabitForm extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     String msg = getIntent().getStringExtra("user");
-                    Intent i = new Intent(getApplicationContext(), HabitForm.class);
+                    Intent i = new Intent(getApplicationContext(), AddData.class);
                     i.putExtra("user", msg);
                     i.putExtra("habit", check);
 

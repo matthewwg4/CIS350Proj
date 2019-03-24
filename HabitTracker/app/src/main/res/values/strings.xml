@@ -127,4 +127,5 @@
     <string name="current_habits_page">Current Habits</string>
     <string name="past_habits_page">Past Habits</string>
     <string name="title_activity_habit_form">HabitForm</string>
+    <string name="title_activity_add_data">AddData</string>
 </resources>
