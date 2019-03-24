@@ -64,9 +64,15 @@ public class AddData extends AppCompatActivity {
                     tvSpace.setVisibility(View.VISIBLE);
                     tvSpace.setTextSize(50);
                     TextView tv0 = new TextView(this); //numeric units
-                    TextView tv1 = new TextView(this); //happiness
-                    tv0.setText(h.getUnitName() + "completed:");
+                   // TextView tv1 = new TextView(this); //happiness
+
+
+                    TextView tv1 = findViewById(R.id.happiness);
                     tv1.setText("Happiness 1-10: ");
+
+
+                    tv0.setText(h.getUnitName() + "completed:");
+                   // tv1.setText("Happiness 1-10: ");
                     tv0.setVisibility(View.VISIBLE);
                     tv1.setVisibility(View.VISIBLE);
                     tv0.setTextSize(25);
@@ -85,9 +91,11 @@ public class AddData extends AppCompatActivity {
                     tvSpace.setVisibility(View.VISIBLE);
                     tvSpace.setTextSize(50);
                     TextView tv0 = new TextView(this); //completed yes or no
-                    TextView tv1 = new TextView(this); //happiness
-                    tv0.setText("Completed Y/N:");
+                    TextView tv1 = findViewById(R.id.happiness);
                     tv1.setText("Happiness 1-10: ");
+                  //  TextView tv1 = new TextView(this); //happiness
+                    tv0.setText("Completed Y/N:");
+                   // tv1.setText("Happiness 1-10: ");
                     tv0.setVisibility(View.VISIBLE);
                     tv1.setVisibility(View.VISIBLE);
                     tv0.setTextSize(25);

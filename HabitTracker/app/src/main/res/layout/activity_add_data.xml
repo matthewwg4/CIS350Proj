@@ -26,18 +26,7 @@
         android:id="@+id/lin_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <!--<android.support.constraint.ConstraintLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-
-        <!--</android.support.constraint.ConstraintLayout>-->
-
-
-    </LinearLayout>
-
-
+        android:orientation="vertical"></LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
