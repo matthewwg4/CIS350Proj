@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.FakeResourceDatabase;
 import com.example.habittracker.datamanagement.Resource;
@@ -23,6 +27,8 @@ public class ResourcesActivity extends AppCompatActivity {
     private TreeMap<String, Resource> resources = frd.getResInfo();
 
     ListView list;
+
+    private EditText searchVal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,21 @@ public class ResourcesActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        searchVal = (EditText) findViewById(R.id.resources_search_entry);
+    }
+
+    public void searchResources(View v) {
+        String searchText = searchVal.getText().toString();
+        if(searchText.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please type in the name or tag to search for", Toast.LENGTH_LONG).show();
+        } else {
+            Intent i = new Intent(getApplicationContext(), ResourcesSearchResultActivity.class);
+            i.putExtra("search", searchText);
+
+            startActivity(i);
+        }
+
     }
 
 }

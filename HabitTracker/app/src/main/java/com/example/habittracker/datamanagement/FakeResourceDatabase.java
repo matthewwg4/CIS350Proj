@@ -10,8 +10,10 @@ public class FakeResourceDatabase extends DataSource {
         Resource r2 = new Resource("Relaxing White Noise Generator", "This white noise generator can help users relax and reduce stress by creating a custom white noise to listen to." +
                 "\n https://mynoise.net/NoiseMachines/rainNoiseGenerator.php");
 
+        r2.tags.add("sound");
         res.put(r1.name, r1);
         res.put(r2.name, r2);
+
     }
 
     private static final FakeResourceDatabase frd = new FakeResourceDatabase();
