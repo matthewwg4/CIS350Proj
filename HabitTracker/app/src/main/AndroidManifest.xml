@@ -14,9 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name="com.example.habittracker.resources.ResourcesSearchResultActivity"
+            android:label="@string/title_activity_resources_search_result"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name="com.example.habittracker.surveys.CustomSurveyActivity"
             android:label="@string/title_activity_custom_survey"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.habittracker.surveys.SurveyActivity"
             android:label="@string/title_activity_survey"
