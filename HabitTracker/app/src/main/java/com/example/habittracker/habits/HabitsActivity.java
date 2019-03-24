@@ -29,7 +29,7 @@ public class HabitsActivity extends AppCompatActivity {
 
     public void gotoAdd(View v) {
         String msg = getIntent().getStringExtra("user");
-        Intent i = new Intent(getApplicationContext(), AddHabitsActivity.class);
+        Intent i = new Intent(getApplicationContext(), AddExistingHabitActivity.class);
         i.putExtra("user", msg);
 
         startActivity(i);
@@ -38,14 +38,6 @@ public class HabitsActivity extends AppCompatActivity {
     public void gotoCurrent(View v) {
         String msg = getIntent().getStringExtra("user");
         Intent i = new Intent(getApplicationContext(), CurrentHabitsActivity.class);
-        i.putExtra("user", msg);
-
-        startActivity(i);
-    }
-
-    public void gotoPast(View v) {
-        String msg = getIntent().getStringExtra("user");
-        Intent i = new Intent(getApplicationContext(), PastHabitsActivity.class);
         i.putExtra("user", msg);
 
         startActivity(i);

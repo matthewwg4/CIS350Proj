@@ -48,5 +48,12 @@
             android:hint="1-10 (10 being the most happy)"
             android:inputType="textPersonName" />
 
+        <Button
+            android:id="@+id/add_data_submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="submitAddData"
+            android:text="Submit" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

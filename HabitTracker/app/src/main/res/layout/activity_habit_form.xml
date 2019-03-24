@@ -22,11 +22,5 @@
 
     <include layout="@layout/content_habit_form" />
 
-    <LinearLayout
-        android:id="@+id/lin_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>

@@ -120,7 +120,7 @@
     <string name="action_goto_current">Current</string>
     <string name="action_goto_past">Past</string>
     <string name="action_goto_add_existing">Add Existing</string>
-    <string name="action_goto_create_new">Create New</string>
+    <string name="action_goto_create_new">Create New Habit</string>
     <string name="text_search_by">Search By:</string>
 
     <!-- Strings for different habit pages -->
