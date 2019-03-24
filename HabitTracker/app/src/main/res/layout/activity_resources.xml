@@ -19,6 +19,23 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/title_activity_resources" />
 
+        <AutoCompleteTextView
+            android:id="@+id/resources_search_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Enter name or tag of resource" />
+
+        <Button
+            android:id="@+id/resources_search_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:onClick="searchResources"
+            android:text="Search" />
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_resources" />
