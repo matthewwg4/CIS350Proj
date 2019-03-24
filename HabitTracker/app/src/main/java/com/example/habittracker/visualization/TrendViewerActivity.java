@@ -78,6 +78,8 @@ public class TrendViewerActivity extends AppCompatActivity {
                 Log.d(TAG, "onCreate: this user has no habits being tracked");
                 setGraphTitle("No habit to show", calendar.getTime());
                 setXAxis(calendar.getTime());
+                setYAxisLeft();
+                setLegend();
             } else {
                 HabitTracker habitTrackerDisplay = null;
                 for (HabitTracker h : habitTrackerSet) {
@@ -86,8 +88,6 @@ public class TrendViewerActivity extends AppCompatActivity {
                 }
                 changeGraph(habitTrackerDisplay.getHabitName());
             }
-
-            changeGraph("A"); //testing purpose
         }
 
 

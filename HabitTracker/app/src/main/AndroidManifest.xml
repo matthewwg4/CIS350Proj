@@ -58,6 +58,10 @@
             android:label="@string/title_activity_menu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="com.example.habittracker.visualization.TrendViewerActivity"
+            android:label="TrendViewer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
