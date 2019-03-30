@@ -6,22 +6,22 @@
     density="420dpi"
     format="10"
     plugin-version="3.3.2"
-    timestamp="1553432161370"
+    timestamp="1553454130928"
     token="3965249487291361045"
     verifier="COMPATIBLE" >
 
     <task
         name="javac"
-        duration="4626" />
+        duration="7399" />
     <task
         name="instant-run-dex"
-        duration="86" />
+        duration="2438" />
     <task
         name="instant-run-transform"
-        duration="290" />
+        duration="284" />
     <task
         name="verifier"
-        duration="163" />
+        duration="391" />
 
     <artifact
         location="C:\Users\Jialin\Documents\GitHub\350S19-22\HabitTracker\app\build\intermediates\reload-dex\debug\classes.dex"
@@ -74,6 +74,14 @@
     <build
         build-mode="HOT_WARM"
         timestamp="1553432161370"
+        verifier="COMPATIBLE" >
+        <artifact
+            location="C:\Users\Jialin\Documents\GitHub\350S19-22\HabitTracker\app\build\intermediates\builds\debug\1553432161370\classes.dex"
+            type="RELOAD_DEX" />
+    </build>
+    <build
+        build-mode="HOT_WARM"
+        timestamp="1553454130928"
         verifier="COMPATIBLE" >
         <artifact
             location="C:\Users\Jialin\Documents\GitHub\350S19-22\HabitTracker\app\build\intermediates\reload-dex\debug\classes.dex"
