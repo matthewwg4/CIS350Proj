@@ -10,16 +10,32 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // import the User class from User.js
-//var User = require('./User.js');
+var User = require('./User.js');
 
 /***************************************/
 
-app.use('/', express.static('public'));
+
+app.use('/index', express.static('public'));
+// route for showing all the people
+
+app.use('/view', (req, res) => 
+	User.find( (err, allUsers) => {
+		if (err) {res.type('html').status(500);res.send('Error: ' + err); 
+		}
+		else if (allUsers.length == 0) {res.type('html').status(200);res.send('There are no people');
+		}
+		else {res.render('viewAll', { user: allUsers 
+		})};
+	}));
+	
+	
 
 app.use( /*default*/ (req, res) => {  res.status(404).send('Not found!');});
 
-// // route for creating a new user
-// // this is the action of the "create new person" form
+
+
+// route for creating a new user
+// this is the action of the "create new person" form
 // app.use('/add', (req, res) => {
 	// // construct the Person from the form data which is in the request body
 	// var newUser = new User ({
@@ -43,33 +59,12 @@ app.use( /*default*/ (req, res) => {  res.status(404).send('Not found!');});
     // }
      // );
 
-// // route for showing all the people
-// app.use('/all', (req, res) => {
-    
-	// // find all the Person objects in the database
-	// Person.find( {}, (err, persons) => {
-		// if (err) {
-		    // res.type('html').status(200);
-		    // console.log('uh oh' + err);
-		    // res.write(err);
-		// }
-		// else {
-		    // if (persons.length == 0) {
-			// res.type('html').status(200);
-			// res.write('There are no people');
-			// res.end();
-			// return;
-		    // }
-		    // // use EJS to show all the people
-		    // res.render('all', { persons: persons });
 
-		// }
-	    // }).sort({ 'age': 'asc' }); // this sorts them BEFORE rendering the results
-    // });
 
-// // route for accessing data via the web api
-// // to use this, make a request for /api to get an array of all Person objects
-// // or /api?name=[whatever] to get a single object
+
+// route for accessing data via the web api
+// to use this, make a request for /api to get an array of all Person objects
+// or /api?name=[whatever] to get a single object
 // app.use('/api', (req, res) => {
 	// console.log("LOOKING FOR SOMETHING?");
 
