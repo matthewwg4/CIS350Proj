@@ -1,0 +1,8 @@
+<!-- This is views/showAll.ejs -->
+Here are all the users:
+<ul>
+<% users.forEach( (user) => { %>
+	<li><a href="/user?name=<%= user.name %>">  
+	<%= user.name %></a>: 
+	</ul>
+<br><a href='/index'>Back to index</a>
