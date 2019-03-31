@@ -18,6 +18,31 @@ var User = require('./User.js');
 app.use('/index', express.static('public'));
 // route for showing all the people
 
+// route for creating a new user
+// this is the action of the "create new person" form
+app.use('/addUser', (req, res) => {
+	// construct the Person from the form data which is in the request body
+	var newUser = new User ({
+		name: req.body.name,
+		password: req.body.password,
+	    });
+
+	// save the person to the database
+	newUser.save( (err) => { 
+		if (err) {
+		    res.type('html').status(200);
+		    res.write('uh oh: ' + err);
+		    console.log(err);
+		    res.end();
+		}
+		else {
+		    // display the "successfull created" page using EJS
+		    res.render('created', {user : newUser});
+		}
+	    } ); 
+    }
+     );
+
 app.use('/view', (req, res) => 
 	User.find( (err, allUsers) => {
 		if (err) {res.type('html').status(500);res.send('Error: ' + err); 
@@ -31,35 +56,6 @@ app.use('/view', (req, res) =>
 	
 
 app.use( /*default*/ (req, res) => {  res.status(404).send('Not found!');});
-
-
-
-// route for creating a new user
-// this is the action of the "create new person" form
-// app.use('/add', (req, res) => {
-	// // construct the Person from the form data which is in the request body
-	// var newUser = new User ({
-		// name: req.body.name,
-		// password: req.body.password,
-	    // });
-
-	// // save the person to the database
-	// newUser.save( (err) => { 
-		// if (err) {
-		    // res.type('html').status(200);
-		    // res.write('uh oh: ' + err);
-		    // console.log(err);
-		    // res.end();
-		// }
-		// else {
-		    // // display the "successfull created" page using EJS
-		    // res.render('created', {user : newUser});
-		// }
-	    // } ); 
-    // }
-     // );
-
-
 
 
 // route for accessing data via the web api
