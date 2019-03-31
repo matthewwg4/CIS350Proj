@@ -15,15 +15,16 @@ var User = require('./User.js');
 /***************************************/
 
 
-app.use('/index', express.static('public'));
+app.use('/public', express.static('public'));
 // route for showing all the people
 
 // route for creating a new user
 // this is the action of the "create new person" form
+	 
 app.use('/addUser', (req, res) => {
 	// construct the Person from the form data which is in the request body
 	var newUser = new User ({
-		name: req.body.name,
+		userName: req.body.username,
 		password: req.body.password,
 	    });
 
@@ -39,9 +40,8 @@ app.use('/addUser', (req, res) => {
 		    // display the "successfull created" page using EJS
 		    res.render('created', {user : newUser});
 		}
-	    } ); 
-    }
-     );
+	    } ); 	
+});
 
 app.use('/view', (req, res) => 
 	User.find( (err, allUsers) => {
