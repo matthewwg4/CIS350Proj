@@ -31,10 +31,15 @@ app.use('/addUser', (req, res) => {
 	// save the person to the database
 	newUser.save( (err) => { 
 		if (err) {
-		    res.type('html').status(200);
-		    res.write('uh oh: ' + err);
-		    console.log(err);
-		    res.end();
+		    
+//Jialin's original code
+		    // res.type('html').status(200);
+		    // res.write('uh oh: ' + err);
+		    // console.log(err);
+		    // res.end();
+
+			// Tea's code:
+			  res.render('addUserFailed');
 		}
 		else {
 		    // display the "successfull created" page using EJS
