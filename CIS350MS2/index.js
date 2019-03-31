@@ -47,7 +47,7 @@ app.use('/view', (req, res) =>
 	User.find( (err, allUsers) => {
 		if (err) {res.type('html').status(500);res.send('Error: ' + err); 
 		}
-		else if (allUsers.length == 0) {res.type('html').status(200);res.send('There are no people');
+		else if (allUsers.length == 0) {res.type('html').status(200);res.send('There are no users');
 		}
 		else {res.render('viewAll', { user: allUsers 
 		})};
