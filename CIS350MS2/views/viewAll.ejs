@@ -1,8 +1,8 @@
-<!-- This is views/showAll.ejs -->
+<!-- This is views/viewAll.ejs -->
 Here are all the users:
 <ul>
 <% user.forEach( (user) => { %>
-	<li><a href="/user?userName=<%= user.userName %>">  
+	<li><a href="/user/<%= user.userName %>">  
 	<%= user.userName %></a> 
 	</li>
 <% }); %>
