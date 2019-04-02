@@ -1,19 +1,25 @@
 <!-- This is views/viewUserInfo.ejs -->
 <!-- You can see the data of a single user: their name, password, and a list of habits -->
 
-<form action='/updateUsername' method='post'>
-    <p>
-        Username: <input name='userName' value='<%= user.userName %>'>
-        <input type='submit' value='Update'>
-    </p>
-</form>
-<form action='/updateUserPassword' method='post'>
-    <p>
-        Password: <input name='password' value='<%= user.password %>'>
-        <input type='submit' value='Update'>
-    </p>
-</form>
-<form action='/deleteUser' method = 'post'>
+<body>
+<p>
+    <form action='/updateUsername/<%= user.userName %>' method='post'>
+        Username: <%= user.userName %> <br>
+        Updated username:  <input name="newUsername">
+        <input type=submit value='Update'>
+    </form>
+</p>
+
+<p>
+    <form action='/updatePassword/<%= user.userName %>' method='post' id>
+        Password: <%= user.password %> <br>
+        Updated password:  <input name='newPassword'>
+        <input type=submit value='Update'>
+    </form>
+</p>
+
+<form action='/deleteUser/<%= user.userName %>' method='post'>
     <input type='submit' value='Delete User'>
 </form>
 <br><a href='/view'>View all users</a>
+</body>
