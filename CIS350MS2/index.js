@@ -20,7 +20,6 @@ app.use('/public', express.static('public'));
 // this is the action of the "create new person" form
 
 app.use('/addUser', (req, res) => {
-	// construct the Person from the form data which is in the request body
 	var newUser = new User({
 		userName: req.body.username,
 		password: req.body.password,
@@ -48,7 +47,6 @@ app.use('/addUser', (req, res) => {
 
 // Displays the user with username ':name'
 app.use('/user/:name', (req, res) => {
-	// res.send(req.params.name);
 	User.findOne({ userName: req.params.name }, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
 		else {
@@ -69,6 +67,12 @@ app.use('/view', (req, res) =>
 	));
 
 app.use('/deleteUser/:name', (req, res) => {
+	var query = {userName: req.params.name};
+	var userDeleted = req.params.name;
+	User.deleteOne(query, (err, user) => {
+		if (err) throw err;
+		else {res.render('deleteUserFinished', {userDeleted});}
+	})
 });
 
 app.use('/updateUsername/:name', (req, res) => {
@@ -105,16 +109,9 @@ app.use('/updatePassword/:name', (req, res) => {
 			user.save((err) => {
 				if (err) {
 					user.password = oldPassword;
-					console.log(oldPassword);
-					console.log(newPassword);
-					console.log(user.password);
 					res.render('updatePasswordFailed', {user : user});
 				}
 				else {
-					console.log('no err');
-					console.log(oldPassword);
-					console.log(newPassword);
-					console.log(user.password);
 					res.render('updatePassword', { user: user });
 				}
 			});
