@@ -1,13 +1,8 @@
 <!-- This is views/deleteUserFinished.ejs -->
 
+The user with username
+<%= userDeleted %> is removed from the data.
 <p>
-    Username: <input name='userName' value='<%= user.userName %>'>
+    <a href='/view'>Back to view all users</a>
 </p>
-<p>
-    Password: <input name='password' value='<%= user.password %>'>
-    <input type='submit' value='Update'>
-</p>
-
-User with the username and password above is deleted from the data.
-
-<br><a href='/view'>View all users</a>
+<a href='/public/index.html'>Back to index</a>
