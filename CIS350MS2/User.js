@@ -9,7 +9,9 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
 	userName: {type: String, required: true, unique: true},
 	password: {type: String, required: true},
-	habits: []
+	habits: [{
+		type: String
+	}]
     });
 
 // export userSchema as a class called User

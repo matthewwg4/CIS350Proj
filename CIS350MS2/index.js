@@ -21,7 +21,7 @@ app.use('/public', express.static('public'));
 
 app.use('/addUser', (req, res) => {
 	var newUser = new User({
-		userName: req.body.username,
+		userName: req.body.username, //requesting the body to have a username
 		password: req.body.password,
 	});
 
@@ -40,14 +40,14 @@ app.use('/addUser', (req, res) => {
 		}
 		else {
 			// display the "successfull created" page using EJS
-			res.render('created', { user: newUser });
+			res.render('created', { user: newUser }); //key is user; data is newUser; render is like print
 		}
 	});
 });
 
 // Displays the user with username ':name'
 app.use('/user/:name', (req, res) => {
-	User.findOne({ userName: req.params.name }, (err, user) => {
+	User.findOne({ userName: req.params.name }, (err, user) => { //response is from the database, not the user/client
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
 		else {
 			res.render('viewUserInfo', { user: user })
@@ -63,8 +63,10 @@ app.use('/view', (req, res) =>
 			res.type('html').status(200); res.send('There are no users');
 		}
 		else { res.render('viewAll', { user: allUsers }) };
+		//res.status(400).send();
 	}
-	));
+//	}
+));
 
 app.use('/deleteUser/:name', (req, res) => {
 	var query = {userName: req.params.name};
@@ -120,7 +122,16 @@ app.use('/updatePassword/:name', (req, res) => {
 })
 
 app.use('/goToUserHabits/:name', (req, res) => {
-	
+	User.findOne({ userName: req.params.name }, (err, user) => { //response is from the database, not the user/client
+		if (err) { res.type('html').status(500); res.send('Error: '); 
+		} else {
+			//habitsLength = user.habits.length;
+			//for (i = 0; i < habitsLength; i++) {
+			res.render('goToUserHabits', user.habits);
+			console.log("got habits");
+			//}
+		}
+	});	
 })
 
 app.use( /*default*/(req, res) => { res.status(404).send('Not found!'); });

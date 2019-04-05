@@ -2,8 +2,10 @@
 Here are the user's habits:
 <ul>
 <% user.habits.forEach( () => { %>
-    <li><a href = "/user/<%= user.habits%>"
-    
+    <li><a href = "/user/<%= user.habits%>" >
+    <%= user.habits %></a>
+    </li>
+<% }); %>
 </ul>
 <p>
     <a href='/user/:name'>Back to view user's information</a>
