@@ -1,0 +1,25 @@
+<!-- This is views/createResponseFailed.ejs -->
+Failed to create the response. <br>
+<%if (reason == 'optionMatching') { %>
+<p>
+Response does not match any of the available options.
+</p>
+<% } %>
+<%if (reason == 'alreadyResponded') { %>
+<p>
+This user has already responded
+</p>
+<% } %>
+<%if (reason == 'emptyFields') { %>
+<p>
+Some fields were not filled.
+</p>
+<% } %>
+
+<p>
+<a href="/survey/<%= survey.surveyName %>"> Back to survey info</a>
+</p>
+<p>
+<a href='/surveys'>Back to view all surveys</a>
+</p>
+<a href='/public/index.html'>Back to index</a>
