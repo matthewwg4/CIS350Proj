@@ -119,6 +119,10 @@ app.use('/updatePassword/:name', (req, res) => {
 	});
 })
 
+app.use('/goToUserHabits/:name', (req, res) => {
+	
+})
+
 app.use( /*default*/(req, res) => { res.status(404).send('Not found!'); });
 
 /*************************************************/
