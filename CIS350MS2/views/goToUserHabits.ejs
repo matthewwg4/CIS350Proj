@@ -4,7 +4,9 @@
     <ul>
         <% user.habits.forEach( (habit) => { %>
         <!-- <li><a href = "/user/<%= user.habits%>" > -->
+
         <li><a href="/habit/<%= user.userName %>/<%= habit %>">
+
                 <%= habit %></a>
         </li>
         <% }); %>
@@ -21,4 +23,6 @@
     <p>
         <a href="/user/<%= user.userName%>">Back to view user's information</a>
     </p>
+
 </body>
+

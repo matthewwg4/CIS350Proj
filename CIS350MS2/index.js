@@ -146,6 +146,7 @@ app.use('/addHabit/:name', (req, res) => {
 				if (err) {
 					res.type('html').status(500); res.send('Error: ');
 				} else {
+
 					var newHabit = new Habit({
 						habitId: req.params.name + "-" + req.body.habitName,
 						habitName: req.body.habitName,
@@ -160,6 +161,7 @@ app.use('/addHabit/:name', (req, res) => {
 							res.type('html').status(500); res.send('Error: ');
 						}
 					});
+
 					res.render('goToUserHabits', { user: user });
 				}
 			})
@@ -236,6 +238,7 @@ app.use('/deleteHabit/:name/:habit', (req, res) => {
 app.use('/goToInfoPoints/:name/:habitId', (req, res) => {
 	
 });
+
 
 app.use( /*default*/(req, res) => { res.status(404).send('Not found!'); });
 
