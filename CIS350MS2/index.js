@@ -125,22 +125,19 @@ app.use('/goToUserHabits/:name', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => { //response is from the database, not the user/client
 		if (err) { res.type('html').status(500); res.send('Error: '); 
 		} else {
-			//habitsLength = user.habits.length;
-			//for (i = 0; i < habitsLength; i++) {
-				// res.send(user.userName);
 			res.render('goToUserHabits', { user: user });
 		}
 	});	
 });
 
 app.use('/addHabit/:name', (req, res) => { 
-	console.log(req.params.name);
 	User.findOne({ userName: req.params.name }, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
 		else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
-			res.send('test pass');
+			user.habits[user.habits.length] = req.body.habitName;
+			res.send(req.body.habitName);
 		}
 	});
 });

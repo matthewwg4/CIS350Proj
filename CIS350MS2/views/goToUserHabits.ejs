@@ -1,22 +1,24 @@
 <!-- This is views/goToUserHabits.ejs -->
-<%=user.habits.length%> habit(s) to display as below : 
-<ul>
-    <% user.habits.forEach( (habit) => { %>
-    <!-- <li><a href = "/user/<%= user.habits%>" > -->
-    <li><a href="/user/<%= user.userName %>">
-            <%= habit %></a>
-    </li>
-    <% }); %>
-</ul>
+<body>
+    <%=user.habits.length%> habit(s) to display as below :
+    <ul>
+        <% user.habits.forEach( (habit) => { %>
+        <!-- <li><a href = "/user/<%= user.habits%>" > -->
+        <li><a href="/user/<%= user.userName %>">
+                <%= habit %></a>
+        </li>
+        <% }); %>
+    </ul>
 
-<form action="/addHabit/<%= user.userName %>" method="post">
-    Habit: <input name="habitName">
-    <p></p>
-    Type: <input name="type">
-    <p></p>
-    <input type=submit value='Add habit'>
-</form>
+    <form action="/addHabit/<%= user.userName %>" method="post">
+        Habit: <input name="habitName">
+        <p></p>
+        Type: <input name="type">
+        <p></p>
+        <input type=submit value='Add habit'>
+    </form>
 
-<p>
-    <a href='/user/:name'>Back to view user's information</a>
-</p>
+    <p>
+        <a href='/user/:name'>Back to view user's information</a>
+    </p>
+</body>
