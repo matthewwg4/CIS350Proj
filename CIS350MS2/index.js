@@ -141,7 +141,13 @@ app.use('/addHabit/:name', (req, res) => {
 			res.send('cannot find the user with this name');
 		} else {
 			user.habits.push(req.body.habitName);
-			res.render('goToUserHabits', { user: user });
+			user.save((err) => {
+				if (err) {
+					res.type('html').status(500); res.send('Error: ');
+				} else {
+					res.render('goToUserHabits', { user: user });
+				}
+			})
 		}
 	});
 });
