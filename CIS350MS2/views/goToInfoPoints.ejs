@@ -1,12 +1,10 @@
-<!-- This is views/goToUserHabits.ejs -->
+<!-- This is views/goToInfoPoints.ejs -->
 <body>
     <%=user.habits.length%> habit(s) to display as below :
     <ul>
         <% user.habits.forEach( (habit) => { %>
         <!-- <li><a href = "/user/<%= user.habits%>" > -->
-
         <li><a href="/habit/<%= user.userName %>/<%= habit %>">
-
                 <%= habit %></a>
         </li>
         <% }); %>
@@ -23,6 +21,4 @@
     <p>
         <a href="/user/<%= user.userName%>">Back to view user's information</a>
     </p>
-
 </body>
-
