@@ -18,6 +18,10 @@
     </form>
 </p>
 
+<form action = '/goToUserHabits/<%= user.userName %>' method = 'post' id>
+    <input type = 'submit' value = "Go to User's Habits">
+</form>
+
 <form action='/deleteUser/<%= user.userName %>' method='post'>
     <input type='submit' value='Delete User'>
 </form>
