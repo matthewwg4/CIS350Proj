@@ -6,6 +6,8 @@ var mongoose = require('mongoose');
 // the "myDatabase" part can be anything you like
 mongoose.connect('mongodb://localhost:27017/myDatabase');
 
+
+
 var Schema = mongoose.Schema;
 //const Habit = require('./Habit');
 
@@ -14,9 +16,11 @@ var userSchema = new Schema({
 	password: {type: String, required: true},
 
 	habits: [
-	//	{ type: Schema.Types.ObjectId, ref: 'Habit' }
+//{type: Habit}
 	]
-    });
+	});
+	
+
 
 // export userSchema as a class called User
 module.exports = mongoose.model('User', userSchema);

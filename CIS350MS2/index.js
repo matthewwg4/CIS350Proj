@@ -11,9 +11,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // import the User class from User.js
 var User = require('./User.js');
-var Habit = require('./Habit.js');
+//var Habit = require('./Habit.js');
 
 /***************************************/
+class Habit {
+	
+	constructor(name, type) {
+		this.habitName = name;
+		this.type = type;
+		this.tags = [];
+		this.dailyEntries = [];
+	}
+}
+
 app.use('/public', express.static('public'));
 // route for showing all the people
 
@@ -152,7 +162,7 @@ app.use('/addHabit/:name', (req, res) => {
 						habitName: req.body.habitName,
 						type: req.body.type,
 						tags: [],
-						infoPoints: []
+						dailyEntries: []
 					});
 
 					// save the habit to the database
