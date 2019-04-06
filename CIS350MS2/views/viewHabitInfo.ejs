@@ -3,7 +3,7 @@
 
 <body>
 <p>
-    <form action='/updateHabitName/<%= username %>/<%= habit.habitId %>' method='post'>
+    <form action='/updateHabitName/<%= username %>/<%= habit.habitName %>' method='post'>
         Habit name: <%= habit.habitName %> <br>
         <!--Habit type: <%= habit.type %> <br> -->
         Update habit name:  <input name="newHabitname"> 
@@ -12,7 +12,7 @@
     </form>
 </p>
 
-<form action = '/goToInfoPoints/<%= username %>/<%= habit.habitId %>' method = 'post' id>
+<form action = '/goToInfoPoints/<%= username %>/<%= habit.habitName %>' method = 'post' id>
     <input type = 'submit' value = "Go to Habit's Info Points">
 </form>
 

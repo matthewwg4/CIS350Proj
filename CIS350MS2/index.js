@@ -39,14 +39,6 @@ app.use('/addUser', (req, res) => {
 	// save the person to the database
 	newUser.save((err) => {
 		if (err) {
-
-			//Jialin's original code
-			// res.type('html').status(200);
-			// res.write('uh oh: ' + err);
-			// console.log(err);
-			// res.end();
-
-			// Tea's code:
 			res.render('addUserFailed');
 		}
 		else {
@@ -151,26 +143,19 @@ app.use('/addHabit/:name', (req, res) => {
 		else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
-			user.habits.push(req.body.habitName);
+			
+			var newHabit = new Habit(req.body.habitName, req.body.type);
+			user.habits.set(newHabit.habitName, newHabit);
+			//res.send(user.habits.get(newHabit.habitName).habitName);
 			user.save((err) => {
 				if (err) {
-					res.type('html').status(500); res.send('Error: ');
+
+				//	res.send(user.habits.get(newHabit.habitName).habitName);
+					res.type('html').status(500); res.send(err);
 				} else {
 
-					var newHabit = new Habit({
-						habitId: req.params.name + "-" + req.body.habitName,
-						habitName: req.body.habitName,
-						type: req.body.type,
-						tags: [],
-						dailyEntries: []
-					});
-
-					// save the habit to the database
-					newHabit.save((err) => {
-						if (err) {
-							res.type('html').status(500); res.send('Error: ');
-						}
-					});
+			// 		// var newHabit = new Habit(req.body.habitName, req.body.type);
+			// 		// user.habits.set(newHabit.habitName, newHabit);
 
 					res.render('goToUserHabits', { user: user });
 				}
@@ -180,17 +165,27 @@ app.use('/addHabit/:name', (req, res) => {
 });
 
 app.use('/habit/:name/:habit', (req, res) => {
-	Habit.findOne({ habitId: req.params.name + "-" + req.params.habit }, (err, habit) => { //response is from the database, not the user/client
+	//Habit.findOne({ habitId: req.params.name + "-" + req.params.habit }, (err, habit) => { //response is from the database, not the user/client
 	//Habit.findOne({ habitName: req.params.name }, (err, habit) => {
-	if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		 else if (habit == null) {
-		 	res.send(req.params.name + "-" + req.params.habit + "is not valid");
-		 }
-		else {
-			res.render('viewHabitInfo', { habit: habit, username: req.params.name })
+	// if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+	// 	 else if (habit == null) {
+	// 	 	res.send(req.params.name + "-" + req.params.habit + "is not valid");
+	// 	 }
+	// 	else {
+			
+	// 		res.render('viewHabitInfo', { habit: habit, username: req.params.name })
+	// 	}
+	User.findOne({userName: req.params.name}, (err, user) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (user == null) {
+			res.send("Couldn't find user with that name");
+		} else {
+			var h = user.habits.get(req.params.habit);
+			res.render('viewHabitInfo', {habit: h, username: req.params.name});
 		}
 	});
-});
+	});
+//});
 
 app.use('/updateHabitName/:user/:habit', (req, res) => {
 	Habit.findOne({ habitId: req.params.habit }, (err, habit) => {
