@@ -140,8 +140,8 @@ app.use('/addHabit/:name', (req, res) => {
 		else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
-			user.habits[user.habits.length] = req.body.habitName;
-			res.send(req.body.habitName);
+			user.habits.push(req.body.habitName);
+			res.render('goToUserHabits', { user: user });
 		}
 	});
 });
