@@ -5,8 +5,10 @@
 <p>
     <form action='/updateHabitName/<%= username %>/<%= habit.habitId %>' method='post'>
         Habit name: <%= habit.habitName %> <br>
-        Updated habit name:  <input name="newHabitname">
-        <input type=submit value='Update'>
+        <!--Habit type: <%= habit.type %> <br> -->
+        Update habit name:  <input name="newHabitname"> 
+        <input type=submit value='Update'> <br>
+        Habit type: <%= habit.type %> 
     </form>
 </p>
 
@@ -17,9 +19,18 @@
 Tags:
 <ul>
 <% habit.tags.forEach( (tag) => { %>
-	<li><%= tag %></li>
+	<li><a href="/addTag/<%= tag %>">  
+	<%= tag %></a> 
+	</li>
+
 <% }); %>
 </ul>
+<!--<ul>
+<% habit.tags.forEach( (tag) => { %>
+    <li> <%= habit.tags.tag %> 
+    </li>
+<% }); %>
+</ul> -->
 
 <form action='/addTag/<%= username %>/<%= habit.habitId %>' method='post'>
     New tag:  <input name="newTag">

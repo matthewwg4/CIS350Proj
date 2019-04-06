@@ -169,10 +169,11 @@ app.use('/addHabit/:name', (req, res) => {
 
 app.use('/habit/:name/:habit', (req, res) => {
 	Habit.findOne({ habitId: req.params.name + "-" + req.params.habit }, (err, habit) => { //response is from the database, not the user/client
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (habit == null) {
-			res.send(req.params.name + "-" + req.params.habit);
-		}
+	//Habit.findOne({ habitName: req.params.name }, (err, habit) => {
+	if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		 else if (habit == null) {
+		 	res.send(req.params.name + "-" + req.params.habit + "is not valid");
+		 }
 		else {
 			res.render('viewHabitInfo', { habit: habit, username: req.params.name })
 		}
@@ -227,8 +228,13 @@ app.use('/deleteHabit/:name/:habit', (req, res) => {
 	var habitDeleted = req.params.habit;
 	Habit.deleteOne(query, (err, habit) => {
 		if (err) throw err;
-		else { res.render('deleteHabitFinished', { habit: habitDeleted, name: req.params.name }); }
+		else { res.render('deleteHabitFinished', { habitDeleted, name: req.params.name }); }
+		
 	})
+});
+
+app.use('/goToInfoPoints/:name/:habitId', (req, res) => {
+	
 });
 
 app.use( /*default*/(req, res) => { res.status(404).send('Not found!'); });
