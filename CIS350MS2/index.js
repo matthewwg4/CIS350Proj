@@ -34,6 +34,7 @@ app.use('/addUser', (req, res) => {
 	var newUser = new User({
 		userName: req.body.username, //requesting the body to have a username
 		password: req.body.password,
+		habits: new Map()
 	});
 
 	// save the person to the database
@@ -143,9 +144,10 @@ app.use('/addHabit/:name', (req, res) => {
 		else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
-			
 			var newHabit = new Habit(req.body.habitName, req.body.type);
+			if (user != null) {
 			user.habits.set(newHabit.habitName, newHabit);
+			}
 			//res.send(user.habits.get(newHabit.habitName).habitName);
 			user.save((err) => {
 				if (err) {
