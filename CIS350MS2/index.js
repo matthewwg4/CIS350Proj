@@ -49,6 +49,9 @@ app.use('/addUser', (req, res) => {
 app.use('/user/:name', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => { //response is from the database, not the user/client
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (user == null) {
+			res.send(req.params.name);
+		}
 		else {
 			res.render('viewUserInfo', { user: user })
 		}
@@ -65,15 +68,15 @@ app.use('/view', (req, res) =>
 		else { res.render('viewAll', { user: allUsers }) };
 		//res.status(400).send();
 	}
-//	}
-));
+		//	}
+	));
 
 app.use('/deleteUser/:name', (req, res) => {
-	var query = {userName: req.params.name};
+	var query = { userName: req.params.name };
 	var userDeleted = req.params.name;
 	User.deleteOne(query, (err, user) => {
 		if (err) throw err;
-		else {res.render('deleteUserFinished', {userDeleted});}
+		else { res.render('deleteUserFinished', { userDeleted }); }
 	})
 });
 
@@ -89,7 +92,7 @@ app.use('/updateUsername/:name', (req, res) => {
 			user.save((err) => {
 				if (err) {
 					user.userName = oldName;
-					res.render('updateNameFailed', {user : user});
+					res.render('updateNameFailed', { user: user });
 				}
 				else {
 					res.render('updateUsername', { user: user });
@@ -111,7 +114,7 @@ app.use('/updatePassword/:name', (req, res) => {
 			user.save((err) => {
 				if (err) {
 					user.password = oldPassword;
-					res.render('updatePasswordFailed', {user : user});
+					res.render('updatePasswordFailed', { user: user });
 				}
 				else {
 					res.render('updatePassword', { user: user });
@@ -123,14 +126,15 @@ app.use('/updatePassword/:name', (req, res) => {
 
 app.use('/goToUserHabits/:name', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => { //response is from the database, not the user/client
-		if (err) { res.type('html').status(500); res.send('Error: '); 
+		if (err) {
+			res.type('html').status(500); res.send('Error: ');
 		} else {
 			res.render('goToUserHabits', { user: user });
 		}
-	});	
+	});
 });
 
-app.use('/addHabit/:name', (req, res) => { 
+app.use('/addHabit/:name', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
 		else if (user == null) {
