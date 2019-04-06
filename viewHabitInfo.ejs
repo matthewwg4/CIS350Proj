@@ -1,0 +1,33 @@
+<!-- This is views/viewUserInfo.ejs -->
+<!-- You can see the data of a single user: their name, password, and a list of habits -->
+
+<body>
+<p>
+    <form action='/updateHabitName/<%= username %>/<%= habit.habitId %>' method='post'>
+        Habit name: <%= habit.habitName %> <br>
+        Updated habit name:  <input name="newHabitname">
+        <input type=submit value='Update'>
+    </form>
+</p>
+
+<form action = '/goToInfoPoints/<%= username %>/<%= habit.habitId %>' method = 'post' id>
+    <input type = 'submit' value = "Go to Habit's Info Points">
+</form>
+
+Tags:
+<ul>
+<% habit.tags.forEach( (tag) => { %>
+	<li><%= tag %></li>
+<% }); %>
+</ul>
+
+<form action='/addTag/<%= username %>/<%= habit.habitId %>' method='post'>
+    New tag:  <input name="newTag">
+    <input type=submit value='Update'>
+</form>
+
+<form action='/deleteHabit/<%= username %>/<%= habit.habitName %>' method='post'>
+    <input type='submit' value='Delete Habit'>
+</form>
+<br><a href='/user/<%= username %>'>Go back to user</a>
+</body>
