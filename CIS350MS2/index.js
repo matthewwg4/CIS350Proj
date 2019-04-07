@@ -190,27 +190,58 @@ app.use('/habit/:name/:habit', (req, res) => {
 //});
 
 app.use('/updateHabitName/:user/:habit', (req, res) => {
-	Habit.findOne({ habitId: req.params.habit }, (err, habit) => {
+	User.findOne({ userName: req.params.name }, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (habit == null) {
-			res.send('cannot find the habit with this name');
+		else if (user == null) {
+			res.send('Cannot find the user with that name');
 		} else {
-			var oldName = habit.habitName;
-			var newName = req.body.newHabitname;
-			habit.habitName = newName;
-			habit.habitId = req.params.user + "-" + newName;
-			habit.save((err) => {
+			var oldName = user.habits.get(req.params.habit).habitName;
+			var oldType = user.habits.get(req.params.habit).type;
+			// var newName = req.body.newHabitname;
+			// habit.habitName = newName;
+			user.habits.delete(oldName);
+			var newHabit = new Habit(req.body.habitName, oldType);
+			user.habits.set(newHabit.habitName, newHabit);
+			user.save((err) => {
 				if (err) {
-					habit.habitName = oldName;
-					habit.habitId = req.params.habit;
-					res.render('updateHabitNameFailed', { habit: habit, user: req.params.user });
-				}
-				else {
+					res.render('updateHabitNameFailed', { habit: habit, user: req.params.user }); //idk if this works -cm
+				} else {
 					res.render('updateHabitName', { habit: habit, user: req.params.user });
 				}
-			});
+			})
+			// habit.save((err) => {
+			// 	if (err) {
+			// 		habit.habitName = oldName;
+			// 		habit.habitId = req.params.habit;
+			// 		res.render('updateHabitNameFailed', { habit: habit, user: req.params.user });
+			// 	}
+			// 	else {
+			// 		res.render('updateHabitName', { habit: habit, user: req.params.user });
+			// 	}
+			// });
 		}
 	});
+	// Habit.findOne({ habitId: req.params.habit }, (err, habit) => {
+	// 	if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+	// 	else if (habit == null) {
+	// 		res.send('cannot find the habit with this name');
+	// 	} else {
+	// 		var oldName = habit.habitName;
+	// 		var newName = req.body.newHabitname;
+	// 		habit.habitName = newName;
+	// 		habit.habitId = req.params.user + "-" + newName;
+	// 		habit.save((err) => {
+	// 			if (err) {
+	// 				habit.habitName = oldName;
+	// 				habit.habitId = req.params.habit;
+	// 				res.render('updateHabitNameFailed', { habit: habit, user: req.params.user });
+	// 			}
+	// 			else {
+	// 				res.render('updateHabitName', { habit: habit, user: req.params.user });
+	// 			}
+	// 		});
+	// 	}
+	// });
 });
 
 app.use('/addTag/:name/:habit', (req, res) => {
