@@ -146,19 +146,16 @@ app.use('/addHabit/:name', (req, res) => {
 		} else {
 			var newHabit = new Habit(req.body.habitName, req.body.type);
 			if (user != null) {
-			user.habits.set(newHabit.habitName, newHabit);
+				user.habits.set(newHabit.habitName, newHabit);
 			}
 			//res.send(user.habits.get(newHabit.habitName).habitName);
 			user.save((err) => {
 				if (err) {
-
 				//	res.send(user.habits.get(newHabit.habitName).habitName);
 					res.type('html').status(500); res.send(err);
 				} else {
-
 			// 		// var newHabit = new Habit(req.body.habitName, req.body.type);
 			// 		// user.habits.set(newHabit.habitName, newHabit);
-
 					res.render('goToUserHabits', { user: user });
 				}
 			})
@@ -190,7 +187,7 @@ app.use('/habit/:name/:habit', (req, res) => {
 //});
 
 app.use('/updateHabitName/:user/:habit', (req, res) => {
-	User.findOne({ userName: req.params.name }, (err, user) => {
+	User.findOne({ userName: req.params.user }, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
 		else if (user == null) {
 			res.send('Cannot find the user with that name');
