@@ -192,7 +192,8 @@ app.use('/updateHabitName/:user/:habit', (req, res) => {
 		else if (user == null) {
 			res.send('Cannot find the user with that name');
 		} else {
-			var oldName = user.habits.get(req.params.habit).habitName;
+			// var oldName = user.habits.get(req.params.habit);
+			var oldName = req.params.habit;
 			var oldType = user.habits.get(req.params.habit).type;
 			// var newName = req.body.newHabitname;
 			// habit.habitName = newName;
@@ -261,12 +262,25 @@ app.use('/addTag/:name/:habit', (req, res) => {
 });
 
 app.use('/deleteHabit/:name/:habit', (req, res) => {
-	var query = { habitId: req.params.name + "-" + req.params.habit };
+//	var query = { habitId: req.params.name + "-" + req.params.habit };
 	var habitDeleted = req.params.habit;
-	Habit.deleteOne(query, (err, habit) => {
-		if (err) throw err;
-		else { res.render('deleteHabitFinished', { habitDeleted, name: req.params.name }); }
-		
+	User.findOne({ userName: req.params.name }, (err, user) => {
+		if (err) {
+			res.type('html').status(500); res.send('Error: ' + err);
+		} else if (user == null) {
+			res.send('cannot find the user with that name');
+		} else {
+			user.habits.delete(habitDeleted);
+			user.save((err) => {
+				if (err) {
+					res.type('html').status(500); res.send('Error:' + err);
+				} else {
+					res.render('deleteHabitFinished', {habitDeleted, name: req.params.name }); 
+				}
+			})
+			
+		}
+	
 	})
 });
 
