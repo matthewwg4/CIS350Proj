@@ -190,23 +190,23 @@ app.use('/habit/:name/:habit', (req, res) => {
 //});
 
 app.use('/updateHabitName/:user/:habit', (req, res) => {
-	User.findOne({ userName: req.params.name }, (err, user) => {
+	User.findOne({ userName: req.params.user }, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
 		else if (user == null) {
 			res.send('Cannot find the user with that name');
 		} else {
-			var oldName = user.habits.get(req.params.habit).habitName;
-			var oldType = user.habits.get(req.params.habit).type;
 			// var newName = req.body.newHabitname;
 			// habit.habitName = newName;
-			user.habits.delete(oldName);
-			var newHabit = new Habit(req.body.habitName, oldType);
-			user.habits.set(newHabit.habitName, newHabit);
+			var holdHabit = user.habits.get(req.params.habit);
+			user.habits.delete(req.params.habit);
+			holdHabit.habitName = req.body.newHabitname;
+			
+			user.habits.set(holdHabit.habitName, holdHabit);
 			user.save((err) => {
 				if (err) {
-					res.render('updateHabitNameFailed', { habit: habit, user: req.params.user }); //idk if this works -cm
+					res.render('updateHabitNameFailed', { habit: holdHabit, user: req.params.user }); //idk if this works -cm
 				} else {
-					res.render('updateHabitName', { habit: habit, user: req.params.user });
+					res.render('updateHabitName', { habit: holdHabit, user: req.params.user });
 				}
 			})
 			// habit.save((err) => {
