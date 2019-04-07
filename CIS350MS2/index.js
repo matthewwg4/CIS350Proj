@@ -261,12 +261,25 @@ app.use('/addTag/:name/:habit', (req, res) => {
 });
 
 app.use('/deleteHabit/:name/:habit', (req, res) => {
-	var query = { habitId: req.params.name + "-" + req.params.habit };
+//	var query = { habitId: req.params.name + "-" + req.params.habit };
 	var habitDeleted = req.params.habit;
-	Habit.deleteOne(query, (err, habit) => {
-		if (err) throw err;
-		else { res.render('deleteHabitFinished', { habitDeleted, name: req.params.name }); }
-		
+	User.findOne({ userName: req.params.name }, (err, user) => {
+		if (err) {
+			res.type('html').status(500); res.send('Error: ' + err);
+		} else if (user == null) {
+			res.send('cannot find the user with that name');
+		} else {
+			user.habits.delete(habitDeleted);
+			user.save((err) => {
+				if (err) {
+					res.type('html').status(500); res.send('Error:' + err);
+				} else {
+					res.render('deleteHabitFinished', {habitDeleted, name: req.params.name }); 
+				}
+			})
+			
+		}
+	
 	})
 });
 
