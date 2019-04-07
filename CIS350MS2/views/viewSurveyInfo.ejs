@@ -1,0 +1,42 @@
+<!-- This is views/viewSurveyInfo.ejs -->
+<!-- You can see the data of a single survey: its name, question, and a list of options -->
+
+<body>
+<p>
+Survey Name: <%= survey.surveyName %> <br>
+</p>
+
+<p>
+    <form action='/updateQuestion/<%= survey.surveyName %>' method='post' id>
+        Question: <%= survey.question %> <br>
+        Updated question:  <input name='newQuestion'>
+        <input type=submit value='Update'>
+    </form>
+</p>
+<p>
+<b>Options:</b>
+<% survey.options.forEach( (option) => { %>
+	<li>
+	<form action='/updateOption/<%= survey.surveyName %>/<%= option %>' method='post' id>
+	Current option: <%= option %><br>
+	Updated option:  <input name='newOption'>
+	<input type=submit value='Update'>
+	</form>
+	</li>
+<% }); %>
+</p>
+
+<p>
+    <form action='/addOption/<%= survey.surveyName %>' method='post' id>
+        New option:  <input name='newOption'>
+        <input type=submit value='Add Option'>
+    </form>
+</p>
+
+<form action='/deleteSurvey/<%= survey.surveyName %>' method='post'>
+    <input type='submit' value='Delete Survey'>
+</form>
+<br><a href='/userResponses/<%= survey.surveyName %>'>View user responses</a>
+<br><a href='/addUserResponse/<%= survey.surveyName %>'>Add user response</a>
+<br><a href='/surveys'>View all surveys</a>
+</body>

@@ -1,0 +1,21 @@
+<!-- This is views/viewUserResponses.ejs -->
+Here are all the user responses:
+<ul>
+<% survey.userResponses.forEach( (response, user) => { %>
+	<li>
+	User: <%= user %><br>
+	<form action='/updateResponse/<%= survey.surveyName %>/<%= user %>' method='post' id>
+	Current response: <%= response %><br>
+	Updated option:  <input name='newResponse'>
+	<input type=submit value='Update'>
+	</form>
+	</li>
+<% }); %>
+</ul>	
+<p>
+    <a href="/survey/<%= survey.surveyName %>"> Back to survey info</a>
+</p>
+<p>
+    <a href='/surveys'>Back to view all surveys</a>
+</p>
+<a href='/public/index.html'>Back to index</a>
