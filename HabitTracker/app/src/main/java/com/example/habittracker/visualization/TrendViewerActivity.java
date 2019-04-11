@@ -11,9 +11,9 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.example.habittracker.datamanagement.DateInfo;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
+import com.example.habittracker.datamanagement.UserDatabase;
 import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.login.R;
 import com.jjoe64.graphview.GraphView;
@@ -46,7 +46,7 @@ public class TrendViewerActivity extends AppCompatActivity {
 
     private Set<HabitTracker> habitTrackerSet;
 
-    private FakeUserDatabase fakeUserDatabase = FakeUserDatabase.getInstance();
+    private UserDatabase fakeUserDatabase = UserDatabase.getInstance();
 
     private String habitNameDisplay;
     private Date latestDateDisplay;
