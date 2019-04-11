@@ -31,7 +31,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.habittracker.datamanagement.FakeUserDatabase;
+import com.example.habittracker.datamanagement.UserDatabase;
 import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.menu.MenuActivity;
 
@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    private FakeUserDatabase usersDatabase = FakeUserDatabase.getInstance();
+    private UserDatabase usersDatabase = UserDatabase.getInstance();
     private TreeMap<String, UserEntry> users = usersDatabase.getUserInfo();
 
     @Override
