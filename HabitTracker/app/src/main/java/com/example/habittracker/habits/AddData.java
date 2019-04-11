@@ -15,10 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.DateInfo;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.NumericalHabitTracker;
+import com.example.habittracker.datamanagement.UserDatabase;
 import com.example.habittracker.login.R;
 
 import java.util.Date;
@@ -35,7 +35,7 @@ public class AddData extends AppCompatActivity {
 
     HabitTracker thisHab;
 
-    FakeUserDatabase f = FakeUserDatabase.getInstance();
+    UserDatabase f = UserDatabase.getInstance();
     Set<HabitTracker> habits;
 
     String habit;

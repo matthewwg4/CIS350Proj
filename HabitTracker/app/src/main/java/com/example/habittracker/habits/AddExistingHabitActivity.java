@@ -18,10 +18,10 @@ import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.BinaryHabitTracker;
 import com.example.habittracker.datamanagement.FakeTemplateDatabase;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.NumericalHabitTracker;
+import com.example.habittracker.datamanagement.UserDatabase;
 import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.login.R;
 
@@ -37,7 +37,7 @@ public class AddExistingHabitActivity extends AppCompatActivity {
     private String spinnerChoice = "----";
     private EditText editText;
 
-    FakeUserDatabase fu = FakeUserDatabase.getInstance();
+    UserDatabase fu = UserDatabase.getInstance();
 
     FakeTemplateDatabase ft = FakeTemplateDatabase.getInstance();
 

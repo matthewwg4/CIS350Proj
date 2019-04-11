@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.DateInfo;
 import com.example.habittracker.datamanagement.FakeHabitDatabase;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.NumericalHabitTracker;
+import com.example.habittracker.datamanagement.UserDatabase;
 import com.example.habittracker.login.R;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class HabitForm extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Set<HabitTracker> habits = FakeUserDatabase.getInstance().getUserInfo()
+        Set<HabitTracker> habits = UserDatabase.getInstance().getUserInfo()
                 .get((String)getIntent().getStringExtra("user"))
                 .getHabits();
         HabitTracker h1 = null;
