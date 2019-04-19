@@ -9,6 +9,11 @@
         Update habit name:  <input name="newHabitname"> 
         <input type=submit value='Update'> <br>
         Habit type: <%= habit.type %> 
+        <% if (habit.type == "numerical") { %>
+            <br>
+            Unit: <%= habit.unit %>
+        <% } %>
+
     </form>
 </p>
 
@@ -19,8 +24,8 @@
 Tags:
 <ul>
 <% habit.tags.forEach( (tag) => { %>
-	<li><a href="/addTag/<%= tag %>">  
-	<%= tag %></a> 
+	<li>
+	<%= tag %>
 	</li>
 
 <% }); %>
@@ -32,7 +37,7 @@ Tags:
 <% }); %>
 </ul> -->
 
-<form action='/addTag/<%= username %>/<%= habit.habitId %>' method='post'>
+<form action='/addTag/<%= username %>/<%= habit.habitName %>' method='post'>
     New tag:  <input name="newTag">
     <input type=submit value='Update'>
 </form>

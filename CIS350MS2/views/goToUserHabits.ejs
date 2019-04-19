@@ -2,12 +2,12 @@
 <body>
     <%=user.habits.size%> habit(s) to display as below :
     <ul>
-        <% user.habits.forEach( (habit, name) => { %>
+        <% user.habits.forEach( (habit) => { %>
         <!-- <li><a href = "/user/<%= user.habits%>" > -->
 
-        <li><a href="/habit/<%= user.userName %>/<%= name %>">
+        <li><a href="/habit/<%= user.userName %>/<%= habit.habitName %>">
 
-                <%= name %></a>
+                <%= habit.habitName %></a>
         </li>
         <% }); %>
     </ul>
@@ -16,6 +16,8 @@
         Habit: <input name="habitName">
         <p></p>
         Type: <input name="type">
+        <p></p>
+        Unit (numerical habits): <input name="unit">
         <p></p>
         <input type=submit value='Add habit'>
     </form>
