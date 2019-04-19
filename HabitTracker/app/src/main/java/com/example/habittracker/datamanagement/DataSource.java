@@ -75,23 +75,21 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
             Log.d(TAG, "doInBackground: userName: " + userName);
             Log.d(TAG, "doInBackground: password: " + password);
 
+
             //ArrayList<>
             UserEntry user = new UserEntry(userName, password);
 
             for (int i = 0; i < habitsArray.length(); i++) {
                 JSONObject habitObj = habitsArray.getJSONObject(i);
                 String habitName = habitObj.getString("habitName");
+                Log.d(TAG, "doInBackground: habit:" + habitName);
                 String type = habitObj.getString("type");
-//                String unit = habitObj.getString("unit");
-//                JSONArray jsonTags = habitObj.getJSONArray("tags");
-//                JSONArray jsonEntries = habitObj.getJSONArray("dailyEntries");
 
                 if (type.equals("binary")) {
                     JSONArray jsonTags = habitObj.getJSONArray("tags");
                     JSONArray jsonEntries = habitObj.getJSONArray("dailyEntries");
                     Set<String> tags = new TreeSet<>();
                     for (int j = 0; j < jsonTags.length(); j++) {
-                        //JSONObject jsonTag = jsonTags.getJSONObject(j);
                         String tagName = jsonTags.getString(i);
                         tags.add(tagName);
                     }
@@ -104,21 +102,12 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                     JSONArray jsonEntries = habitObj.getJSONArray("dailyEntries");
                     Set<String> tags = new TreeSet<>();
                     for (int j = 0; j < jsonTags.length(); j++) {
-                        //JSONObject jsonTag = jsonTags.getJSONObject(j);
                         String tagName = jsonTags.getString(i);
                         tags.add(tagName);
                     }
                     NumericalHabitTracker numHabit = new NumericalHabitTracker(habitName, tags, false, unit);
                     user.addHabit(numHabit);
                 }
-
-                //String jsonString = habitObj.toString();
-//                Iterator<String> keys = habitObj.keys();
-//                while(keys.hasNext())
-
-                //Set<String> tags = new TreeSet<>();
-
-               // HabitTracker habit = new HabitTracker("string", tags, true);
 
             }
 

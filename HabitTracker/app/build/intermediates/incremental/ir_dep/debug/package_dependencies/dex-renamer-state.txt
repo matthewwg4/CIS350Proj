@@ -1,4 +1,0 @@
-#Fri Apr 19 17:40:57 EDT 2019
-base.0=C\:\\Users\\Owner\\Documents\\CIS 350\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\10
-path.0=classes.dex
-renamed.0=classes.dex
