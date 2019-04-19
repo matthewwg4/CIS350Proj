@@ -13,6 +13,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 
+import java.math.BigDecimal;
+
 public class DataSource {
 
     private String TAG = "DataSource";
@@ -95,6 +97,15 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                     }
                     BinaryHabitTracker binHabit = new BinaryHabitTracker(habitName, tags, false);
                     user.addHabit(binHabit);
+                    for (int k = 0; k < jsonEntries.length(); k++) {
+                        JSONObject dailyEntryObj = jsonEntries.getJSONObject(k);
+                        String timestamp = dailyEntryObj.getString("timestamp");
+                        boolean isDone = dailyEntryObj.getBoolean("isDone");
+                        int happiness = dailyEntryObj.getInt("happiness");
+
+                        binHabit.putDateInfo(timestamp, isDone, happiness);
+                    }
+
 
                 } else { //type equals numeric
                     String unit = habitObj.getString("unit");
@@ -107,6 +118,15 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                     }
                     NumericalHabitTracker numHabit = new NumericalHabitTracker(habitName, tags, false, unit);
                     user.addHabit(numHabit);
+                    for (int k = 0; k < jsonEntries.length(); k++) {
+                        JSONObject dailyEntryObj = jsonEntries.getJSONObject(k);
+                        String timestamp = dailyEntryObj.getString("timestamp");
+                        //float value = (float)dailyEntryObj.getDouble("isDone");
+                        float value = BigDecimal.valueOf(dailyEntryObj.getDouble("isDone")).floatValue();
+                        int happiness = dailyEntryObj.getInt("happiness");
+
+                        numHabit.putDateInfo(timestamp, value, happiness);
+                    }
                 }
 
             }
