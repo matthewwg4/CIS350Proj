@@ -658,6 +658,19 @@ app.use('/createUserResponse/:name', (req, res) => {
 			});
 });
 
+app.use('/api', (req, res) => {
+	User.findOne({ userName: req.query.name}, (err, user) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (user == null) {
+			res.send('cannot find the user with this name');
+		} else {
+			res.send(user);
+		}
+	});
+})
+
+//this is from android app
+
 app.use( /*default*/(req, res) => { res.status(404).send('Not found!'); });
 
 /*************************************************/
