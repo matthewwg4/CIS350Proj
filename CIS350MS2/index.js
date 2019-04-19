@@ -18,11 +18,25 @@ var Survey = require('./Survey.js')
 /***************************************/
 class Habit {
 	
-	constructor(name, type) {
+	constructor(name, type, unit) {
 		this.habitName = name;
 		this.type = type;
+		this.unit = unit;
 		this.tags = [];
 		this.dailyEntries = [];
+	}
+}
+
+class InfoPoint {
+	constructor(timestamp, amount, isDone, happiness) {
+		this.time = timestamp;
+		if (amount) {
+			this.amount = parseFloat(amount);
+		}
+		if (isDone) {
+			this.isDone = ("true" == isDone.toLowerCase() || "yes" == isDone.toLowerCase() || "y" == isDone.toLowerCase());
+		}
+		this.happiness = parseInt(happiness);
 	}
 }
 
@@ -36,7 +50,7 @@ app.use('/addUser', (req, res) => {
 	var newUser = new User({
 		userName: req.body.username, //requesting the body to have a username
 		password: req.body.password,
-		habits: new Map()
+		habits: []
 	});
 
 	// save the person to the database
@@ -146,21 +160,31 @@ app.use('/addHabit/:name', (req, res) => {
 		else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
-			var newHabit = new Habit(req.body.habitName, req.body.type);
-			if (user != null) {
-				user.habits.set(newHabit.habitName, newHabit);
-			}
+			var unique = true;
+			user.habits.forEach(hab => {
+				if (req.body.habitName == hab.habitName) {
+					unique = false;
+				}
+			});
+			if (unique) {
+				var newHabit = new Habit(req.body.habitName, req.body.type, req.body.unit);
+				if (user != null) {
+					user.habits.push(newHabit);
+				}
 			//res.send(user.habits.get(newHabit.habitName).habitName);
-			user.save((err) => {
-				if (err) {
+				user.save((err) => {
+					if (err) {
 				//	res.send(user.habits.get(newHabit.habitName).habitName);
-					res.type('html').status(500); res.send(err);
-				} else {
+						res.type('html').status(500); res.send(err);
+					} else {
 			// 		// var newHabit = new Habit(req.body.habitName, req.body.type);
 			// 		// user.habits.set(newHabit.habitName, newHabit);
-					res.render('goToUserHabits', { user: user });
-				}
-			})
+						res.render('goToUserHabits', { user: user });
+					}
+				})
+			} else {
+				res.render('addHabitFailed', { user: user });
+			}
 		}
 	});
 });
@@ -181,7 +205,12 @@ app.use('/habit/:name/:habit', (req, res) => {
 		else if (user == null) {
 			res.send("Couldn't find user with that name");
 		} else {
-			var h = user.habits.get(req.params.habit);
+			var h = null;
+			user.habits.forEach(hab => {
+				if (req.params.habit == hab.habitName) {
+					h = hab;
+				}
+			});
 			res.render('viewHabitInfo', {habit: h, username: req.params.name});
 		}
 	});
@@ -196,13 +225,24 @@ app.use('/updateHabitName/:user/:habit', (req, res) => {
 		} else {
 			// var newName = req.body.newHabitname;
 			// habit.habitName = newName;
-			var holdHabit = user.habits.get(req.params.habit);
-			user.habits.delete(req.params.habit);
-			holdHabit.habitName = req.body.newHabitname;
+			var holdHabit = null;
+			var replicateName = false;
 			
-			user.habits.set(holdHabit.habitName, holdHabit);
+			user.habits.forEach(hab => {
+				if (req.params.habit == hab.habitName) {
+					holdHabit = hab;
+				}
+			});
+			user.habits.forEach(hab => {
+				if (req.body.newHabitname == hab.habitName) {
+					replicateName = true;
+				}
+			});
+			if (!replicateName) {
+				holdHabit.habitName = req.body.newHabitname;
+			}
 			user.save((err) => {
-				if (err) {
+				if (err || replicateName) {
 					res.render('updateHabitNameFailed', { habit: holdHabit, user: req.params.user }); //idk if this works -cm
 				} else {
 					res.render('updateHabitName', { habit: holdHabit, user: req.params.user });
@@ -243,14 +283,22 @@ app.use('/updateHabitName/:user/:habit', (req, res) => {
 	// });
 });
 
+//TODO: tag only temporarily added
 app.use('/addTag/:name/:habit', (req, res) => {
-	Habit.findOne({ habitId: req.params.habit }, (err, habit) => {
+	User.findOne({ userName: req.params.name }, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (habit == null) {
-			res.send('cannot find the habit with this name');
+		else if (user == null) {
+			res.send('cannot find the user with this name');
 		} else {
-			habit.tags.push(req.body.habitName);
-			habit.save((err) => {
+			var habit = undefined;
+			user.habits.forEach(hab => {
+				if (hab.habitName == req.params.habit) {
+					hab.tags.push(req.body.newTag);
+					habit = hab;
+				}
+			});
+			User.update({ userName: user.userName}, { habits : user.habits}, (err) => {
+			//user.save((err) => {
 				if (err) {
 					res.type('html').status(500); res.send('Error: ');
 				} else {
@@ -265,15 +313,22 @@ app.use('/addTag/:name/:habit', (req, res) => {
 app.use('/deleteHabit/:name/:habit', (req, res) => {
 //	var query = { habitId: req.params.name + "-" + req.params.habit };
 	var habitDeleted = req.params.habit;
+	var successfulDelete = false;
 	User.findOne({ userName: req.params.name }, (err, user) => {
 		if (err) {
 			res.type('html').status(500); res.send('Error: ' + err);
 		} else if (user == null) {
 			res.send('cannot find the user with that name');
 		} else {
-			user.habits.delete(habitDeleted);
+			for (let index = 0; index < user.habits.length; index++) {
+				const element = user.habits[index];
+				if (habitDeleted == element.habitName) {
+					user.habits.splice(index, 1);
+					successfulDelete = true;
+				}
+			}
 			user.save((err) => {
-				if (err) {
+				if (err || !successfulDelete) {
 					res.type('html').status(500); res.send('Error:' + err);
 				} else {
 					res.render('deleteHabitFinished', {habitDeleted, name: req.params.name }); 
@@ -285,10 +340,49 @@ app.use('/deleteHabit/:name/:habit', (req, res) => {
 	})
 });
 
-app.use('/goToInfoPoints/:name/:habitId', (req, res) => {
-	
+app.use('/goToInfoPoints/:name/:habit', (req, res) => {
+	User.findOne({userName: req.params.name}, (err, user) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (user == null) {
+			res.send("Couldn't find user with that name");
+		} else {
+			var h = null;
+			user.habits.forEach(hab => {
+				if (req.params.habit == hab.habitName) {
+					h = hab;
+				}
+			});
+			res.render('viewInfoPoints', {habit: h, username: req.params.name});
+		}
+	});
 });
 
+app.use('/addInfoPoint/:name/:habit', (req, res) => {
+	User.findOne({ userName: req.params.name }, (err, user) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (user == null) {
+			res.send('cannot find the user with this name');
+		} else {
+			var habit = undefined;
+			user.habits.forEach(hab => {
+				if (hab.habitName == req.params.habit) {
+					var info = new InfoPoint(req.body.timestamp, req.body.amount, req.body.isDone, req.body.happiness);
+					hab.dailyEntries.push(info);
+					habit = hab;
+				}
+			});
+			User.update({ userName: user.userName}, { habits : user.habits}, (err) => {
+			//user.save((err) => {
+				if (err) {
+					res.type('html').status(500); res.send('Error: ');
+				} else {
+					res.render('viewInfoPoints', { habit: habit, username: req.params.name })
+				}
+
+			})
+		}
+	});
+});
 
 app.use('/surveys', (req, res) =>
 	Survey.find((err, allSurveys) => {
@@ -563,6 +657,19 @@ app.use('/createUserResponse/:name', (req, res) => {
 			}
 			});
 });
+
+app.use('/api', (req, res) => {
+	User.findOne({ userName: req.query.name}, (err, user) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (user == null) {
+			res.send('cannot find the user with this name');
+		} else {
+			res.send(user);
+		}
+	});
+})
+
+//this is from android app
 
 app.use( /*default*/(req, res) => { res.status(404).send('Not found!'); });
 

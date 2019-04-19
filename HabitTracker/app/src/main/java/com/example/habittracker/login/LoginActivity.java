@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +32,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.menu.MenuActivity;
@@ -45,6 +47,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+    private String TAG = "LoginActivity";
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -64,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private FakeUserDatabase usersDatabase = FakeUserDatabase.getInstance();
     private TreeMap<String, UserEntry> users = usersDatabase.getUserInfo();
+    private DataSource ds = DataSource.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +94,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: delete the line below. This line is for debug purpose
+                UserEntry userEntry = ds.getUser(mEmailView.getText().toString());
+                if (userEntry == null) {
+                    Log.d(TAG, "onClick: cannot find user with the email " +
+                            mEmailView.getText().toString());
+                } else {
+                    Log.d(TAG, "onClick: username: " + userEntry.username);
+                    Log.d(TAG, "onClick: password: " + userEntry.password);
+                }
+
                 attemptLogin();
             }
         });
@@ -372,8 +387,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            if(usersDatabase.getUserInfo().containsKey(mEmail)) {
-                if(mPassword.equals(usersDatabase.getUserInfo().get(mEmail).password)) {
+            if (usersDatabase.getUserInfo().containsKey(mEmail)) {
+                if (mPassword.equals(usersDatabase.getUserInfo().get(mEmail).password)) {
                     return true;
                 } else {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -391,6 +406,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+
+                // debugging purpose ends
+
                 Intent i = new Intent(getApplicationContext(), MenuActivity.class);
                 i.putExtra("user", mEmail);
 
@@ -428,7 +446,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            if(usersDatabase.getUserInfo().containsKey(mEmail)) {
+            if (usersDatabase.getUserInfo().containsKey(mEmail)) {
                 return false;
             }
             usersDatabase.registerNewUser(new UserEntry(mEmail, mPassword));
