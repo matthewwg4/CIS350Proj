@@ -1,4 +1,4 @@
-#Sun Mar 24 08:50:15 EDT 2019
+#Thu Apr 18 23:36:11 EDT 2019
 base.0=C\:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\7
 path.0=classes.dex
 renamed.0=classes.dex
