@@ -1,0 +1,10 @@
+<!-- This is views/viewSurveys.ejs -->
+Here are all the surveys:
+<ul>
+<% survey.forEach( (survey) => { %>
+	<li><a href="/survey/<%= survey.surveyName %>">  
+	<%= survey.surveyName %></a> 
+	</li>
+<% }); %>
+</ul>	
+<br><a href='/public/index.html'>Back to index</a>

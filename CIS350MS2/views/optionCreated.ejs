@@ -1,0 +1,15 @@
+Successfully created new option:
+<p>
+<b>Name:</b> <%= survey.surveyName %>
+<br>
+<b>Question:</b> <%= survey.question %>
+<p>
+<b>Options:</b> <% survey.options.forEach( (option) => { %>
+	<li>
+	<%= option %></a> 
+	</li>
+<% }); %>
+<p>
+<a href="/survey/<%= survey.surveyName %>"> Back to survey info</a>
+<p>
+<a href="/public/index.html">Return to index page</a>

@@ -1,0 +1,15 @@
+Successfully created new survey:
+<p>
+<b>Name:</b> <%= survey.surveyName %>
+<br>
+<b>Question:</b> <%= survey.question %>
+<p>
+<b>Options:</b> <% survey.options.forEach( (option) => { %>
+	<li>
+	<%= option %></a> 
+	</li>
+<% }); %>
+<p>
+<a href="/public/addSurveyForm.html">Add a new survey</a> 
+<p>
+<a href="/public/index.html">Return to index page</a>
