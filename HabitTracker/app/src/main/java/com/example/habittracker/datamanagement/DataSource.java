@@ -1,5 +1,6 @@
 package com.example.habittracker.datamanagement;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,6 +15,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DataSource {
 
@@ -102,8 +105,8 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                         String timestamp = dailyEntryObj.getString("timestamp");
                         boolean isDone = dailyEntryObj.getBoolean("isDone");
                         int happiness = dailyEntryObj.getInt("happiness");
-
-                        binHabit.putDateInfo(timestamp, isDone, happiness);
+                        @SuppressLint("SimpleDateFormat") Date date = new SimpleDateFormat("MM/dd/yyyy").parse(timestamp);
+                        binHabit.putDateInfo(date, isDone, happiness);
                     }
 
 
@@ -124,8 +127,8 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                         //float value = (float)dailyEntryObj.getDouble("isDone");
                         float value = BigDecimal.valueOf(dailyEntryObj.getDouble("isDone")).floatValue();
                         int happiness = dailyEntryObj.getInt("happiness");
-
-                        numHabit.putDateInfo(timestamp, value, happiness);
+                        @SuppressLint("SimpleDateFormat") Date date = new SimpleDateFormat("MM/dd/yyyy").parse(timestamp);
+                        numHabit.putDateInfo(date, value, happiness);
                     }
                 }
 
