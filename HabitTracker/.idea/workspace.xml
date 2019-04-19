@@ -1125,8 +1125,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/habittracker/datamanagement/DataSource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="131" column="78" lean-forward="true" selection-start-line="131" selection-start-column="78" selection-end-line="131" selection-end-column="78" />
+            <state relative-caret-position="174">
+              <caret line="131" column="78" selection-start-line="131" selection-start-column="78" selection-end-line="131" selection-end-column="78" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1147,7 +1147,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/habittracker/datamanagement/NumericalHabitTracker.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="473">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
         </entry>
@@ -1156,7 +1156,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/habittracker/datamanagement/BinaryHabitTracker.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="352">
-              <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+              <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -1182,6 +1182,7 @@
       <find>Access</find>
       <find>doInBackground:</find>
       <find>background</find>
+      <find>doi</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -1336,7 +1337,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.014765101" />
@@ -1347,11 +1347,11 @@
       <window_info id="Designer" order="6" />
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Run" order="0" sideWeight="0.4989339" weight="0.32832617" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="1" sideWeight="0.84563756" visible="true" weight="0.28368795" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="1" sideWeight="0.84563756" visible="true" weight="0.5347518" />
       <window_info anchor="bottom" id="TODO" order="2" sideWeight="0.4986577" weight="0.32907802" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49953574" weight="0.45287108" />
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.32936078" />
-      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.15436241" side_tool="true" visible="true" weight="0.28368795" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.15436241" side_tool="true" visible="true" weight="0.5347518" />
       <window_info anchor="bottom" id="Version Control" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.4986577" weight="0.1035461" />
       <window_info anchor="bottom" id="Android Profiler" order="8" />
@@ -1607,7 +1607,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/habittracker/datamanagement/BinaryHabitTracker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
-          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -1621,14 +1621,14 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/habittracker/datamanagement/NumericalHabitTracker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="473">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/habittracker/datamanagement/DataSource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="131" column="78" lean-forward="true" selection-start-line="131" selection-start-column="78" selection-end-line="131" selection-end-column="78" />
+        <state relative-caret-position="174">
+          <caret line="131" column="78" selection-start-line="131" selection-start-column="78" selection-end-line="131" selection-end-column="78" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
