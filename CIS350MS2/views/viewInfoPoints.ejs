@@ -1,0 +1,49 @@
+<!-- This is views/viewUserInfo.ejs -->
+<!-- You can see the data of a single user: their name, password, and a list of habits -->
+
+<body>
+Enries:
+<ul>
+<% habit.dailyEntries.forEach( (ent) => { %>
+	<li>
+    Timestamp: <%= ent.time %>
+    <ul>
+        <li>
+            <% if (habit.type == "numerical") { %>
+                <%= habit.unit %>: <%= ent.amount %>
+            <% } else { %>
+                Is Done: <%= ent.isDone %>
+            <% } %>
+        </li>
+        <li>
+            Happiness: <%= ent.happiness %>
+        </li>
+    </ul>
+	</li>
+
+<% }); %>
+</ul>
+<!--<ul>
+<% habit.tags.forEach( (tag) => { %>
+    <li> <%= habit.tags.tag %> 
+    </li>
+<% }); %>
+</ul> -->
+<br>
+<form action='/addInfoPoint/<%= username %>/<%= habit.habitName %>' method='post'>
+    Timestamp: <input name="timestamp">
+    <br>
+    <% if (habit.type == "numerical") { %>
+        <%= habit.unit %>: <input name="amount">
+    <% } else { %>
+        Is Done: <input name="isDone">
+    <% } %>
+    <br>
+    Happiness: <input name="happiness">
+    <br>
+    <input type=submit value='Add Entry'>
+    
+</form>
+
+<br><a href='/user/<%= username %>'>Go back to user</a>
+</body>

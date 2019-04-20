@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.BinaryHabitTracker;
+import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.FakeTemplateDatabase;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.NumericalHabitTracker;
@@ -37,13 +37,11 @@ public class AddExistingHabitActivity extends AppCompatActivity {
     private String spinnerChoice = "----";
     private EditText editText;
 
-    FakeUserDatabase fu = FakeUserDatabase.getInstance();
+    DataSource ds = DataSource.getInstance();
 
     FakeTemplateDatabase ft = FakeTemplateDatabase.getInstance();
 
     TreeMap<String, HabitType> t = ft.getTemInfo();
-
-    TreeMap<String, UserEntry> users = fu.getUserInfo();
 
     Set<HabitTracker> habits;
 
@@ -65,7 +63,7 @@ public class AddExistingHabitActivity extends AppCompatActivity {
             rg.addView(r);
         }
         String u = getIntent().getStringExtra("user");
-        habits = users.get(u).getHabits();
+        habits = ds.getUser(u).getHabits();
     }
 
     public void createNewHabit(View v) {
@@ -101,7 +99,8 @@ public class AddExistingHabitActivity extends AppCompatActivity {
                         ht = new BinaryHabitTracker(e.getText().toString(), new TreeSet<String>(),
                                 p.getText().toString().toLowerCase().equals("y"));
                     }
-                    habits.add(ht);
+                    String u = getIntent().getStringExtra("user");
+                    ds.getUser(u).addNewHabit(ht);
                     finish();
 
                 }

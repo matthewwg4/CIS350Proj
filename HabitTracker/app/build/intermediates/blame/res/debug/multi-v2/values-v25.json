@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\Jialin\\Documents\\GitHub\\350S19-22\\HabitTracker\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v25\\values-v25.xml",
+            "outputFile": "/Users/matthewgoldsmith/Docs/ESE 350/GitHub/350S19-22/HabitTracker/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v25/values-v25.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Jialin\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\f71e7f4e9e353c2c338ec1e0afc35cbc\\res\\values-v25\\values-v25.xml",
+                    "source": "/Users/matthewgoldsmith/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/89a7e90c097df959834454077e55233f/res/values-v25/values-v25.xml",
                     "from": {
                         "startLines": "2,3,4,6",
                         "startColumns": "4,4,4,4",

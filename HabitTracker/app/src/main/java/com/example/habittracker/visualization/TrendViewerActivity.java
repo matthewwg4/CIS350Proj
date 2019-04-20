@@ -10,8 +10,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.DateInfo;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.UserEntry;
@@ -46,7 +46,7 @@ public class TrendViewerActivity extends AppCompatActivity {
 
     private Set<HabitTracker> habitTrackerSet;
 
-    private FakeUserDatabase fakeUserDatabase = FakeUserDatabase.getInstance();
+    private DataSource database = DataSource.getInstance();
 
     private String habitNameDisplay;
     private Date latestDateDisplay;
@@ -71,7 +71,7 @@ latestDateDisplay = calendar.getTime();
             userName = extras.getString("user");
 
             //testing purpose below------------------------------------
-            UserEntry userEntry = fakeUserDatabase.getTheUserEntry(userName);
+            UserEntry userEntry = database.getUser(userName);
             if (userEntry != null) {
                 Log.d(TAG, "onCreate: user name is " + userName);
                 habitTrackerSet = userEntry.getHabits();

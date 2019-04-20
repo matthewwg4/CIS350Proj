@@ -14,11 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.DateInfo;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.NumericalHabitTracker;
+import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.login.R;
 
 import java.util.Date;
@@ -35,8 +36,9 @@ public class AddData extends AppCompatActivity {
 
     HabitTracker thisHab;
 
-    FakeUserDatabase f = FakeUserDatabase.getInstance();
+    DataSource ds = DataSource.getInstance();
     Set<HabitTracker> habits;
+    UserEntry user;
 
     String habit;
 
@@ -72,8 +74,8 @@ public class AddData extends AppCompatActivity {
 //        linearLayout.addView(tv0);
 //        linearLayout.addView(tv1);
 //        linearLayout.addView(tv2);
-        habits = f.getUserInfo()
-                .get(getIntent().getStringExtra("user")).getHabits();
+        user = ds.getUser(getIntent().getStringExtra("user"));
+        habits = ds.getUser(getIntent().getStringExtra("user")).getHabits();
         habit = getIntent().getStringExtra("habit");
 
         TextView happ = (TextView) findViewById(R.id.happiness_text_add);
@@ -137,7 +139,7 @@ public class AddData extends AppCompatActivity {
                 }
             }
             DateInfo d = new DateInfo(tDate, done, val, Integer.parseInt(happData));
-            thisHab.addTracking(d);
+            thisHab.addTracking(user, d);
             finish();
 
         } else {
