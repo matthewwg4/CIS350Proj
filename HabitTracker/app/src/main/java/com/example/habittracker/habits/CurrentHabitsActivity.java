@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.habittracker.datamanagement.FakeUserDatabase;
+import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.login.R;
 
@@ -22,7 +22,7 @@ public class CurrentHabitsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.resources_name);
         setSupportActionBar(toolbar);
 
-        for (HabitTracker h : FakeUserDatabase.getInstance().getUserInfo().get((String)getIntent().getStringExtra("user")).getHabits()) {
+        for (HabitTracker h : DataSource.getInstance().getUser(getIntent().getStringExtra("user")).getHabits()) {
             final String habit = h.getHabitName();
             Button myButton = new Button(this);
             myButton.setText(habit);

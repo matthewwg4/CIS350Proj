@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import java.util.Date;
 
 public class DataSource {
 
+    private TreeMap<String, UserEntry> cache = new TreeMap<>();
     private String TAG = "DataSource";
 
     public DataSource() {
@@ -30,6 +32,9 @@ public class DataSource {
     }
 
     public UserEntry getUser(String userName) {
+        if (cache.containsKey(userName)) {
+            return cache.get(userName);
+        }
         // TODO
         // The main purpose of this function is to test
         // connection to mongo
@@ -40,11 +45,16 @@ public class DataSource {
             UserEntry user = task.get();
             Log.d(TAG, "getUser: userName: " + user.username);
             Log.d(TAG, "getUser: " + user.password);
+            cache.put(userName, user);
             return user;
         } catch (Exception e) {
             Log.d(TAG, e.toString());
             return null;
         }
+    }
+
+    public void registerNewUser(UserEntry user) {
+        throw new UnsupportedOperationException();
     }
 }
 

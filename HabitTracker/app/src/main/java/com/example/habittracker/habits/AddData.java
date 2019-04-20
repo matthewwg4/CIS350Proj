@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.DateInfo;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.NumericalHabitTracker;
@@ -35,7 +35,7 @@ public class AddData extends AppCompatActivity {
 
     HabitTracker thisHab;
 
-    FakeUserDatabase f = FakeUserDatabase.getInstance();
+    DataSource ds = DataSource.getInstance();
     Set<HabitTracker> habits;
 
     String habit;
@@ -72,8 +72,7 @@ public class AddData extends AppCompatActivity {
 //        linearLayout.addView(tv0);
 //        linearLayout.addView(tv1);
 //        linearLayout.addView(tv2);
-        habits = f.getUserInfo()
-                .get(getIntent().getStringExtra("user")).getHabits();
+        habits = ds.getUser(getIntent().getStringExtra("user")).getHabits();
         habit = getIntent().getStringExtra("habit");
 
         TextView happ = (TextView) findViewById(R.id.happiness_text_add);

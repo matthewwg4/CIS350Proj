@@ -33,7 +33,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.DataSource;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.menu.MenuActivity;
 
@@ -66,8 +65,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    private FakeUserDatabase usersDatabase = FakeUserDatabase.getInstance();
-    private TreeMap<String, UserEntry> users = usersDatabase.getUserInfo();
     private DataSource ds = DataSource.getInstance();
 
     @Override
@@ -387,8 +384,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            if (usersDatabase.getUserInfo().containsKey(mEmail)) {
-                if (mPassword.equals(usersDatabase.getUserInfo().get(mEmail).password)) {
+            UserEntry user = ds.getUser(mEmail);
+            if (user != null) {
+                if (mPassword.equals(user.password)) {
                     return true;
                 } else {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -446,10 +444,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            if (usersDatabase.getUserInfo().containsKey(mEmail)) {
+            if (ds.getUser(mEmail) != null) {
                 return false;
             }
-            usersDatabase.registerNewUser(new UserEntry(mEmail, mPassword));
+            ds.registerNewUser(new UserEntry(mEmail, mPassword));
             return true;
         }
 

@@ -14,9 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.DateInfo;
 import com.example.habittracker.datamanagement.FakeHabitDatabase;
-import com.example.habittracker.datamanagement.FakeUserDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.NumericalHabitTracker;
@@ -35,8 +35,8 @@ public class HabitForm extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Set<HabitTracker> habits = FakeUserDatabase.getInstance().getUserInfo()
-                .get((String)getIntent().getStringExtra("user"))
+        Set<HabitTracker> habits = DataSource.getInstance()
+                .getUser(getIntent().getStringExtra("user"))
                 .getHabits();
         HabitTracker h1 = null;
         final String check = (String)getIntent().getStringExtra("habit");
