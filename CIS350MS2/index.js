@@ -40,6 +40,12 @@ class InfoPoint {
 	}
 }
 
+class userResponse {
+	constructor(username, response) {
+		this.username = username;
+		this.response = response;
+	}
+}
 app.use('/public', express.static('public'));
 // route for showing all the people
 
@@ -78,7 +84,7 @@ app.use('/user/:name', (req, res) => {
 	});
 });
 
-app.use('/view', (req, res) =>
+app.use('/view', (req, res) => {
 	User.find((err, allUsers) => {
 		if (err) {
 			res.type('html').status(500); res.send('Error: ' + err);
@@ -87,9 +93,9 @@ app.use('/view', (req, res) =>
 		}
 		else { res.render('viewAll', { user: allUsers }) };
 		//res.status(400).send();
-	}
+	})
 		//	}
-	));
+	});
 
 app.use('/deleteUser/:name', (req, res) => {
 	var query = { userName: req.params.name };
@@ -281,7 +287,7 @@ app.use('/updateHabitName/:user/:habit', (req, res) => {
 	// 		});
 	// 	}
 	// });
-});
+
 
 //TODO: tag only temporarily added
 app.use('/addTag/:name/:habit', (req, res) => {
@@ -403,7 +409,7 @@ app.use('/addSurvey', (req, res) => {
 		surveyName: req.body.surveyName,
 		question: req.body.question,
 		options: [req.body.option1, req.body.option2],
-		userResponses: new Map()
+		userResponses: []
 	});
 
 	// save the survey to the database
@@ -563,7 +569,7 @@ app.use('/userResponses/:name', (req, res) => {
 			res.send('cannot find the survey with this name');
 		}  else {
 			if (survey != null) {
-			if (survey.userResponses.size == 0) {
+			if (survey.userResponses.length == 0) {
 			res.type('html').status(200); res.send('There are no user responses');
 			}
 			else { 
@@ -591,7 +597,9 @@ app.use('/updateResponse/:name/:user', (req, res) => {
 				res.render('updateResponseFailed', {survey: survey, reason: "optionMatching"});
 			}    else {
 				if (survey != null) {
-				survey.userResponses.set(req.params.user, newResponse);
+				let resp = survey.userResponses.find(x => x.username === req.params.user);
+					let index = survey.userResponses.indexOf(resp);
+					survey.userResponses.set(index, new userResponse(req.params.user, newResponse));
 				}
 				survey.save((err) => {
 					if (err) {
@@ -638,11 +646,12 @@ app.use('/createUserResponse/:name', (req, res) => {
 			 } 
 			else if(!survey.options.includes(newResponse)) {
 				res.render('createResponseFailed', {survey: survey, reason: "optionMatching"});
-			} else  if (survey.userResponses.has(req.body.user)) {
+			} else  if (req.body.user in survey.userResponses) {
 				res.render('createResponseFailed', {survey: survey, reason: "alreadyResponded"});
 			}  else {
 				if (survey != null) {
-				survey.userResponses.set(req.body.user, newResponse);
+				var username = req.body.user;
+				survey.userResponses.push(new userResponse(username, newResponse));
 				}
 				survey.save((err) => {
 					if (err) {
@@ -655,6 +664,27 @@ app.use('/createUserResponse/:name', (req, res) => {
 				});
 			}
 			}
+			});
+});
+
+app.use('/android/:name/:user/:response', (req, res) => {
+	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (survey == null) {
+			res.send('cannot find');
+		} else {
+			var newResponse = req.params.response;
+				survey.userResponses.set(req.params.user, newResponse);
+				survey.save((err) => {
+					if (err) {
+					res.send("error");
+					}
+					else {
+						res.send("success");
+				}
+				});
+
+ 			}
 			});
 });
 

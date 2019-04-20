@@ -7,12 +7,13 @@ public class Survey {
     public String name;
     public String question;
     public ArrayList<String> options;
-    public TreeMap<String, String> responses = new TreeMap<>();
+    public TreeMap<String, String> responses;
 
     Survey(String n, String q, ArrayList<String> o) {
         name = n;
         question = q;
         options = o;
+		responses = new TreeMap<>();
     }
 
     public void enterResponse(String response, String user) {

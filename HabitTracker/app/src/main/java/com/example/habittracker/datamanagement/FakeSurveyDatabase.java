@@ -1,33 +1,35 @@
 package com.example.habittracker.datamanagement;
-
 import android.icu.text.StringSearch;
+import android.os.AsyncTask;
+import android.util.Log;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+
+import org.bson.Document;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 public class FakeSurveyDatabase extends DataSource {
     private static TreeMap<String, Survey> surveys = new TreeMap<>();
 
     private FakeSurveyDatabase() {
-        ArrayList<String> op1 = new ArrayList<>();
-        op1.add("Yes");
-        op1.add("No");
-
-        ArrayList<String> op2 = new ArrayList<>();
-        op2.add("Less than once a week");
-        op2.add("About once a week");
-        op2.add("Several times a week");
-        op2.add("Every day");
-        op2.add("Multiple times a day");
-
-        Survey s1 = new Survey("User Experience", "Do you like using this app?", op1);
-        Survey s2 = new Survey("Frequency of Use", "How often do you use this app?", op2);
-
-        surveys.put(s1.name, s1);
-        surveys.put(s2.name, s2);
     }
 
     private static final FakeSurveyDatabase fsd = new FakeSurveyDatabase();
+
 
     public static FakeSurveyDatabase getInstance() {
         return fsd;
@@ -38,8 +40,128 @@ public class FakeSurveyDatabase extends DataSource {
     }
 
     public void UpdateSurvey(String name, String response, String user) {
-        Survey s = surveys.get(name);
-        s.enterResponse(response, user);
-        surveys.put(name, s);
+        try {
+            String[] s = {name, response, user};
+            UpdateSurveyTask task = new UpdateSurveyTask();
+            task.execute(s);
+        } catch (Exception e){
+        }
+    }
+
+    public class UpdateSurveyTask extends AsyncTask<String, Void, String>{
+        /*This method is called in background when this object's "execute" method is invoked.The arguments passed to "execute" are passed to this method.*/
+        protected String doInBackground(String... params) {
+            try {
+                MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://10.0.2.2:27017"));
+                DB database = mongoClient.getDB("myDatabase");
+                DBCollection collection = database.getCollection("surveys");
+                DBCursor surList = collection.find(new BasicDBObject("surveyName", params[0]));
+                DBObject sur = surList.next();
+
+                DBObject query = new BasicDBObject("_id", sur.get("_id"));
+                DBObject resp = new BasicDBObject("userResponses", new BasicDBObject("username", params[2]).append("response",params[1]));
+                DBObject update = new BasicDBObject("$push", resp);
+                collection.update(query, update);
+
+                mongoClient.close();
+                return "fine";
+            } catch (Exception e) {
+                return e.toString();
+            }
+        }/*This method is called in foreground after doInBackground finishes.It can access and update Views in user interface.*/
+        protected void onPostExecute(String msg) {
+        }
+        // not implemented but you can use this if you’d like}}
+    }
+
+    //well, I tried the node express thing, but it didn't work
+//    public void UpdateSurvey(String name, String response, String user) {
+//        try {
+//            URL url = new URL("http://10.0.2.2:3000/android/" + name + "/" + user + "/" + response);
+//            UpdateSurveyTask task = new UpdateSurveyTask();
+//            task.execute();
+//        } catch (Exception e) {
+//        }
+//    }
+//
+//    public class UpdateSurveyTask extends AsyncTask<URL, String, String>{
+//        /*
+//        This method is called in background when this object's "execute"
+//        method is invoked.
+//        The arguments passed to "execute" are passed to this method.
+//        */
+//        protected String doInBackground(URL... urls) {
+//            try {
+//                // get the first URL from the array
+//                URL url = urls[0];
+//                // create connection and send HTTP request
+//                HttpURLConnection conn =
+//                        (HttpURLConnection)url.openConnection();
+//                conn.setRequestMethod("USE");
+//                conn.connect();
+//
+//                return "fine";
+//            }
+//            catch (Exception e) {
+//                return e.toString();
+//            }
+//        }/*This method is called in foreground after doInBackground finishes.It can access and update Views in user interface.*/
+//        protected void onPostExecute(String msg) {
+//        }
+//        // not implemented but you can use this if you’d like}}
+//    }
+
+    public class PopulateSurveysTask extends AsyncTask<Void, Void, String>{
+        /*This method is called in background when this object's "execute" method is invoked.The arguments passed to "execute" are passed to this method.*/
+        protected String doInBackground(Void... params) {
+            try {
+                MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://10.0.2.2:27017"));
+                DB database = mongoClient.getDB("myDatabase");
+                DBCollection collection = database.getCollection("surveys");
+
+                DBCursor cursor = collection.find();
+
+                while (cursor.hasNext()) {
+
+                    DBObject survey = cursor.next();
+                    ArrayList<String> options = new ArrayList<>();
+                    BasicDBList ops = (BasicDBList) survey.get("options");
+                    for(Object o: ops) {
+                        options.add((String) o);
+                    }
+                    TreeMap<String, String> resp = new TreeMap<>();
+
+                    BasicDBList ur = (BasicDBList) survey.get("userResponses");
+                    for(Object o : ur) {
+                        resp.put((String) ((DBObject) o).get("username"), (String) ((DBObject) o).get("response"));
+                    }
+
+                    Survey s = new Survey((String) survey.get("surveyName"), (String) survey.get("question"), options);
+                    s.responses = resp;
+
+                    surveys.put(s.name, s);
+
+                }
+                mongoClient.close();
+                return "fine";
+            } catch (Exception e) {
+                return e.toString();
+            }
+        }/*This method is called in foreground after doInBackground finishes.It can access and update Views in user interface.*/
+        protected void onPostExecute(String msg) {
+        }
+        // not implemented but you can use this if you’d like}}
+    }
+
+    public String populateSurveys() {
+        try {
+            surveys = new TreeMap<>();
+            PopulateSurveysTask task = new PopulateSurveysTask();
+            task.execute();
+            return("fine");
+        } catch (Exception e){
+            return e.toString();
+        }
+
     }
 }
