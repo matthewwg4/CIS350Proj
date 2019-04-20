@@ -63,7 +63,7 @@ public class TrendViewerActivity extends AppCompatActivity {
 
         // Set default values ------------------------------------
         calendar = Calendar.getInstance();
-latestDateDisplay = calendar.getTime();
+        latestDateDisplay = calendar.getTime();
 
         Bundle extras = getIntent().getExtras();
         String userName;
