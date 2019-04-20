@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class UserEntry {
     public String username;
@@ -17,7 +16,7 @@ public class UserEntry {
     public UserEntry(String u, String p) {
         username = u;
         password = p;
-        habits = new TreeSet<>();
+        habits = new HashSet<>();
     }
 
     public void addHabit(HabitTracker habit) {
