@@ -658,7 +658,7 @@ app.use('/createUserResponse/:name', (req, res) => {
 			});
 });
 
-app.use('/api', (req, res) => {
+app.use('/api/user', (req, res) => {
 	User.findOne({ userName: req.query.name}, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
 		else if (user == null) {
@@ -667,7 +667,88 @@ app.use('/api', (req, res) => {
 			res.send(user);
 		}
 	});
-})
+});
+
+app.use('/api/newuser', (req, res) => {
+	var newUser = new User({
+		userName: req.query.name, //requesting the body to have a username
+		password: req.query.password,
+		habits: []
+	});
+
+	// save the person to the database
+	newUser.save((err) => {
+		if (err) {
+			res.send('failure');
+		}
+		else {
+			// display the "successfull created" page using EJS
+			res.send('success'); //key is user; data is newUser; render is like print
+		}
+	});
+});
+
+app.use('/api/addHabit', (req, res) => {
+	User.findOne({ userName: req.query.name }, (err, user) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (user == null) {
+			res.send('cannot find the user with this name');
+		} else {
+			var unique = true;
+			user.habits.forEach(hab => {
+				if (req.body.habitName == hab.habitName) {
+					unique = false;
+				}
+			});
+			if (unique) {
+				var newHabit = new Habit(req.query.habitName, req.query.type, req.query.unit);
+				if (user != null) {
+					user.habits.push(newHabit);
+				}
+			//res.send(user.habits.get(newHabit.habitName).habitName);
+				user.save((err) => {
+					if (err) {
+				//	res.send(user.habits.get(newHabit.habitName).habitName);
+						res.send('failure');
+					} else {
+			// 		// var newHabit = new Habit(req.body.habitName, req.body.type);
+			// 		// user.habits.set(newHabit.habitName, newHabit);
+						res.send('success');
+					}
+				})
+			} else {
+				res.send('failure');
+			}
+		}
+	});
+});
+
+app.use('/api/addInfoPoint/', (req, res) => {
+	User.findOne({ userName: req.query.name }, (err, user) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (user == null) {
+			res.send('cannot find the user with this name');
+		} else {
+			var habit = undefined;
+			user.habits.forEach(hab => {
+				if (hab.habitName == req.query.habit) {
+					var info = new InfoPoint(req.query.timestamp, req.query.amount, req.query.isDone, req.query.happiness);
+					hab.dailyEntries.push(info);
+					habit = hab;
+				}
+			});
+			User.update({ userName: user.userName}, { habits : user.habits}, (err) => {
+			//user.save((err) => {
+				if (err) {
+					res.send('failure');
+				} else {
+					res.send('success');
+				}
+
+			})
+		}
+	});
+});
 
 //this is from android app
 

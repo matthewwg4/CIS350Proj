@@ -376,16 +376,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            Log.d(TAG, "attempt login");
 
             UserEntry user = ds.getUser(mEmail);
+            Log.d(TAG, "obtained user");
             if (user != null) {
+                Log.d(TAG, "user exists");
                 if (mPassword.equals(user.password)) {
                     return true;
                 } else {
@@ -393,6 +389,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return false;
                 }
             } else {
+                Log.d(TAG, "user does not exist");
                 mPasswordView.setError(getString(R.string.error_invalid_email_login));
                 return false;
             }
@@ -437,18 +434,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
             if (ds.getUser(mEmail) != null) {
                 return false;
             }
-            ds.registerNewUser(new UserEntry(mEmail, mPassword));
-            return true;
+            return ds.registerNewUser(new UserEntry(mEmail, mPassword));
         }
 
         @Override

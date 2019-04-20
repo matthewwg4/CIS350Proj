@@ -23,13 +23,18 @@ public class UserEntry {
         habits.add(habit);
     }
 
+    public void addNewHabit(HabitTracker habit) {
+        if (!habits.contains(habit)) {
+            DataSource ds = DataSource.getInstance();
+            if (!ds.addHabit(this, habit)) {
+                return;
+            }
+            habits.add(habit);
+        }
+    }
 
     public Set<HabitTracker> getHabits() {
         return habits;
-    }
-  
-    public void putAllHabits(Set<HabitTracker> allHabits) {
-        habits = allHabits;
     }
 
 }

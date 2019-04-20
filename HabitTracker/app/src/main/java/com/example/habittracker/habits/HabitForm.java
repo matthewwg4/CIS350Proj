@@ -2,28 +2,19 @@ package com.example.habittracker.habits;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.DateInfo;
-import com.example.habittracker.datamanagement.FakeHabitDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
-import com.example.habittracker.datamanagement.NumericalHabitTracker;
 import com.example.habittracker.login.R;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Set;
 
 public class HabitForm extends AppCompatActivity {

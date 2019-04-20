@@ -11,24 +11,12 @@ public abstract class HabitTracker {
     protected String habitName;
     protected HashSet<String> tags;
 
-    public void setTracking(ArrayList<DateInfo> tracking) {
-        this.tracking = tracking;
-    }
-
     public String getHabitName() {
         return habitName;
     }
 
-    public void setHabitName(String habitName) {
-        this.habitName = habitName;
-    }
-
     public HashSet<String> getTags() {
         return tags;
-    }
-
-    public void setTags(HashSet<String> tags) {
-        this.tags = tags;
     }
 
     public boolean isPrivate() {
@@ -71,7 +59,11 @@ public abstract class HabitTracker {
 
     public String getUnitName() {return null;}
 
-    public void addTracking(DateInfo d) {
+    public void addTracking(UserEntry user, DateInfo d) {
+        DataSource ds = DataSource.getInstance();
+        if (!ds.addInfoPoint(user, this, d)) {
+            return;
+        }
         tracking.add(d);
     }
 }

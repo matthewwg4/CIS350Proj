@@ -39,10 +39,13 @@ public class DataSource {
         // The main purpose of this function is to test
         // connection to mongo
         try {
-            URL url = new URL("http://10.0.2.2:3000/api?name=" + userName);
+            URL url = new URL("http://10.0.2.2:3000/api/user?name=" + userName);
             AccessWebTask task = new AccessWebTask();
-            task.execute(url);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
             UserEntry user = task.get();
+            if (user == null) {
+                return user;
+            }
             Log.d(TAG, "getUser: userName: " + user.username);
             Log.d(TAG, "getUser: " + user.password);
             cache.put(userName, user);
@@ -53,13 +56,75 @@ public class DataSource {
         }
     }
 
-    public void registerNewUser(UserEntry user) {
-        throw new UnsupportedOperationException();
+    public boolean registerNewUser(UserEntry user) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/api/newuser?name=" + user.username +
+                    "&password=" + user.password);
+            AccessWebTaskNewData task = new AccessWebTaskNewData();
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
+            Boolean success = task.get();
+            Log.d(TAG, "newUser: success: " + success);
+            if (!success) {
+                return false;
+            }
+            cache.put(user.username, user);
+            return true;
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+            return false;
+        }
+    }
+
+    public boolean addHabit(UserEntry user, HabitTracker habit) {
+        try {
+            String urlAddress = "http://10.0.2.2:3000/api/addHabit?name=" + user.username +
+                    "&habitName=" + habit.habitName + "&type=";
+            if (habit.getHabitType() == HabitType.BINARY) {
+                urlAddress = urlAddress + "binary&unit=";
+            } else {
+                urlAddress = urlAddress + "numerical&unit=" +
+                        ((NumericalHabitTracker)habit).getUnitName();
+            }
+            URL url = new URL(urlAddress);
+            AccessWebTaskNewData task = new AccessWebTaskNewData();
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
+            Boolean success = task.get();
+            Log.d(TAG, "addHabit: success: " + success);
+            if (!success) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+            return false;
+        }
+    }
+
+    public boolean addInfoPoint(UserEntry user, HabitTracker habit, DateInfo info) {
+        try {
+            String urlAddress = "http://10.0.2.2:3000/api/addInfoPoint?name=" + user.username +
+                    "&habit=" + habit.habitName + "&timestamp=" + info.getDate().getTime() +
+                    "&amount=" + info.getUnitValue() + "&isDone=" + info.isDone() +
+                    "&happiness=" + info.getHappiness();
+            URL url = new URL(urlAddress);
+            AccessWebTaskNewData task = new AccessWebTaskNewData();
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
+            Boolean success = task.get();
+            Log.d(TAG, "addInfoPoint: success: " + success);
+            if (!success) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            Log.d(TAG, e.toString());
+            return false;
+        }
     }
 }
 
 class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
 
+    private int count = 0;
     private String TAG = "AccessWebTask";
 
     @Override
@@ -159,3 +224,30 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
     }
 }
 
+class AccessWebTaskNewData extends AsyncTask<URL, String, Boolean> {
+
+    private String TAG = "AccessWebTaskNewData";
+
+    @Override
+    protected Boolean doInBackground(URL... urls) {
+        try {
+            Log.d(TAG, "doInBackground : called"); // debug purpose
+            // get the first URL from the array
+            URL url = urls[0];
+            // create connection and send HTTP request
+            HttpURLConnection conn =
+                    (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
+            // read first line of data that is returned
+            Scanner in = new Scanner(url.openStream());
+            String msg = in.nextLine();
+            Log.d(TAG, msg);
+            return msg.contains("success");
+        }
+        catch (Exception e) {
+            Log.d(TAG, e.toString());
+            return false;
+        }
+    }
+}

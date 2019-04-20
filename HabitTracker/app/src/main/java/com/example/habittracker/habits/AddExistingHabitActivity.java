@@ -99,7 +99,8 @@ public class AddExistingHabitActivity extends AppCompatActivity {
                         ht = new BinaryHabitTracker(e.getText().toString(), new TreeSet<String>(),
                                 p.getText().toString().toLowerCase().equals("y"));
                     }
-                    habits.add(ht);
+                    String u = getIntent().getStringExtra("user");
+                    ds.getUser(u).addNewHabit(ht);
                     finish();
 
                 }
