@@ -10,7 +10,7 @@ var surveySchema = new Schema({
 	surveyName: {type: String, required: true, unique: true},
 	question: {type: String, required: true},
 	options: [],
-	userResponses: {type: Map}
+	userResponses: []
     });
 
 // export surveySchema as a class called Survey
