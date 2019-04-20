@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
@@ -35,9 +36,6 @@ public class DataSource {
         if (cache.containsKey(userName)) {
             return cache.get(userName);
         }
-        // TODO
-        // The main purpose of this function is to test
-        // connection to mongo
         try {
             URL url = new URL("http://10.0.2.2:3000/api/user?name=" + userName);
             AccessWebTask task = new AccessWebTask();
@@ -167,6 +165,8 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                     JSONArray jsonTags = habitObj.getJSONArray("tags");
                     JSONArray jsonEntries = habitObj.getJSONArray("dailyEntries");
                     Set<String> tags = new TreeSet<>();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
+
                     for (int j = 0; j < jsonTags.length(); j++) {
                         String tagName = jsonTags.getString(i);
                         tags.add(tagName);
@@ -178,9 +178,9 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                         String timestamp = dailyEntryObj.getString("time");
                         boolean isDone = dailyEntryObj.getBoolean("isDone");
                         int happiness = dailyEntryObj.getInt("happiness");
-                        Date date = new Date(Long.parseLong(timestamp));
-                        Log.d(TAG, "doInBackground: timestamp: " + Long.parseLong(timestamp));
-                        Log.d(TAG, "doInBackground: date: " + date);
+                        Date date = dateFormat.parse(timestamp);
+                        Log.d(TAG, "doInBackground: timestamp: " + timestamp);
+                        Log.d(TAG, "doInBackground: date: " + date.toString());
                         Log.d(TAG, "doInBackground: happiness: " + happiness);
                         Log.d(TAG, "doInBackground: isDone: " + isDone);
                         binHabit.putDateInfo(date, isDone, happiness);
@@ -192,6 +192,8 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                     JSONArray jsonTags = habitObj.getJSONArray("tags");
                     JSONArray jsonEntries = habitObj.getJSONArray("dailyEntries");
                     Set<String> tags = new TreeSet<>();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
+
                     for (int j = 0; j < jsonTags.length(); j++) {
                         String tagName = jsonTags.getString(i);
                         tags.add(tagName);
@@ -204,8 +206,8 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                         //float value = (float)dailyEntryObj.getDouble("isDone");
                         float value = BigDecimal.valueOf(dailyEntryObj.getDouble("amount")).floatValue();
                         int happiness = dailyEntryObj.getInt("happiness");
-                        Date date = new Date(Long.parseLong(timestamp));
-                        Log.d(TAG, "doInBackground: date: " + date);
+                        Date date = dateFormat.parse(timestamp);
+                        Log.d(TAG, "doInBackground: date: " + date.toString());
                         Log.d(TAG, "doInBackground: happiness: " + happiness);
                         Log.d(TAG, "doInBackground: value: " + value);
                         numHabit.putDateInfo(date, value, happiness);
