@@ -7,7 +7,7 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c460ff5-aa23-4110-a116-fa8cf03fbe3a" name="Default Changelist" comment="">
@@ -1048,6 +1048,7 @@
     <session id="1076688125">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.opened" value="2" />
@@ -1069,13 +1070,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="2069" />
+          <entry key="java" value="2071" />
           <entry key="xml" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="2069" />
+          <entry key="JAVA" value="2071" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
@@ -1125,8 +1126,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/habittracker/datamanagement/DataSource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="131" column="78" selection-start-line="131" selection-start-column="78" selection-end-line="131" selection-end-column="78" />
+            <state relative-caret-position="375">
+              <caret line="137" column="13" lean-forward="true" selection-start-line="137" selection-start-column="13" selection-end-line="137" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1347,11 +1348,11 @@
       <window_info id="Designer" order="6" />
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Run" order="0" sideWeight="0.4989339" weight="0.32832617" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="1" sideWeight="0.84563756" visible="true" weight="0.5347518" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="1" sideWeight="0.84563756" visible="true" weight="0.22269504" />
       <window_info anchor="bottom" id="TODO" order="2" sideWeight="0.4986577" weight="0.32907802" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49953574" weight="0.45287108" />
       <window_info anchor="bottom" id="Terminal" order="4" weight="0.32936078" />
-      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.15436241" side_tool="true" visible="true" weight="0.5347518" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.15436241" side_tool="true" visible="true" weight="0.22269504" />
       <window_info anchor="bottom" id="Version Control" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="Build" order="7" sideWeight="0.4986577" weight="0.1035461" />
       <window_info anchor="bottom" id="Android Profiler" order="8" />
@@ -1627,8 +1628,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/habittracker/datamanagement/DataSource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="131" column="78" selection-start-line="131" selection-start-column="78" selection-end-line="131" selection-end-column="78" />
+        <state relative-caret-position="375">
+          <caret line="137" column="13" lean-forward="true" selection-start-line="137" selection-start-column="13" selection-end-line="137" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

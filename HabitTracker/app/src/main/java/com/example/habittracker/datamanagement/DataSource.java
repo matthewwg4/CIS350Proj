@@ -128,7 +128,7 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                         float value = BigDecimal.valueOf(dailyEntryObj.getDouble("amount")).floatValue();
                         int happiness = dailyEntryObj.getInt("happiness");
                         @SuppressLint("SimpleDateFormat") Date date = new SimpleDateFormat("MM/dd/yyyy").parse(timestamp);
-                        Log.d(TAG, "doInBackground: date: " + date);
+                        //Log.d(TAG, "doInBackground: date: " + date);
                         Log.d(TAG, "doInBackground: happiness: " + happiness);
                         Log.d(TAG, "doInBackground: value: " + value);
                         numHabit.putDateInfo(date, value, happiness);
