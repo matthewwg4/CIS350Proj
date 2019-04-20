@@ -46,6 +46,7 @@ class userResponse {
 		this.response = response;
 	}
 }
+
 app.use('/public', express.static('public'));
 // route for showing all the people
 
@@ -84,7 +85,7 @@ app.use('/user/:name', (req, res) => {
 	});
 });
 
-app.use('/view', (req, res) => {
+app.use('/view', (req, res) =>
 	User.find((err, allUsers) => {
 		if (err) {
 			res.type('html').status(500); res.send('Error: ' + err);
@@ -93,9 +94,9 @@ app.use('/view', (req, res) => {
 		}
 		else { res.render('viewAll', { user: allUsers }) };
 		//res.status(400).send();
-	})
+	}
 		//	}
-	});
+	));
 
 app.use('/deleteUser/:name', (req, res) => {
 	var query = { userName: req.params.name };
@@ -287,7 +288,7 @@ app.use('/updateHabitName/:user/:habit', (req, res) => {
 	// 		});
 	// 	}
 	// });
-
+});
 
 //TODO: tag only temporarily added
 app.use('/addTag/:name/:habit', (req, res) => {
