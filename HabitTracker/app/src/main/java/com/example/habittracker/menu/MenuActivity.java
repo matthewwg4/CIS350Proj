@@ -1,9 +1,11 @@
 package com.example.habittracker.menu;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +17,11 @@ import com.example.habittracker.resources.ResourcesActivity;
 import com.example.habittracker.surveys.SurveyActivity;
 import com.example.habittracker.visualization.TrendViewerActivity;
 
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 public class MenuActivity extends AppCompatActivity {
@@ -32,6 +39,13 @@ public class MenuActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
     }
+
+    protected void onResume() {
+        super.onResume();
+        f.populateSurveys();
+    }
+
+
     //add onclick methods for habit and viz buttons during integration
 
     public void gotoHabits(View v) {
@@ -63,20 +77,21 @@ public class MenuActivity extends AppCompatActivity {
         String msg = getIntent().getStringExtra("user");
 
         for(Survey s: surveys.values()) {
-            if(!s.responses.containsKey(msg)) {
+            Log.wtf("AAAAAAA", s.responses.get(msg));
+            if(s.responses.get(msg) == null) {
                 surveysToDo = true;
             }
         }
 
         if(!surveysToDo) {
-            Toast.makeText(getApplicationContext(), "There are currently no unfinished surveys for you. Please check back later.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "There are no surveys available.", Toast.LENGTH_LONG).show();
         } else {
             Intent i = new Intent(getApplicationContext(), SurveyActivity.class);
             i.putExtra("user", msg);
-
             startActivity(i);
         }
 
 
     }
+
 }

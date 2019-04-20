@@ -1,11 +1,11 @@
 <!-- This is views/viewUserResponses.ejs -->
 Here are all the user responses:
 <ul>
-<% survey.userResponses.forEach( (response, user) => { %>
+<% survey.userResponses.forEach( (response) => { %>
 	<li>
-	User: <%= user %><br>
-	<form action='/updateResponse/<%= survey.surveyName %>/<%= user %>' method='post' id>
-	Current response: <%= response %><br>
+	User: <%= response.username %><br>
+	<form action='/updateResponse/<%= survey.surveyName %>/<%= response.username %>' method='post' id>
+	Current response: <%= response.response %><br>
 	Updated option:  <input name='newResponse'>
 	<input type=submit value='Update'>
 	</form>
