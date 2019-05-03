@@ -1,11 +1,9 @@
-<!-- This is views/viewUserInfo.ejs -->
-<!-- You can see the data of a single user: their name, password, and a list of habits -->
+<!-- This is views/viewHabitInfo.ejs -->
 
 <body>
 <p>
     <form action='/updateHabitName/<%= username %>/<%= habit.habitName %>' method='post'>
         Habit name: <%= habit.habitName %> <br>
-        <!--Habit type: <%= habit.type %> <br> -->
         Update habit name:  <input name="newHabitname"> 
         <input type=submit value='Update'> <br>
         Habit type: <%= habit.type %> 
