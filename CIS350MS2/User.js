@@ -1,4 +1,4 @@
-//import mongooseHabit from './Habit.js';
+/* User.js */
 
 var mongoose = require('mongoose');
 
@@ -7,23 +7,12 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/myDatabase');
 
 var Schema = mongoose.Schema;
-//const Habit = require('./Habit');
 
 var userSchema = new Schema({
 	userName: {type: String, required: true, unique: true},
 	password: {type: String, required: true},
 	habits: {type: Array}
-	});
+});
 	
-
-
 // export userSchema as a class called User
 module.exports = mongoose.model('User', userSchema);
-
-// Tea: the part belows follow Person.js, but I think it is
-// not necessary so temporarily it is commented out
-
-// userSchema.methods.standardizeName = function() {
-//     this.name = this.name.toLowerCase();
-//     return this.name;
-// }
