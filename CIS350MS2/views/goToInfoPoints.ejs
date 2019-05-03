@@ -3,7 +3,6 @@
     <%=user.habits.length%> habit(s) to display as below :
     <ul>
         <% user.habits.forEach( (habit) => { %>
-        <!-- <li><a href = "/user/<%= user.habits%>" > -->
         <li><a href="/habit/<%= user.userName %>/<%= habit %>">
                 <%= habit %></a>
         </li>
