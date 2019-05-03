@@ -336,10 +336,14 @@ app.use('/goToInfoPoints/:name/:habit', (req, res) => {
 	});
 });
 
+/* adds a daily entry to the user's habit
+page shows the newly added entry in teh list of entries
+a new entry can again be added */
 app.use('/addInfoPoint/:name/:habit', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var habit = undefined;
@@ -361,17 +365,20 @@ app.use('/addInfoPoint/:name/:habit', (req, res) => {
 	});
 });
 
+// goes to page for viewing all surveys
 app.use('/surveys', (req, res) =>
 	Survey.find((err, allSurveys) => {
 		if (err) {
 			res.type('html').status(500); res.send('Error: ' + err);
 		} else if (allSurveys.length == 0) {
 			res.type('html').status(200); res.send('There are no surveys');
-		}
-		else { res.render('viewSurveys', { survey: allSurveys }) };
+		} else { res.render('viewSurveys', { survey: allSurveys }) };
 	}
-	));
+));
 	
+/* saves a new survey to the database
+shows the survey's name, question, and options
+another survey can be added once on this page */
 app.use('/addSurvey', (req, res) => {
 	if(req.body.option1.length == 0 || req.body.option2.length == 0) {
 			res.render('addSurveyFailed');
@@ -382,30 +389,31 @@ app.use('/addSurvey', (req, res) => {
 		options: [req.body.option1, req.body.option2],
 		userResponses: []
 	});
-
 	// save the survey to the database
 	newSurvey.save((err) => {
 		if (err) {
 			res.render('addSurveyFailed');
-		}
-		else {
+		} else {
 			// display the "successfull created" page using EJS
 			res.render('surveyCreated', { survey: newSurvey });
 		}
 	});
 	}
-
 });	
 
+/* goes to page with info about the survey with name :name
+question and options can be updated, survey can also be deleted */
 app.use('/survey/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else {
 			res.render('viewSurveyInfo', { survey: survey })
 		}
 	});
 });
 
+// removes the survey with name :name from the database
 app.use('/deleteSurvey/:name', (req, res) => {
 	var query = {surveyName: req.params.name};
 	var surveyDeleted = req.params.name;
@@ -415,10 +423,12 @@ app.use('/deleteSurvey/:name', (req, res) => {
 	})
 });
 
+// changes the :name survey's question based on the request body
 app.use('/updateQuestion/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) {
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (survey == null) {
 			res.send('cannot find the survey with this name');
 		} else {
 			var oldQuestion = survey.question;
@@ -428,8 +438,7 @@ app.use('/updateQuestion/:name', (req, res) => {
 				if (err) {
 					survey.question = oldQuestion;
 					res.render('updateQuestionFailed', {survey : survey});
-				}
-				else {
+				} else {
 					res.render('updateQuestion', { survey: survey });
 				}
 			});
@@ -437,10 +446,13 @@ app.use('/updateQuestion/:name', (req, res) => {
 	});
 })
 
+/* updates option :option of survey with name :name 
+based on the request body */
 app.use('/updateOption/:name/:option', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (survey == null) {
 			res.send('cannot find the survey with this name');
 		} else {
 			var oldOption = req.params.option;
@@ -461,19 +473,20 @@ app.use('/updateOption/:name/:option', (req, res) => {
 			} else {
 				survey.save((err) => {
 				if (err) {
-					//YOU SHOULD NEVER GET HERE
+					//you should never get here
 					survey.options.set(survey.options.findIndex(isSameStringNew), oldOption);
 					res.render('updateOptionFailed', {survey : survey});
-				}
-				else {
+				} else {
 					res.render('updateOption', { survey: survey, option : newOption });
 				}
-			});
+			  });
 			}
 		}
 	});
 });
 
+/* adds a new option to the survey with name :name
+based on the request body */
 app.use('/addOption/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
 	if (err) { res.type('html').status(500); res.send('Error: ' + err); }
@@ -491,19 +504,18 @@ app.use('/addOption/:name', (req, res) => {
 				//YOU SHOULD NEVER GET HERE
 				survey.options.pop();
 				res.render('addOptionFailed', {survey : survey});
-				}
-				else {
+				} else {
 					if (survey != null) {
 					res.render('optionCreated', {survey : survey, option: req.body.newOption})
+				  }
 				}
-				}
-
-		});
-	}
-	}	
+      });
+	    }
+	  }	
 	});
 });	
 
+// goes to page showing the user responses 
 app.use('/userResponses/:name', (req, res) => {
 	Survey.findOne({surveyName: req.params.name}, (err, survey) => {
 		if (err) {
@@ -512,21 +524,23 @@ app.use('/userResponses/:name', (req, res) => {
 			res.send('cannot find the survey with this name');
 		}  else {
 			if (survey != null) {
-			if (survey.userResponses.length == 0) {
-			res.type('html').status(200); res.send('There are no user responses');
-			}
-			else { 
-			res.render('viewUserResponses', { survey : survey }); 
-			}
+			  if (survey.userResponses.length == 0) {
+			  res.type('html').status(200); res.send('There are no user responses');
+			  } else { 
+			    res.render('viewUserResponses', { survey : survey }); 
+			  }
 			}
 		}
 	});
 });
 
+/* changes the response of user :user to the survey with name :name
+based on the request body */
 app.use('/updateResponse/:name/:user', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (survey == null) {
 			res.send('cannot find the survey with this name');
 		} else {
 			var oldResponse = req.params.response;
@@ -543,22 +557,24 @@ app.use('/updateResponse/:name/:user', (req, res) => {
 				}
 				survey.save((err) => {
 					if (err) {
-					//YOU SHOULD NEVER GET HERE
+					//you should never get here
 						res.render('updateResponseFailed', {survey: survey, reason : "HOW DID YOU DO THIS?"});
-					}
-					else {
+					} else {
 						res.render('updateResponse', { survey: survey, response : newResponse });
-				}
+				  }
 				});
 			}
-			}
-			});
+	  }
+	});
 });
 
+/* goes to page where a response to the survey with name :name
+can be added on behalf of the input user */
 app.use('/addUserResponse/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-	if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-	else if (survey == null) {
+	if (err) { 
+		res.type('html').status(500); res.send('Error: ' + err); 
+	} else if (survey == null) {
 			res.send('cannot find the survey with this name');
 	} else {
 			res.render('addResponseForm', { survey : survey })
@@ -566,40 +582,42 @@ app.use('/addUserResponse/:name', (req, res) => {
 	});
 });	
 
+/* a response to the survey with name :name
+is added on behalf of the input user
+user and response are based on the request body */
 app.use('/createUserResponse/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (survey == null) {
 			res.send('cannot find the survey with this name');
 		} else {
 			var newResponse = req.body.response;
 			function isSameStringNew(entry) {
 				return entry == newResponse;
 			}
-		    if (req.body.user.length == 0 || newResponse.length == 0) {
+		  if (req.body.user.length == 0 || newResponse.length == 0) {
 				res.render('createResponseFailed', {survey: survey, reason: "emptyFields"});
-			 } 
-			else if(!survey.options.includes(newResponse)) {
+			} else if(!survey.options.includes(newResponse)) {
 				res.render('createResponseFailed', {survey: survey, reason: "optionMatching"});
 			} else  if (req.body.user in survey.userResponses) {
 				res.render('createResponseFailed', {survey: survey, reason: "alreadyResponded"});
-			}  else {
+			} else {
 				if (survey != null) {
-				var username = req.body.user;
-				survey.userResponses.push(new userResponse(username, newResponse));
+			  	var username = req.body.user;
+				  survey.userResponses.push(new userResponse(username, newResponse));
 				}
 				survey.save((err) => {
-					if (err) {
-					//YOU SHOULD NEVER GET HERE
+				  if (err) {
+					//you should never get here
 						res.render('createResponseFailed', {survey: survey, reason : "HOW DID YOU DO THIS?"});
-					}
-					else {
+					} else {
 						res.render('createResponse', { survey: survey, response : newResponse, user : req.body.user });
-				}
+				  }
 				});
 			}
-			}
-			});
+		}
+	});
 });
 
 app.use('/api/user', (req, res) => {
@@ -619,14 +637,12 @@ app.use('/api/newuser', (req, res) => {
 		password: req.query.password,
 		habits: []
 	});
-
 	// save the person to the database
 	newUser.save((err) => {
 		if (err) {
 			res.send('failure');
-		}
-		else {
-			// display the "successfull created" page using EJS
+		} else {
+			// display the "successfully created" page using EJS
 			res.send('success'); 
 		}
 	});
@@ -634,8 +650,9 @@ app.use('/api/newuser', (req, res) => {
 
 app.use('/api/addHabit', (req, res) => {
 	User.findOne({ userName: req.query.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var unique = true;
@@ -665,8 +682,9 @@ app.use('/api/addHabit', (req, res) => {
 
 app.use('/api/addInfoPoint/', (req, res) => {
 	User.findOne({ userName: req.query.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var habit = undefined;
@@ -691,27 +709,30 @@ app.use('/api/addInfoPoint/', (req, res) => {
 //this is from android app
 app.use('/android/:name/:user/:response', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (survey == null) {
 			res.send('cannot find');
 		} else {
 			var newResponse = req.params.response;
-				survey.userResponses.set(req.params.user, newResponse);
-				survey.save((err) => {
-					if (err) {
+			survey.userResponses.set(req.params.user, newResponse);
+			survey.save((err) => {
+				if (err) {
 					res.send("error");
-					}
-					else {
-						res.send("success");
+				} else {
+					res.send("success");
 				}
-				});
-			}
 			});
+		}
+	});
 });
-app.use(/*default*/(req, res) => { res.status(404).send('Not found!'); });
+
+//default page
+app.use((req, res) => { res.status(404).send('Not found!'); });
 
 /*************************************************/
 
+//listen on port 3000
 app.listen(3000, () => {
 	console.log('Listening on port 3000');
 });
