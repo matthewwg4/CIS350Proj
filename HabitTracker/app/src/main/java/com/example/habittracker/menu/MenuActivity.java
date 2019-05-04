@@ -39,12 +39,12 @@ public class MenuActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
     }
-	
-	protected void onResume() {
+
+    protected void onResume() {
         super.onResume();
         f.populateSurveys();
     }
-	
+
     //add onclick methods for habit and viz buttons during integration
 
     public void gotoHabits(View v) {
@@ -92,4 +92,5 @@ public class MenuActivity extends AppCompatActivity {
 
 
     }
+
 }

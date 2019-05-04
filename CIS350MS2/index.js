@@ -598,7 +598,7 @@ app.use('/updateResponse/:name/:user', (req, res) => {
 				res.render('updateResponseFailed', {survey: survey, reason: "optionMatching"});
 			}    else {
 				if (survey != null) {
-				let resp = survey.userResponses.find(x => x.username === req.params.user);
+					let resp = survey.userResponses.find(x => x.username === req.params.user);
 					let index = survey.userResponses.indexOf(resp);
 					survey.userResponses.set(index, new userResponse(req.params.user, newResponse));
 				}
@@ -782,7 +782,26 @@ app.use('/api/addInfoPoint/', (req, res) => {
 });
 
 //this is from android app
-
+app.use('/android/:name/:user/:response', (req, res) => {
+	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (survey == null) {
+			res.send('cannot find');
+		} else {
+			var newResponse = req.params.response;
+				survey.userResponses.set(req.params.user, newResponse);
+				survey.save((err) => {
+					if (err) {
+					res.send("error");
+					}
+					else {
+						res.send("success");
+				}
+				});
+			
+			}
+			});
+});
 app.use( /*default*/(req, res) => { res.status(404).send('Not found!'); });
 
 /*************************************************/

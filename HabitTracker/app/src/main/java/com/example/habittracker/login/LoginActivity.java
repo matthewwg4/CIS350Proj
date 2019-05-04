@@ -36,8 +36,13 @@ import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.menu.MenuActivity;
 
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -459,5 +464,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
+
+
 }
 

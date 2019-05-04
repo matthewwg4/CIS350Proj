@@ -13,7 +13,7 @@ public class Survey {
         name = n;
         question = q;
         options = o;
-		responses = new TreeMap<>();
+        responses = new TreeMap<>();
     }
 
     public void enterResponse(String response, String user) {
