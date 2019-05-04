@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.FakeSurveyDatabase;
 import com.example.habittracker.datamanagement.Survey;
@@ -61,6 +60,5 @@ public class SurveyActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 }

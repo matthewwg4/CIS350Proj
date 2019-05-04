@@ -1,7 +1,6 @@
 package com.example.habittracker.datamanagement;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,7 +8,6 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
@@ -44,12 +42,9 @@ public class DataSource {
             if (user == null) {
                 return user;
             }
-            Log.d(TAG, "getUser: userName: " + user.username);
-            Log.d(TAG, "getUser: " + user.password);
             cache.put(userName, user);
             return user;
         } catch (Exception e) {
-            Log.d(TAG, e.toString());
             return null;
         }
     }
@@ -61,14 +56,12 @@ public class DataSource {
             AccessWebTaskNewData task = new AccessWebTaskNewData();
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
             Boolean success = task.get();
-            Log.d(TAG, "newUser: success: " + success);
             if (!success) {
                 return false;
             }
             cache.put(user.username, user);
             return true;
         } catch (Exception e) {
-            Log.d(TAG, e.toString());
             return false;
         }
     }
@@ -87,13 +80,11 @@ public class DataSource {
             AccessWebTaskNewData task = new AccessWebTaskNewData();
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
             Boolean success = task.get();
-            Log.d(TAG, "addHabit: success: " + success);
             if (!success) {
                 return false;
             }
             return true;
         } catch (Exception e) {
-            Log.d(TAG, e.toString());
             return false;
         }
     }
@@ -108,13 +99,11 @@ public class DataSource {
             AccessWebTaskNewData task = new AccessWebTaskNewData();
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
             Boolean success = task.get();
-            Log.d(TAG, "addInfoPoint: success: " + success);
             if (!success) {
                 return false;
             }
             return true;
         } catch (Exception e) {
-            Log.d(TAG, e.toString());
             return false;
         }
     }
@@ -128,7 +117,6 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
     @Override
     protected UserEntry doInBackground(URL... urls) {
         try {
-            Log.d(TAG, "doInBackground : called"); // debug purpose
             // get the first URL from the array
             URL url = urls[0];
             // create connection and send HTTP request
@@ -147,18 +135,11 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
 
             JSONArray habitsArray = jo.getJSONArray("habits");
 
-
-            Log.d(TAG, "doInBackground: userName: " + userName);
-            Log.d(TAG, "doInBackground: password: " + password);
-
-
-            //ArrayList<>
             UserEntry user = new UserEntry(userName, password);
 
             for (int i = 0; i < habitsArray.length(); i++) {
                 JSONObject habitObj = habitsArray.getJSONObject(i);
                 String habitName = habitObj.getString("habitName");
-                Log.d(TAG, "doInBackground: habit:" + habitName);
                 String type = habitObj.getString("type");
 
                 if (type.equals("binary")) {
@@ -179,10 +160,6 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                         boolean isDone = dailyEntryObj.getBoolean("isDone");
                         int happiness = dailyEntryObj.getInt("happiness");
                         Date date = dateFormat.parse(timestamp);
-                        Log.d(TAG, "doInBackground: timestamp: " + timestamp);
-                        Log.d(TAG, "doInBackground: date: " + date.toString());
-                        Log.d(TAG, "doInBackground: happiness: " + happiness);
-                        Log.d(TAG, "doInBackground: isDone: " + isDone);
                         binHabit.putDateInfo(date, isDone, happiness);
                     }
 
@@ -203,13 +180,9 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                     for (int k = 0; k < jsonEntries.length(); k++) {
                         JSONObject dailyEntryObj = jsonEntries.getJSONObject(k);
                         String timestamp = dailyEntryObj.getString("time");
-                        //float value = (float)dailyEntryObj.getDouble("isDone");
                         float value = BigDecimal.valueOf(dailyEntryObj.getDouble("amount")).floatValue();
                         int happiness = dailyEntryObj.getInt("happiness");
                         Date date = dateFormat.parse(timestamp);
-                        Log.d(TAG, "doInBackground: date: " + date.toString());
-                        Log.d(TAG, "doInBackground: happiness: " + happiness);
-                        Log.d(TAG, "doInBackground: value: " + value);
                         numHabit.putDateInfo(date, value, happiness);
                     }
                 }
@@ -220,7 +193,6 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
             return user;
         }
         catch (Exception e) {
-            Log.d(TAG, e.toString());
             return null;
         }
     }
@@ -233,7 +205,6 @@ class AccessWebTaskNewData extends AsyncTask<URL, String, Boolean> {
     @Override
     protected Boolean doInBackground(URL... urls) {
         try {
-            Log.d(TAG, "doInBackground : called"); // debug purpose
             // get the first URL from the array
             URL url = urls[0];
             // create connection and send HTTP request
@@ -244,11 +215,9 @@ class AccessWebTaskNewData extends AsyncTask<URL, String, Boolean> {
             // read first line of data that is returned
             Scanner in = new Scanner(url.openStream());
             String msg = in.nextLine();
-            Log.d(TAG, msg);
             return msg.contains("success");
         }
         catch (Exception e) {
-            Log.d(TAG, e.toString());
             return false;
         }
     }

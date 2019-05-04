@@ -20,7 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,14 +35,8 @@ import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.menu.MenuActivity;
 
-import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.TreeMap;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -96,15 +89,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: delete the line below. This line is for debug purpose
-                UserEntry userEntry = ds.getUser(mEmailView.getText().toString());
-                if (userEntry == null) {
-                    Log.d(TAG, "onClick: cannot find user with the email " +
-                            mEmailView.getText().toString());
-                } else {
-                    Log.d(TAG, "onClick: username: " + userEntry.username);
-                    Log.d(TAG, "onClick: password: " + userEntry.password);
-                }
 
                 attemptLogin();
             }
@@ -265,12 +249,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.length() > 4;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
@@ -380,13 +362,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            Log.d(TAG, "attempt login");
-
             UserEntry user = ds.getUser(mEmail);
-            Log.d(TAG, "obtained user");
             if (user != null) {
-                Log.d(TAG, "user exists");
                 if (mPassword.equals(user.password)) {
                     return true;
                 } else {
@@ -394,7 +371,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return false;
                 }
             } else {
-                Log.d(TAG, "user does not exist");
                 mPasswordView.setError(getString(R.string.error_invalid_email_login));
                 return false;
             }
@@ -406,9 +382,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-
-                // debugging purpose ends
-
                 Intent i = new Intent(getApplicationContext(), MenuActivity.class);
                 i.putExtra("user", mEmail);
 
@@ -437,8 +410,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             if (ds.getUser(mEmail) != null) {
                 return false;
             }
@@ -464,8 +435,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
-
-
-
 }
 

@@ -33,5 +33,4 @@ public class CustomResourceActivity extends AppCompatActivity {
         TextView info = (TextView) findViewById(R.id.resource_info);
         info.setText(recInfo);
     }
-
 }

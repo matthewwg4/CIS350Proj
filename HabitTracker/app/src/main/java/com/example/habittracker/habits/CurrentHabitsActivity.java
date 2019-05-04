@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.DataSource;
 import com.example.habittracker.datamanagement.HabitTracker;
@@ -43,35 +42,4 @@ public class CurrentHabitsActivity extends AppCompatActivity {
         }
 
     }
-    //add onclick methods for habit and viz buttons during integration
-
-//    public void gotoResources(View v) {
-//        String msg = getIntent().getStringExtra("user");
-//        Intent i = new Intent(getApplicationContext(), ResourcesActivity.class);
-//        i.putExtra("user", msg);
-//
-//        startActivity(i);
-//    }
-//
-//    public void gotoSurveys(View v) {
-//        boolean surveysToDo = false;
-//        String msg = getIntent().getStringExtra("user");
-//
-//        for(Survey s: surveys.values()) {
-//            if(!s.responses.containsKey(msg)) {
-//                surveysToDo = true;
-//            }
-//        }
-//
-//        if(!surveysToDo) {
-//            Toast.makeText(getApplicationContext(), "There are currently no unfinished surveys for you. Please check back later.", Toast.LENGTH_LONG).show();
-//        } else {
-//            Intent i = new Intent(getApplicationContext(), SurveyActivity.class);
-//            i.putExtra("user", msg);
-//
-//            startActivity(i);
-//        }
-//
-//
-//    }
 }

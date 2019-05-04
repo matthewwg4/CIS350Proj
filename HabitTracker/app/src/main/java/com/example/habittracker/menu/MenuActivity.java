@@ -1,11 +1,9 @@
 package com.example.habittracker.menu;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,19 +15,12 @@ import com.example.habittracker.resources.ResourcesActivity;
 import com.example.habittracker.surveys.SurveyActivity;
 import com.example.habittracker.visualization.TrendViewerActivity;
 
-import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 public class MenuActivity extends AppCompatActivity {
 
     FakeSurveyDatabase f = FakeSurveyDatabase.getInstance();
     private TreeMap<String, Survey> surveys = f.getSurInfo();
-
-    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +68,6 @@ public class MenuActivity extends AppCompatActivity {
         String msg = getIntent().getStringExtra("user");
 
         for(Survey s: surveys.values()) {
-            Log.wtf("AAAAAAA", s.responses.get(msg));
             if(s.responses.get(msg) == null) {
                 surveysToDo = true;
             }
@@ -90,8 +80,5 @@ public class MenuActivity extends AppCompatActivity {
             i.putExtra("user", msg);
             startActivity(i);
         }
-
-
     }
-
 }

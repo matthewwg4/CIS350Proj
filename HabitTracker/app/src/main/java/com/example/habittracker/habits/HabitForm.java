@@ -30,7 +30,7 @@ public class HabitForm extends AppCompatActivity {
                 .getUser(getIntent().getStringExtra("user"))
                 .getHabits();
         HabitTracker h1 = null;
-        final String check = (String)getIntent().getStringExtra("habit");
+        final String check = getIntent().getStringExtra("habit");
         for (HabitTracker h : habits) {
             if (h.getHabitName().equals(check)) {
                 h1 = h;
@@ -45,16 +45,6 @@ public class HabitForm extends AppCompatActivity {
 
         ListView ph = findViewById(R.id.prev_habits);
         ArrayList<String> entriesList = new ArrayList();
-        String s;
-        if (h1.getTracking().isEmpty()) {
-            s = "false";
-        } else {
-            if(h1.getTracking().get(0).getDate() == null) {
-                s = "false2";
-            } else {
-                s = h1.getTracking().get(0).getDate().toString();
-            }
-        }
 
         if(!h1.getTracking().isEmpty()) {
             for (DateInfo d : h1.getTracking()) {
