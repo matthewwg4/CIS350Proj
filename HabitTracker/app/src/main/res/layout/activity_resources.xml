@@ -9,6 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -25,16 +26,19 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:hint="Enter name or tag of resource" />
+            android:hint="Enter name or tag of resource"
+            android:textSize="30sp"/>
 
         <Button
             android:id="@+id/resources_search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="16dp"
             android:onClick="searchResources"
-            android:text="Search" />
+            android:text="Search"
+            android:textSize="30sp"/>
 
     </android.support.design.widget.AppBarLayout>
 

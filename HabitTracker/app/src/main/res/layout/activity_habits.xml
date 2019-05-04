@@ -46,6 +46,7 @@
                 android:id="@+id/habits_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50sp"
                 android:onClick="gotoAdd"
                 android:text="@string/action_goto_add"
                 android:textSize="40sp" />
@@ -54,6 +55,7 @@
                 android:id="@+id/visualization_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50sp"
                 android:onClick="gotoCurrent"
                 android:text="@string/action_goto_current"
                 android:textSize="40sp" />
