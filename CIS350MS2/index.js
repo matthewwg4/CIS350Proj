@@ -250,7 +250,7 @@ app.use('/updateHabitName/:user/:habit', (req, res) => {
 			if (!replicateName) {
 				holdHabit.habitName = req.body.newHabitname;
 			}
-			user.save((err) => {
+			User.update({ userName: user.userName}, { habits : user.habits}, (err) => {
 				if (err || replicateName) {
 					res.render('updateHabitNameFailed', { habit: holdHabit, user: req.params.user }); 
 				} else {
