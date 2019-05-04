@@ -620,6 +620,8 @@ app.use('/createUserResponse/:name', (req, res) => {
 	});
 });
 
+/* an api call to get the data for the
+user with userName query.name */
 app.use('/api/user', (req, res) => {
 	User.findOne({ userName: req.query.name}, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
@@ -631,6 +633,8 @@ app.use('/api/user', (req, res) => {
 	});
 });
 
+/* an api call to add a user with userName = query.name and
+password = query.password */
 app.use('/api/newuser', (req, res) => {
 	var newUser = new User({
 		userName: req.query.name, //requesting the body to have a username
@@ -648,6 +652,9 @@ app.use('/api/newuser', (req, res) => {
 	});
 });
 
+/* an api call to add a habit with habitName = query.habitName,
+type = query.type, and unit = query.unit to the user with
+userName as query.name */
 app.use('/api/addHabit', (req, res) => {
 	User.findOne({ userName: req.query.name }, (err, user) => {
 		if (err) { 
@@ -657,7 +664,7 @@ app.use('/api/addHabit', (req, res) => {
 		} else {
 			var unique = true;
 			user.habits.forEach(hab => {
-				if (req.body.habitName == hab.habitName) {
+				if (req.query.habitName == hab.habitName) {
 					unique = false;
 				}
 			});
@@ -680,6 +687,10 @@ app.use('/api/addHabit', (req, res) => {
 	});
 });
 
+/* an api call to add an InfoPoint with time = query.timestamp,
+amount = query.amount, isDone = query.isDone and 
+happiness = query.happiness to the habit with habitName as
+query.habit for the user with userName as query.name */
 app.use('/api/addInfoPoint/', (req, res) => {
 	User.findOne({ userName: req.query.name }, (err, user) => {
 		if (err) { 
