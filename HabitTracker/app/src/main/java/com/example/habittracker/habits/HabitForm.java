@@ -45,24 +45,14 @@ public class HabitForm extends AppCompatActivity {
 
         ListView ph = findViewById(R.id.prev_habits);
         ArrayList<String> entriesList = new ArrayList();
-        String s;
-        if (h1.getTracking().isEmpty()) {
-            s = "false";
-        } else {
-            if(h1.getTracking().get(0).getDate() == null) {
-                s = "false2";
-            } else {
-                s = h1.getTracking().get(0).getDate().toString();
-            }
-        }
 
         if(!h1.getTracking().isEmpty()) {
             for (DateInfo d : h1.getTracking()) {
-                entriesList.add(d.getDate().toString());
+
                 if (h1.getHabitType().equals(HabitType.NUMERICAL)) {
-                    entriesList.add(Float.toString(d.getUnitValue()) + " done");
+                    entriesList.add(d.getDate().toString() + "\n" + Float.toString(d.getUnitValue()) + " done\nHappiness: " +  d.getHappiness());
                 } else {
-                    entriesList.add("Habit done?: " + Boolean.toString(d.isDone()));
+                    entriesList.add(d.getDate().toString() + "\n" + "Habit done?: " + Boolean.toString(d.isDone()) + " \nHappiness: " +  d.getHappiness());
                 }
 
 

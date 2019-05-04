@@ -49,6 +49,7 @@ public class CustomSurveyActivity extends AppCompatActivity {
         for(String s : thisSurvey.options) {
             RadioButton r = new RadioButton(this);
             r.setText(s);
+            r.setTextSize(30);
             rg.addView(r);
         }
 

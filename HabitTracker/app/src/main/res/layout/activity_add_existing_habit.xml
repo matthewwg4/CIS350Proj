@@ -47,7 +47,8 @@
                 android:id="@+id/new_habit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter a name for this habit" />
+                android:text="Enter a name for this habit"
+                android:textSize="30sp"/>
 
             <EditText
                 android:id="@+id/new_habit_name_entry"
@@ -55,12 +56,13 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:textSize="40sp" />
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Is this habit private?" />
+                android:text="Is this habit private?"
+                android:textSize="30sp"/>
 
             <EditText
                 android:id="@+id/privacy_entry"
@@ -68,13 +70,15 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Y or N"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="30sp"/>
 
             <TextView
                 android:id="@+id/habit_thing_tracking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="What is being tracked?" />
+                android:text="What is being tracked?"
+                android:textSize="30sp"/>
 
             <EditText
                 android:id="@+id/habit_thing_tracking_entry"
@@ -82,18 +86,22 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="ex. meals, miles, time meditating"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="30sp"/>
 
             <TextView
                 android:id="@+id/pick_habit_type_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="What type of habit is this?" />
+                android:text="What type of habit is this?"
+                android:textSize="30sp"/>
 
             <RadioGroup
                 android:id="@+id/habit_type_options"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:textSize="40sp">
+
 
             </RadioGroup>
 
@@ -106,7 +114,8 @@
             android:onClick="createNewHabit"
             android:text="Create New Habit"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            tools:layout_editor_absoluteX="8dp" />
+            tools:layout_editor_absoluteX="8dp"
+            android:textSize="30sp"/>
     </android.support.constraint.ConstraintLayout>
 
 
