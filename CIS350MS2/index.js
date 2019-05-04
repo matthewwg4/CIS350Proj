@@ -668,6 +668,27 @@ app.use('/createUserResponse/:name', (req, res) => {
 			});
 });
 
+app.use('/android/:name/:user/:response', (req, res) => {
+	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
+		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
+		else if (survey == null) {
+			res.send('cannot find');
+		} else {
+			var newResponse = req.params.response;
+				survey.userResponses.set(req.params.user, newResponse);
+				survey.save((err) => {
+					if (err) {
+					res.send("error");
+					}
+					else {
+						res.send("success");
+				}
+				});
+
+ 			}
+			});
+});
+
 app.use('/api/user', (req, res) => {
 	User.findOne({ userName: req.query.name}, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
