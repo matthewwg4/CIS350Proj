@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                 android:ems="10"
                 android:hint="Y or N"
                 android:inputType="textPersonName"
-                android:textSize="30sp"/>
+                android:textSize="20sp"/>
 
             <TextView
                 android:id="@+id/habit_thing_tracking"
@@ -87,7 +87,7 @@
                 android:ems="10"
                 android:hint="ex. meals, miles, time meditating"
                 android:inputType="textPersonName"
-                android:textSize="30sp"/>
+                android:textSize="20sp"/>
 
             <TextView
                 android:id="@+id/pick_habit_type_text"
@@ -100,7 +100,7 @@
                 android:id="@+id/habit_type_options"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="40sp">
+                android:textSize="20sp">
 
 
             </RadioGroup>

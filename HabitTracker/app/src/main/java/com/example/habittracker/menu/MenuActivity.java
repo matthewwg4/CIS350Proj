@@ -75,20 +75,9 @@ public class MenuActivity extends AppCompatActivity {
         boolean surveysToDo = false;
         String msg = getIntent().getStringExtra("user");
 
-        for(Survey s: surveys.values()) {
-            Log.wtf("AAAAAAA", s.responses.get(msg));
-            if(s.responses.get(msg) == null) {
-                surveysToDo = true;
-            }
-        }
-
-        if(!surveysToDo) {
-            Toast.makeText(getApplicationContext(), "There are no surveys available.", Toast.LENGTH_LONG).show();
-        } else {
-            Intent i = new Intent(getApplicationContext(), SurveyActivity.class);
-            i.putExtra("user", msg);
-            startActivity(i);
-        }
+        Intent i = new Intent(getApplicationContext(), SurveyActivity.class);
+        i.putExtra("user", msg);
+        startActivity(i);
 
 
     }
