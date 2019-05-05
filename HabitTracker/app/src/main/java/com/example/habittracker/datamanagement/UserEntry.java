@@ -9,8 +9,6 @@ public class UserEntry {
     Set<HabitTracker> habits;
     //when integrated, add storage for habits
 
-    public UserEntry() {}
-
     public UserEntry(String u, String p) {
         username = u;
         password = p;

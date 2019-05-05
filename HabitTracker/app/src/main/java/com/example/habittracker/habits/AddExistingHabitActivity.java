@@ -57,6 +57,10 @@ public class AddExistingHabitActivity extends AppCompatActivity {
         habits = ds.getUser(u).getHabits();
     }
 
+    /*
+    adds a new habit to the user in the database
+    when the user clicks the "create new habit" button
+    */
     public void createNewHabit(View v) {
         int response = ((RadioGroup) findViewById(R.id.habit_type_options)).getCheckedRadioButtonId();
         EditText p = findViewById(R.id.privacy_entry);

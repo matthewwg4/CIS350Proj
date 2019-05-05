@@ -56,6 +56,10 @@ public class CustomSurveyActivity extends AppCompatActivity {
 
     }
 
+    /*
+    submit's the response to a survey
+    when the user clicks on the "submit" button
+    */
     public void submitSurvey(View v) {
         int response = ((RadioGroup) findViewById(R.id.survey_choices)).getCheckedRadioButtonId();
         if(response == -1) {

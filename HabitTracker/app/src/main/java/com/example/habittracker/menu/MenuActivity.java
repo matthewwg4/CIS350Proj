@@ -38,6 +38,10 @@ public class MenuActivity extends AppCompatActivity {
 
     //add onclick methods for habit and viz buttons during integration
 
+    /*
+    goes to the page to chose to add a habit or view current habits
+    when the user clicks on the "habits" button
+    */
     public void gotoHabits(View v) {
         String msg = getIntent().getStringExtra("user");
         Intent i = new Intent(getApplicationContext(), HabitsActivity.class);
@@ -46,6 +50,10 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /*
+    goes to the page to chose with a list of resources
+    when the user clicks on the "resources" button
+    */
     public void gotoResources(View v) {
         String msg = getIntent().getStringExtra("user");
         Intent i = new Intent(getApplicationContext(), ResourcesActivity.class);
@@ -54,6 +62,10 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /*
+    goes to the page to with habit visualizations
+    when the user clicks on the "visualizations" button
+    */
     public void goToVisualization(View v) {
         String msg = getIntent().getStringExtra("user");
         Intent i = new Intent(getApplicationContext(), TrendViewerActivity.class);
@@ -62,6 +74,10 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /*
+    goes to the page to chose to view current surveys
+    when the user clicks on the "surveys" button
+    */
     public void gotoSurveys(View v) {
         boolean surveysToDo = false;
         String msg = getIntent().getStringExtra("user");

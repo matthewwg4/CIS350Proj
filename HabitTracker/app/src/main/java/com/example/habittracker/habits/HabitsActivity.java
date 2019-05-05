@@ -20,6 +20,10 @@ public class HabitsActivity extends AppCompatActivity {
     }
     //add onclick methods for habit and viz buttons during integration
 
+    /*
+    goes to the page to add a habit
+    when the user clicks on the "add" button
+    */
     public void gotoAdd(View v) {
         String msg = getIntent().getStringExtra("user");
         Intent i = new Intent(getApplicationContext(), AddExistingHabitActivity.class);
@@ -28,6 +32,10 @@ public class HabitsActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    /*
+    goes to a page with a list of all the user's habits
+    when the user clicks on the "current" button
+    */
     public void gotoCurrent(View v) {
         String msg = getIntent().getStringExtra("user");
         Intent i = new Intent(getApplicationContext(), CurrentHabitsActivity.class);

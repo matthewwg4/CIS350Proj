@@ -65,6 +65,10 @@ public class HabitForm extends AppCompatActivity {
 
     }
 
+    /*
+    goes to the page to add data to a habit
+    when the user clicks on the corresponding habit's button
+    */
     public void gotoAddData(View v) {
         final String check = (String)getIntent().getStringExtra("habit");
         String msg = getIntent().getStringExtra("user");

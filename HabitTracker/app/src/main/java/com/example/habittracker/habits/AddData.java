@@ -68,6 +68,10 @@ public class AddData extends AppCompatActivity {
 
     }
 
+    /*
+    adds the info point to the database
+    when the user clicks the "submit" button
+    */
     public void submitAddData(View v) {
         happEntry = findViewById(R.id.happiness_text_enter);
         String happData = happEntry.getText().toString();
