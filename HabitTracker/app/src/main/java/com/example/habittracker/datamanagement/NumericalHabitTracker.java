@@ -1,9 +1,7 @@
 package com.example.habittracker.datamanagement;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
-import java.util.TreeMap;
 
 public class NumericalHabitTracker extends HabitTracker{
     private String unitName;

@@ -1,19 +1,13 @@
 package com.example.habittracker.habits;
 
-import android.content.Intent;
-import android.graphics.Color;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.habittracker.datamanagement.BinaryHabitTracker;
@@ -22,12 +16,8 @@ import com.example.habittracker.datamanagement.FakeTemplateDatabase;
 import com.example.habittracker.datamanagement.HabitTracker;
 import com.example.habittracker.datamanagement.HabitType;
 import com.example.habittracker.datamanagement.NumericalHabitTracker;
-import com.example.habittracker.datamanagement.UserEntry;
 import com.example.habittracker.login.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -95,7 +85,7 @@ public class AddExistingHabitActivity extends AppCompatActivity {
                     if (((RadioButton) findViewById(response)).getText().toString().equals("Numerical")) {
                         ht = new NumericalHabitTracker(e.getText().toString(), new TreeSet<String>(),
                                 p.getText().toString().toLowerCase().equals("y"),
-                                typeName.toString());
+                                typeName);
                     } else {
                         ht = new BinaryHabitTracker(e.getText().toString(), new TreeSet<String>(),
                                 p.getText().toString().toLowerCase().equals("y"));

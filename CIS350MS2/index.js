@@ -17,7 +17,6 @@ var Survey = require('./Survey.js')
 
 /***************************************/
 class Habit {
-	
 	constructor(name, type, unit) {
 		this.habitName = name;
 		this.type = type;
@@ -27,6 +26,7 @@ class Habit {
 	}
 }
 
+//daily entries
 class InfoPoint {
 	constructor(timestamp, amount, isDone, happiness) {
 		this.time = timestamp;
@@ -47,57 +47,60 @@ class userResponse {
 	}
 }
 
+/* Index page with links to add user,
+view all users, add survey, and
+view all surveys
+*/
 app.use('/public', express.static('public'));
-// route for showing all the people
 
-// route for creating a new user
-// this is the action of the "create new person" form
-
+/* route for creating a new user
+username and password are input
+this is the action of the addUserForm */
 app.use('/addUser', (req, res) => {
 	var newUser = new User({
 		userName: req.body.username, //requesting the body to have a username
 		password: req.body.password,
 		habits: []
 	});
-
 	// save the person to the database
 	newUser.save((err) => {
 		if (err) {
 			res.render('addUserFailed');
-		}
-		else {
-			// display the "successfull created" page using EJS
+		} else {
+			// display the "successfully created" page using EJS
 			res.render('created', { user: newUser }); //key is user; data is newUser; render is like print
 		}
 	});
 });
 
-// Displays the user with username ':name'
+/* Displays the info about the user with username ':name' 
+including username, password, habits link, and delete user
+username and password can also be updated here */
 app.use('/user/:name', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => { //response is from the database, not the user/client
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send(req.params.name);
-		}
-		else {
+		} else {
 			res.render('viewUserInfo', { user: user })
 		}
 	});
 });
 
+//view list of all users (with links to their info)
 app.use('/view', (req, res) =>
 	User.find((err, allUsers) => {
 		if (err) {
 			res.type('html').status(500); res.send('Error: ' + err);
 		} else if (allUsers.length == 0) {
 			res.type('html').status(200); res.send('There are no users');
-		}
-		else { res.render('viewAll', { user: allUsers }) };
-		//res.status(400).send();
+		} else { res.render('viewAll', { user: allUsers }) };
 	}
-		//	}
-	));
+));
 
+/* page that appears after a user is deleted and
+removed from the database */
 app.use('/deleteUser/:name', (req, res) => {
 	var query = { userName: req.params.name };
 	var userDeleted = req.params.name;
@@ -107,10 +110,13 @@ app.use('/deleteUser/:name', (req, res) => {
 	})
 });
 
+/* updates user with username :name to have
+new username based on the request body */
 app.use('/updateUsername/:name', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var oldName = user.userName;
@@ -120,8 +126,7 @@ app.use('/updateUsername/:name', (req, res) => {
 				if (err) {
 					user.userName = oldName;
 					res.render('updateNameFailed', { user: user });
-				}
-				else {
+				} else {
 					res.render('updateUsername', { user: user });
 				}
 			});
@@ -129,10 +134,13 @@ app.use('/updateUsername/:name', (req, res) => {
 	});
 })
 
+/* updates user with username :name to have
+new password based on the request body */
 app.use('/updatePassword/:name', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var oldPassword = user.password;
@@ -142,8 +150,7 @@ app.use('/updatePassword/:name', (req, res) => {
 				if (err) {
 					user.password = oldPassword;
 					res.render('updatePasswordFailed', { user: user });
-				}
-				else {
+				} else {
 					res.render('updatePassword', { user: user });
 				}
 			});
@@ -151,8 +158,11 @@ app.use('/updatePassword/:name', (req, res) => {
 	});
 });
 
+/* goes to page that displays the user's habits
+(clicking on a habit will go to a new page with the habit info)
+a new habit can also be added */
 app.use('/goToUserHabits/:name', (req, res) => {
-	User.findOne({ userName: req.params.name }, (err, user) => { //response is from the database, not the user/client
+	User.findOne({ userName: req.params.name }, (err, user) => { 
 		if (err) {
 			res.type('html').status(500); res.send('Error: ');
 		} else {
@@ -161,10 +171,14 @@ app.use('/goToUserHabits/:name', (req, res) => {
 	});
 });
 
+/* adds the habit to the user's list of habits
+shows page with list of user's updated habits 
+a new habit can again be added */
 app.use('/addHabit/:name', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var unique = true;
@@ -178,14 +192,10 @@ app.use('/addHabit/:name', (req, res) => {
 				if (user != null) {
 					user.habits.push(newHabit);
 				}
-			//res.send(user.habits.get(newHabit.habitName).habitName);
 				user.save((err) => {
 					if (err) {
-				//	res.send(user.habits.get(newHabit.habitName).habitName);
 						res.type('html').status(500); res.send(err);
 					} else {
-			// 		// var newHabit = new Habit(req.body.habitName, req.body.type);
-			// 		// user.habits.set(newHabit.habitName, newHabit);
 						res.render('goToUserHabits', { user: user });
 					}
 				})
@@ -196,20 +206,14 @@ app.use('/addHabit/:name', (req, res) => {
 	});
 });
 
+/* page that displays the name, type, tags, and link to info points
+of the habit with name :habit of user with username :name  
+habit can also be deleted on this page */
 app.use('/habit/:name/:habit', (req, res) => {
-	//Habit.findOne({ habitId: req.params.name + "-" + req.params.habit }, (err, habit) => { //response is from the database, not the user/client
-	//Habit.findOne({ habitName: req.params.name }, (err, habit) => {
-	// if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-	// 	 else if (habit == null) {
-	// 	 	res.send(req.params.name + "-" + req.params.habit + "is not valid");
-	// 	 }
-	// 	else {
-			
-	// 		res.render('viewHabitInfo', { habit: habit, username: req.params.name })
-	// 	}
 	User.findOne({userName: req.params.name}, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send("Couldn't find user with that name");
 		} else {
 			var h = null;
@@ -221,20 +225,18 @@ app.use('/habit/:name/:habit', (req, res) => {
 			res.render('viewHabitInfo', {habit: h, username: req.params.name});
 		}
 	});
-	});
-//});
+});
 
+//updates the name of the habit with original name :habit
 app.use('/updateHabitName/:user/:habit', (req, res) => {
 	User.findOne({ userName: req.params.user }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (user == null) {
 			res.send('Cannot find the user with that name');
 		} else {
-			// var newName = req.body.newHabitname;
-			// habit.habitName = newName;
 			var holdHabit = null;
 			var replicateName = false;
-			
 			user.habits.forEach(hab => {
 				if (req.params.habit == hab.habitName) {
 					holdHabit = hab;
@@ -248,53 +250,24 @@ app.use('/updateHabitName/:user/:habit', (req, res) => {
 			if (!replicateName) {
 				holdHabit.habitName = req.body.newHabitname;
 			}
-			user.save((err) => {
+			User.update({ userName: user.userName}, { habits : user.habits}, (err) => {
 				if (err || replicateName) {
-					res.render('updateHabitNameFailed', { habit: holdHabit, user: req.params.user }); //idk if this works -cm
+					res.render('updateHabitNameFailed', { habit: holdHabit, user: req.params.user }); 
 				} else {
 					res.render('updateHabitName', { habit: holdHabit, user: req.params.user });
 				}
 			})
-			// habit.save((err) => {
-			// 	if (err) {
-			// 		habit.habitName = oldName;
-			// 		habit.habitId = req.params.habit;
-			// 		res.render('updateHabitNameFailed', { habit: habit, user: req.params.user });
-			// 	}
-			// 	else {
-			// 		res.render('updateHabitName', { habit: habit, user: req.params.user });
-			// 	}
-			// });
 		}
 	});
-	// Habit.findOne({ habitId: req.params.habit }, (err, habit) => {
-	// 	if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-	// 	else if (habit == null) {
-	// 		res.send('cannot find the habit with this name');
-	// 	} else {
-	// 		var oldName = habit.habitName;
-	// 		var newName = req.body.newHabitname;
-	// 		habit.habitName = newName;
-	// 		habit.habitId = req.params.user + "-" + newName;
-	// 		habit.save((err) => {
-	// 			if (err) {
-	// 				habit.habitName = oldName;
-	// 				habit.habitId = req.params.habit;
-	// 				res.render('updateHabitNameFailed', { habit: habit, user: req.params.user });
-	// 			}
-	// 			else {
-	// 				res.render('updateHabitName', { habit: habit, user: req.params.user });
-	// 			}
-	// 		});
-	// 	}
-	// });
 });
 
-//TODO: tag only temporarily added
+/*adds a tag to the user's habit's tags
+the tag will appear in the updated list of tags on that page */
 app.use('/addTag/:name/:habit', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var habit = undefined;
@@ -305,20 +278,18 @@ app.use('/addTag/:name/:habit', (req, res) => {
 				}
 			});
 			User.update({ userName: user.userName}, { habits : user.habits}, (err) => {
-			//user.save((err) => {
 				if (err) {
 					res.type('html').status(500); res.send('Error: ');
 				} else {
 					res.render('viewHabitInfo', { habit: habit, username: req.params.name })
 				}
-
 			})
 		}
 	});
 });
 
+//page that appears and removes the habit with name :habit from the database
 app.use('/deleteHabit/:name/:habit', (req, res) => {
-//	var query = { habitId: req.params.name + "-" + req.params.habit };
 	var habitDeleted = req.params.habit;
 	var successfulDelete = false;
 	User.findOne({ userName: req.params.name }, (err, user) => {
@@ -341,16 +312,17 @@ app.use('/deleteHabit/:name/:habit', (req, res) => {
 					res.render('deleteHabitFinished', {habitDeleted, name: req.params.name }); 
 				}
 			})
-			
 		}
-	
 	})
 });
 
+/* goes to page with daily entry info
+shows the list of entries and options to add an entry */
 app.use('/goToInfoPoints/:name/:habit', (req, res) => {
 	User.findOne({userName: req.params.name}, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (user == null) {
 			res.send("Couldn't find user with that name");
 		} else {
 			var h = null;
@@ -364,10 +336,14 @@ app.use('/goToInfoPoints/:name/:habit', (req, res) => {
 	});
 });
 
+/* adds a daily entry to the user's habit
+page shows the newly added entry in teh list of entries
+a new entry can again be added */
 app.use('/addInfoPoint/:name/:habit', (req, res) => {
 	User.findOne({ userName: req.params.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var habit = undefined;
@@ -379,29 +355,30 @@ app.use('/addInfoPoint/:name/:habit', (req, res) => {
 				}
 			});
 			User.update({ userName: user.userName}, { habits : user.habits}, (err) => {
-			//user.save((err) => {
 				if (err) {
 					res.type('html').status(500); res.send('Error: ');
 				} else {
 					res.render('viewInfoPoints', { habit: habit, username: req.params.name })
 				}
-
 			})
 		}
 	});
 });
 
+// goes to page for viewing all surveys
 app.use('/surveys', (req, res) =>
 	Survey.find((err, allSurveys) => {
 		if (err) {
 			res.type('html').status(500); res.send('Error: ' + err);
 		} else if (allSurveys.length == 0) {
 			res.type('html').status(200); res.send('There are no surveys');
-		}
-		else { res.render('viewSurveys', { survey: allSurveys }) };
+		} else { res.render('viewSurveys', { survey: allSurveys }) };
 	}
-	));
+));
 	
+/* saves a new survey to the database
+shows the survey's name, question, and options
+another survey can be added once on this page */
 app.use('/addSurvey', (req, res) => {
 	if(req.body.option1.length == 0 || req.body.option2.length == 0) {
 			res.render('addSurveyFailed');
@@ -412,30 +389,31 @@ app.use('/addSurvey', (req, res) => {
 		options: [req.body.option1, req.body.option2],
 		userResponses: []
 	});
-
 	// save the survey to the database
 	newSurvey.save((err) => {
 		if (err) {
 			res.render('addSurveyFailed');
-		}
-		else {
+		} else {
 			// display the "successfull created" page using EJS
 			res.render('surveyCreated', { survey: newSurvey });
 		}
 	});
 	}
-
 });	
 
+/* goes to page with info about the survey with name :name
+question and options can be updated, survey can also be deleted */
 app.use('/survey/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else {
 			res.render('viewSurveyInfo', { survey: survey })
 		}
 	});
 });
 
+// removes the survey with name :name from the database
 app.use('/deleteSurvey/:name', (req, res) => {
 	var query = {surveyName: req.params.name};
 	var surveyDeleted = req.params.name;
@@ -445,32 +423,12 @@ app.use('/deleteSurvey/:name', (req, res) => {
 	})
 });
 
-// app.use('/updateSurveyname/:name', (req, res) => {
-	// Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		// if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		// else if (survey == null) {
-			// res.send('cannot find the survey with this name');
-		// } else {
-			// var oldName = survey.surveyName;
-			// var newName = req.body.newSurveyName;
-			// if (survey != null) survey.surveyName = newName;
-			// survey.update((err) => {
-				// if (err) {
-					// survey.surveyName = oldName;
-					// res.render('updateSurveyNameFailed', {survey : survey});
-				// }
-				// else {
-					// res.render('updateSurveyname', { survey: survey });
-				// }
-			// });
-		// }
-	// });
-// })
-
+// changes the :name survey's question based on the request body
 app.use('/updateQuestion/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) {
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (survey == null) {
 			res.send('cannot find the survey with this name');
 		} else {
 			var oldQuestion = survey.question;
@@ -480,8 +438,7 @@ app.use('/updateQuestion/:name', (req, res) => {
 				if (err) {
 					survey.question = oldQuestion;
 					res.render('updateQuestionFailed', {survey : survey});
-				}
-				else {
+				} else {
 					res.render('updateQuestion', { survey: survey });
 				}
 			});
@@ -489,26 +446,26 @@ app.use('/updateQuestion/:name', (req, res) => {
 	});
 })
 
+/* updates option :option of survey with name :name 
+based on the request body */
 app.use('/updateOption/:name/:option', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (survey == null) {
 			res.send('cannot find the survey with this name');
 		} else {
 			var oldOption = req.params.option;
 			var newOption = req.body.newOption;
-			
 			function isSameStringOld(entry) {
 				return entry == oldOption;
 			}
 			function isSameStringNew(entry) {
 				return entry == newOption;
 			}
-			
 			//set forces db to recognize change within array; just = will not do this
 			if (survey != null) {
 				survey.options.set(survey.options.findIndex(isSameStringOld), newOption);
-				
 			}
 			if (newOption.length == 0) {
 				survey.options.set(survey.options.findIndex(isSameStringNew), oldOption);
@@ -516,20 +473,20 @@ app.use('/updateOption/:name/:option', (req, res) => {
 			} else {
 				survey.save((err) => {
 				if (err) {
-					//YOU SHOULD NEVER GET HERE
+					//you should never get here
 					survey.options.set(survey.options.findIndex(isSameStringNew), oldOption);
 					res.render('updateOptionFailed', {survey : survey});
-				}
-				else {
+				} else {
 					res.render('updateOption', { survey: survey, option : newOption });
 				}
-			});
+			  });
 			}
-
 		}
 	});
 });
 
+/* adds a new option to the survey with name :name
+based on the request body */
 app.use('/addOption/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
 	if (err) { res.type('html').status(500); res.send('Error: ' + err); }
@@ -547,21 +504,18 @@ app.use('/addOption/:name', (req, res) => {
 				//YOU SHOULD NEVER GET HERE
 				survey.options.pop();
 				res.render('addOptionFailed', {survey : survey});
-				}
-				else {
+				} else {
 					if (survey != null) {
-					
 					res.render('optionCreated', {survey : survey, option: req.body.newOption})
+				  }
 				}
-				}
-
-		});
-	}
-	}		
-
+      });
+	    }
+	  }	
 	});
 });	
 
+// goes to page showing the user responses 
 app.use('/userResponses/:name', (req, res) => {
 	Survey.findOne({surveyName: req.params.name}, (err, survey) => {
 		if (err) {
@@ -570,33 +524,32 @@ app.use('/userResponses/:name', (req, res) => {
 			res.send('cannot find the survey with this name');
 		}  else {
 			if (survey != null) {
-			if (survey.userResponses.length == 0) {
-			res.type('html').status(200); res.send('There are no user responses');
+			  if (survey.userResponses.length == 0) {
+			  res.type('html').status(200); res.send('There are no user responses');
+			  } else { 
+			    res.render('viewUserResponses', { survey : survey }); 
+			  }
 			}
-			else { 
-			res.render('viewUserResponses', { survey : survey }); 
-			}
-			}
-
 		}
-		
 	});
 });
 
+/* changes the response of user :user to the survey with name :name
+based on the request body */
 app.use('/updateResponse/:name/:user', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		}	else if (survey == null) {
 			res.send('cannot find the survey with this name');
 		} else {
 			var oldResponse = req.params.response;
 			var newResponse = req.body.newResponse;
-			
 			 if (newResponse.length == 0) {
 				res.render('updateResponseFailed', {survey: survey, reason: "emptyFields"});
 			 } else if(!survey.options.includes(newResponse)) {
 				res.render('updateResponseFailed', {survey: survey, reason: "optionMatching"});
-			}    else {
+			 } else {
 				if (survey != null) {
 					let resp = survey.userResponses.find(x => x.username === req.params.user);
 					let index = survey.userResponses.indexOf(resp);
@@ -604,90 +557,71 @@ app.use('/updateResponse/:name/:user', (req, res) => {
 				}
 				survey.save((err) => {
 					if (err) {
-					//YOU SHOULD NEVER GET HERE
+					//you should never get here
 						res.render('updateResponseFailed', {survey: survey, reason : "HOW DID YOU DO THIS?"});
-					}
-					else {
+					} else {
 						res.render('updateResponse', { survey: survey, response : newResponse });
-				}
+				  }
 				});
 			}
-			}
-			});
+	  }
+	});
 });
 
-
-
+/* goes to page where a response to the survey with name :name
+can be added on behalf of the input user */
 app.use('/addUserResponse/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-	if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-	else if (survey == null) {
+	if (err) { 
+		res.type('html').status(500); res.send('Error: ' + err); 
+	} else if (survey == null) {
 			res.send('cannot find the survey with this name');
 	} else {
 			res.render('addResponseForm', { survey : survey })
 	}		
-
 	});
 });	
 
+/* a response to the survey with name :name
+is added on behalf of the input user
+user and response are based on the request body */
 app.use('/createUserResponse/:name', (req, res) => {
 	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (survey == null) {
 			res.send('cannot find the survey with this name');
 		} else {
 			var newResponse = req.body.response;
-			
 			function isSameStringNew(entry) {
 				return entry == newResponse;
 			}
-			
-		    if (req.body.user.length == 0 || newResponse.length == 0) {
+		  if (req.body.user.length == 0 || newResponse.length == 0) {
 				res.render('createResponseFailed', {survey: survey, reason: "emptyFields"});
-			 } 
-			else if(!survey.options.includes(newResponse)) {
+			} else if(!survey.options.includes(newResponse)) {
 				res.render('createResponseFailed', {survey: survey, reason: "optionMatching"});
 			} else  if (req.body.user in survey.userResponses) {
 				res.render('createResponseFailed', {survey: survey, reason: "alreadyResponded"});
-			}  else {
+			} else {
 				if (survey != null) {
-				var username = req.body.user;
-				survey.userResponses.push(new userResponse(username, newResponse));
+			  	var username = req.body.user;
+				  survey.userResponses.push(new userResponse(username, newResponse));
 				}
 				survey.save((err) => {
-					if (err) {
-					//YOU SHOULD NEVER GET HERE
+				  if (err) {
+					//you should never get here
 						res.render('createResponseFailed', {survey: survey, reason : "HOW DID YOU DO THIS?"});
-					}
-					else {
+					} else {
 						res.render('createResponse', { survey: survey, response : newResponse, user : req.body.user });
-				}
+				  }
 				});
 			}
-			}
-			});
+		}
+	});
 });
 
-app.use('/android/:name/:user/:response', (req, res) => {
-	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
-			res.send('cannot find');
-		} else {
-			var newResponse = req.params.response;
-				survey.userResponses.set(req.params.user, newResponse);
-				survey.save((err) => {
-					if (err) {
-					res.send("error");
-					}
-					else {
-						res.send("success");
-				}
-				});
-
- 			}
-			});
-});
+/* an api call to get the data for the
+user with userName query.name */
 
 app.use('/api/user', (req, res) => {
 	User.findOne({ userName: req.query.name}, (err, user) => {
@@ -700,34 +634,38 @@ app.use('/api/user', (req, res) => {
 	});
 });
 
+/* an api call to add a user with userName = query.name and
+password = query.password */
 app.use('/api/newuser', (req, res) => {
 	var newUser = new User({
 		userName: req.query.name, //requesting the body to have a username
 		password: req.query.password,
 		habits: []
 	});
-
 	// save the person to the database
 	newUser.save((err) => {
 		if (err) {
 			res.send('failure');
-		}
-		else {
-			// display the "successfull created" page using EJS
-			res.send('success'); //key is user; data is newUser; render is like print
+		} else {
+			// display the "successfully created" page using EJS
+			res.send('success'); 
 		}
 	});
 });
 
+/* an api call to add a habit with habitName = query.habitName,
+type = query.type, and unit = query.unit to the user with
+userName as query.name */
 app.use('/api/addHabit', (req, res) => {
 	User.findOne({ userName: req.query.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var unique = true;
 			user.habits.forEach(hab => {
-				if (req.body.habitName == hab.habitName) {
+				if (req.query.habitName == hab.habitName) {
 					unique = false;
 				}
 			});
@@ -736,14 +674,10 @@ app.use('/api/addHabit', (req, res) => {
 				if (user != null) {
 					user.habits.push(newHabit);
 				}
-			//res.send(user.habits.get(newHabit.habitName).habitName);
 				user.save((err) => {
 					if (err) {
-				//	res.send(user.habits.get(newHabit.habitName).habitName);
 						res.send('failure');
 					} else {
-			// 		// var newHabit = new Habit(req.body.habitName, req.body.type);
-			// 		// user.habits.set(newHabit.habitName, newHabit);
 						res.send('success');
 					}
 				})
@@ -754,10 +688,15 @@ app.use('/api/addHabit', (req, res) => {
 	});
 });
 
+/* an api call to add an InfoPoint with time = query.timestamp,
+amount = query.amount, isDone = query.isDone and 
+happiness = query.happiness to the habit with habitName as
+query.habit for the user with userName as query.name */
 app.use('/api/addInfoPoint/', (req, res) => {
 	User.findOne({ userName: req.query.name }, (err, user) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (user == null) {
+		if (err) { 
+			res.type('html').status(500); res.send('Error: ' + err); 
+		} else if (user == null) {
 			res.send('cannot find the user with this name');
 		} else {
 			var habit = undefined;
@@ -769,43 +708,22 @@ app.use('/api/addInfoPoint/', (req, res) => {
 				}
 			});
 			User.update({ userName: user.userName}, { habits : user.habits}, (err) => {
-			//user.save((err) => {
 				if (err) {
 					res.send('failure');
 				} else {
 					res.send('success');
 				}
-
 			})
 		}
 	});
 });
 
-//this is from android app
-app.use('/android/:name/:user/:response', (req, res) => {
-	Survey.findOne({ surveyName: req.params.name }, (err, survey) => {
-		if (err) { res.type('html').status(500); res.send('Error: ' + err); }
-		else if (survey == null) {
-			res.send('cannot find');
-		} else {
-			var newResponse = req.params.response;
-				survey.userResponses.set(req.params.user, newResponse);
-				survey.save((err) => {
-					if (err) {
-					res.send("error");
-					}
-					else {
-						res.send("success");
-				}
-				});
-			
-			}
-			});
-});
-app.use( /*default*/(req, res) => { res.status(404).send('Not found!'); });
+//default page
+app.use((req, res) => { res.status(404).send('Not found!'); });
 
 /*************************************************/
 
+//listen on port 3000
 app.listen(3000, () => {
 	console.log('Listening on port 3000');
 });

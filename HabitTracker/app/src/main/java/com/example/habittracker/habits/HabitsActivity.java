@@ -5,15 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
-import com.example.habittracker.datamanagement.FakeSurveyDatabase;
-import com.example.habittracker.datamanagement.Survey;
 import com.example.habittracker.login.R;
-import com.example.habittracker.resources.ResourcesActivity;
-import com.example.habittracker.surveys.SurveyActivity;
-
-import java.util.TreeMap;
 
 public class HabitsActivity extends AppCompatActivity {
 

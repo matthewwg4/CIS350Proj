@@ -1,7 +1,6 @@
 package com.example.habittracker.datamanagement;
 import android.icu.text.StringSearch;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;

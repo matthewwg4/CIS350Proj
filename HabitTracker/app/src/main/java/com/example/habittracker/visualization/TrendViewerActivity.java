@@ -1,12 +1,10 @@
 package com.example.habittracker.visualization;
 
-import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
@@ -56,7 +54,6 @@ public class TrendViewerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate: started.");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualization);
 
@@ -73,7 +70,6 @@ public class TrendViewerActivity extends AppCompatActivity {
             //testing purpose below------------------------------------
             UserEntry userEntry = database.getUser(userName);
             if (userEntry != null) {
-                Log.d(TAG, "onCreate: user name is " + userName);
                 habitTrackerSet = userEntry.getHabits();
                 //testing purpose above------------------------------------
 
@@ -83,7 +79,6 @@ public class TrendViewerActivity extends AppCompatActivity {
                 graph = findViewById(R.id.graph);
 
                 if (habitTrackerSet.size() == 0) {
-                    Log.d(TAG, "onCreate: this user has no habits being tracked");
                     setGraphTitle("No habit to show", calendar.getTime());
                     habitNameDisplay = null;
                     setXAxis(calendar.getTime());
@@ -99,8 +94,6 @@ public class TrendViewerActivity extends AppCompatActivity {
                     changeGraph(habitTrackerDisplay.getHabitName());
                 }
             }
-        } else {
-            Log.d(TAG, "cannot find user entry. user does not exist in data base ?");
         }
     }
 
@@ -200,8 +193,6 @@ public class TrendViewerActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        Log.d(TAG, "initRecyclerView: init recyclerView");
-
         List<String> habitNamesList = new ArrayList<>();
         for (HabitTracker h : habitTrackerSet) {
             habitNamesList.add(h.getHabitName());
@@ -220,9 +211,7 @@ public class TrendViewerActivity extends AppCompatActivity {
 
     private DataPoint[] getDataPointsUnitValues(Date latestChosenDate, List<DateInfo> dateInfos) {
         DataPoint[] dataPoints = new DataPoint[numDateShow];
-        if (dateInfos == null) {
-            Log.d(TAG, "getDataPointsHappiness: invalid input");
-        } else {
+        if (dateInfos != null) {
             try {
                 SimpleDateFormat ymdFormat = new SimpleDateFormat("yy/MM/dd");
 
@@ -256,7 +245,6 @@ public class TrendViewerActivity extends AppCompatActivity {
                     calendar = Calendar.getInstance();
                 }
             } catch (ParseException e) {
-                Log.d(TAG, "getDataPointsUnitValue: got parse exception");
             }
         }
         return dataPoints;
@@ -265,9 +253,7 @@ public class TrendViewerActivity extends AppCompatActivity {
     private DataPoint[] getDataPointsHappinessBinaryPositive(Date latestChosenDate,
                                                              List<DateInfo> dateInfos) {
         DataPoint[] dataPoints = new DataPoint[numDateShow];
-        if (dateInfos == null) {
-            Log.d(TAG, "getDataPointsHappiness: invalid input");
-        } else {
+        if (dateInfos != null) {
             try {
                 SimpleDateFormat ymdFormat = new SimpleDateFormat("yy/MM/dd");
 
@@ -303,7 +289,6 @@ public class TrendViewerActivity extends AppCompatActivity {
                     calendar = Calendar.getInstance();
                 }
             } catch (ParseException e) {
-                Log.d(TAG, "getDataPointsHappiness: got parse exception");
             }
         }
 
@@ -313,9 +298,7 @@ public class TrendViewerActivity extends AppCompatActivity {
     private DataPoint[] getDataPointsHappinessBinaryNegative(Date latestChosenDate,
                                                              List<DateInfo> dateInfos) {
         DataPoint[] dataPoints = new DataPoint[numDateShow];
-        if (dateInfos == null) {
-            Log.d(TAG, "getDataPointsHappiness: invalid input");
-        } else {
+        if (dateInfos != null) {
             try {
                 SimpleDateFormat ymdFormat = new SimpleDateFormat("yy/MM/dd");
 
@@ -351,7 +334,6 @@ public class TrendViewerActivity extends AppCompatActivity {
                     calendar = Calendar.getInstance();
                 }
             } catch (ParseException e) {
-                Log.d(TAG, "getDataPointsHappiness: got parse exception");
             }
         }
         return dataPoints;
@@ -361,9 +343,7 @@ public class TrendViewerActivity extends AppCompatActivity {
     private DataPoint[] getDataPointsHappinessNumerical(Date latestChosenDate,
                                                         List<DateInfo> dateInfos) {
         DataPoint[] dataPoints = new DataPoint[numDateShow];
-        if (dateInfos == null) {
-            Log.d(TAG, "getDataPointsHappiness: invalid input");
-        } else {
+        if (dateInfos != null) {
             try {
                 SimpleDateFormat ymdFormat = new SimpleDateFormat("yy/MM/dd");
 
@@ -398,7 +378,6 @@ public class TrendViewerActivity extends AppCompatActivity {
                     calendar = Calendar.getInstance();
                 }
             } catch (ParseException e) {
-                Log.d(TAG, "getDataPointsHappiness: got parse exception");
             }
         }
         return dataPoints;
@@ -429,12 +408,7 @@ public class TrendViewerActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance(); // reset calendar
 
-        if (date1Year == date2Year && date1Month == date2Month
-                && date1Date == date2Date) {
-            return true;
-        } else {
-            return false;
-        }
+        return date1Year == date2Year && date1Month == date2Month && date1Date == date2Date;
     }
 
     private void setLegend() {
@@ -451,9 +425,6 @@ public class TrendViewerActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.axisDescription);
         String description = "The unit of the left y-axis is " + happiness_unit + ".";
         if (habitType == habitType.NUMERICAL) {
-            if (unitName == null) {
-                Log.d(TAG, "setAxisDescription: error got null unitName for numerical tracker");
-            }
             description = description + "\nThe unit of the right y-axis is " + unitName + ".";
         }
         textView.setText(description);
@@ -463,8 +434,6 @@ public class TrendViewerActivity extends AppCompatActivity {
     // -------------------------------------------------------------------
 
     public void changeGraph(String habitNameChosen) {
-        Log.d(TAG, "changeGraph: chosen habit is " + habitNameChosen);
-
         HabitTracker habitTracker = null;
         for (HabitTracker h : habitTrackerSet) {
             if (habitNameChosen.equals(h.getHabitName())) {
@@ -496,13 +465,6 @@ public class TrendViewerActivity extends AppCompatActivity {
                 setLineGraphUnitValue(unitValueDataPoints, habitTracker.getUnitName());
                 setYAxisRight(dateInfos);
             } else {
-                //TOBE DELETED
-                Log.d(TAG, "changeGraph: BINARY");
-                for (int i = 0; i < dateInfos.size(); i++) {
-                    Log.d(TAG, "changeGraph: date" + dateInfos.get(i).getDate().toString());
-                    Log.d(TAG, "changeGraph: happiness" + dateInfos.get(i).getHappiness());
-                }
-
                 //Get happiness on days that a certain activity is done
                 DataPoint[] happyDataPointsPos =
                         getDataPointsHappinessBinaryPositive(latestDateDisplay, dateInfos);
@@ -519,28 +481,21 @@ public class TrendViewerActivity extends AppCompatActivity {
             setYAxisLeft();
             setLegend();
             setAxisDescription(habitTracker.getUnitName(), habitType);
-        } else {
-            Log.d(TAG, "changeGraph: cannot find a habitTracker with the given habit name");
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        Log.d(TAG, "onTouchEvent: called");
-
         int motionEvent = e.getAction();
         if (motionEvent == MotionEvent.ACTION_DOWN) {
-            Log.d(TAG, "onTouchEvent: action down detected");
             oldX = e.getX();
             oldY = e.getY();
         } else if (motionEvent == MotionEvent.ACTION_UP) {
-            Log.d(TAG, "onTouchEvent: action up detected");
             float newX = e.getX();
             float newY = e.getY();
 
             if (Math.abs(newX - oldX) > Math.abs(newY - oldY)) {
                 if (newX > oldX) {
-                    Log.d(TAG, "onTouchEvent: swiped left");
                     // Swiped left -> user can see data about 7 days previous to the oldest
                     // currently display date
                     calendar.setTime(latestDateDisplay);
@@ -548,17 +503,12 @@ public class TrendViewerActivity extends AppCompatActivity {
                     latestDateDisplay = calendar.getTime();
                     changeGraph(habitNameDisplay);
                     calendar = Calendar.getInstance();
-                    Log.d(TAG, "onTouchEvent: latestDateDisplay is set to "
-                            + latestDateDisplay.toString());
                 } else {
-                    Log.d(TAG, "onTouchEvent: swiped right");
                     // Swiped right -> user can see data about 7 days after to the newest
                     // currently display date
                     calendar.setTime(latestDateDisplay);
                     calendar.add(Calendar.DATE, numDateShow);
                     latestDateDisplay = calendar.getTime();
-                    Log.d(TAG, "onTouchEvent: latestDateDisplay is set to "
-                            + latestDateDisplay.toString());
                     calendar = Calendar.getInstance();
                     changeGraph(habitNameDisplay);
                 }

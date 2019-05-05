@@ -30,7 +30,7 @@ public class HabitForm extends AppCompatActivity {
                 .getUser(getIntent().getStringExtra("user"))
                 .getHabits();
         HabitTracker h1 = null;
-        final String check = (String)getIntent().getStringExtra("habit");
+        final String check = getIntent().getStringExtra("habit");
         for (HabitTracker h : habits) {
             if (h.getHabitName().equals(check)) {
                 h1 = h;

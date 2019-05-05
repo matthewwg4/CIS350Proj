@@ -1,5 +1,4 @@
-<!-- This is views/viewUserInfo.ejs -->
-<!-- You can see the data of a single user: their name, password, and a list of habits -->
+<!-- This is views/viewInfoPoints.ejs -->
 
 <body>
 Enries:
@@ -20,15 +19,9 @@ Enries:
         </li>
     </ul>
 	</li>
-
 <% }); %>
 </ul>
-<!--<ul>
-<% habit.tags.forEach( (tag) => { %>
-    <li> <%= habit.tags.tag %> 
-    </li>
-<% }); %>
-</ul> -->
+
 <br>
 <form action='/addInfoPoint/<%= username %>/<%= habit.habitName %>' method='post'>
     Timestamp: <input name="timestamp">
