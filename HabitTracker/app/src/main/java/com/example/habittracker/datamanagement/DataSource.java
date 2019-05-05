@@ -105,8 +105,10 @@ public class DataSource {
     */
     public boolean addInfoPoint(UserEntry user, HabitTracker habit, DateInfo info) {
         try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
             String urlAddress = "http://10.0.2.2:3000/api/addInfoPoint?name=" + user.username +
-                    "&habit=" + habit.habitName + "&timestamp=" + info.getDate().getTime() +
+                    "&habit=" + habit.habitName + "&timestamp=" +
+                    dateFormat.format(info.getDate().getTime()) +
                     "&amount=" + info.getUnitValue() + "&isDone=" + info.isDone() +
                     "&happiness=" + info.getHappiness();
             URL url = new URL(urlAddress);
