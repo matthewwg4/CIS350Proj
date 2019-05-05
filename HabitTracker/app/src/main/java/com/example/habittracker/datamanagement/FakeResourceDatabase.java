@@ -2,7 +2,7 @@ package com.example.habittracker.datamanagement;
 
 import java.util.TreeMap;
 
-public class FakeResourceDatabase extends DataSource {
+public class FakeResourceDatabase {
     private static TreeMap<String, Resource> res = new TreeMap<>();
 
     private FakeResourceDatabase() {

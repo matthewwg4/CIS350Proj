@@ -21,15 +21,17 @@ public class DataSource {
     private TreeMap<String, UserEntry> cache = new TreeMap<>();
     private String TAG = "DataSource";
 
-    public DataSource() {
-    }
-
     private static final DataSource ds = new DataSource();
 
     public static DataSource getInstance() {
         return ds;
     }
 
+    /*
+    attempts to get the user with username as userName,
+    first by checking the cache and then by using an api call
+    to access the mongo database through the web app
+    */
     public UserEntry getUser(String userName) {
         if (cache.containsKey(userName)) {
             return cache.get(userName);
@@ -49,6 +51,10 @@ public class DataSource {
         }
     }
 
+    /*
+    registers a new user if the user is valid through
+    an api call to the web app
+    */
     public boolean registerNewUser(UserEntry user) {
         try {
             URL url = new URL("http://10.0.2.2:3000/api/newuser?name=" + user.username +
@@ -66,6 +72,10 @@ public class DataSource {
         }
     }
 
+    /*
+    adds a habit to the user by using an api call
+    to access the mongo database through the web app
+    */
     public boolean addHabit(UserEntry user, HabitTracker habit) {
         try {
             String urlAddress = "http://10.0.2.2:3000/api/addHabit?name=" + user.username +
@@ -89,6 +99,10 @@ public class DataSource {
         }
     }
 
+    /*
+    adds an info point to the habit for the user by using an api call
+    to access the mongo database through the web app
+    */
     public boolean addInfoPoint(UserEntry user, HabitTracker habit, DateInfo info) {
         try {
             String urlAddress = "http://10.0.2.2:3000/api/addInfoPoint?name=" + user.username +
@@ -109,6 +123,10 @@ public class DataSource {
     }
 }
 
+/*
+the AsyncTask responsible for obtaining
+all the data for a user
+*/
 class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
 
     private int count = 0;
@@ -198,6 +216,10 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
     }
 }
 
+/*
+the AsyncTask responsible for adding new data
+(such as habits and info points) to a user
+*/
 class AccessWebTaskNewData extends AsyncTask<URL, String, Boolean> {
 
     private String TAG = "AccessWebTaskNewData";

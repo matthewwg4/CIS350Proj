@@ -55,6 +55,10 @@ public class ResourcesActivity extends AppCompatActivity {
         searchVal = (EditText) findViewById(R.id.resources_search_entry);
     }
 
+    /*
+    searches through the resources based on the user's input
+    when the "search" button
+    */
     public void searchResources(View v) {
         String searchText = searchVal.getText().toString();
         if(searchText.isEmpty()) {

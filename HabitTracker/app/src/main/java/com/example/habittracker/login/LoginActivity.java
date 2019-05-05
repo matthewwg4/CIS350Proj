@@ -248,10 +248,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    /*
+    checks if a username is of valid length
+    */
     private boolean isEmailValid(String email) {
         return email.length() > 4;
     }
 
+    /*
+    checks if a password is of valid length
+    */
     private boolean isPasswordValid(String password) {
         return password.length() > 4;
     }
@@ -398,6 +404,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    /**
+     * Represents an asynchronous login/registration task used to register
+     * a user.
+     */
     public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
