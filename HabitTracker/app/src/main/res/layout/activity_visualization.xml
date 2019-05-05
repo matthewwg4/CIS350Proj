@@ -18,23 +18,30 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="6"
-            android:id="@+id/graph"/>
+            android:id="@+id/graph"
+            android:textSize="20sp"/>
 
         <!--Graph view for stats of a habit-->
         <TextView
+            android:id="@+id/axisDescription"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:id="@+id/axisDescription"/>
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:textSize="20sp"/>
 
         <!--Recycler view of list of habits-->
         <android.support.v7.widget.RecyclerView
-            android:scrollbars="vertical"
+            android:id="@+id/recyclerView_habitNames"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="3"
             android:background="@color/colorRecyclerView"
-            android:id="@+id/recyclerView_habitNames"/>
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:scrollbars="vertical"
+            android:textSize="30sp"/>
 
     </LinearLayout>
 

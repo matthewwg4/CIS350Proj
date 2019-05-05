@@ -622,6 +622,7 @@ app.use('/createUserResponse/:name', (req, res) => {
 
 /* an api call to get the data for the
 user with userName query.name */
+
 app.use('/api/user', (req, res) => {
 	User.findOne({ userName: req.query.name}, (err, user) => {
 		if (err) { res.type('html').status(500); res.send('Error: ' + err); }

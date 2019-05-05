@@ -24,6 +24,7 @@ public class CurrentHabitsActivity extends AppCompatActivity {
         for (HabitTracker h : DataSource.getInstance().getUser(getIntent().getStringExtra("user")).getHabits()) {
             final String habit = h.getHabitName();
             Button myButton = new Button(this);
+            myButton.setTextSize(40);
             myButton.setText(habit);
             myButton.setOnClickListener(new View.OnClickListener() {
                 @Override

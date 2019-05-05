@@ -35,7 +35,9 @@
                 android:id="@+id/survey_question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:paddingBottom="20dp"
+                android:text="TextView"
+                android:textSize="40sp" />
 
             <RadioGroup
                 android:id="@+id/survey_choices"
@@ -57,6 +59,7 @@
         android:onClick="submitSurvey"
         android:text="@string/submit_survey"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="8dp" />
+        tools:layout_editor_absoluteX="8dp"
+        android:textSize="40sp"/>
 
 </android.support.constraint.ConstraintLayout>

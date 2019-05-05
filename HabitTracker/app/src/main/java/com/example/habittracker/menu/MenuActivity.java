@@ -36,7 +36,6 @@ public class MenuActivity extends AppCompatActivity {
         f.populateSurveys();
     }
 
-
     //add onclick methods for habit and viz buttons during integration
 
     public void gotoHabits(View v) {
@@ -67,18 +66,9 @@ public class MenuActivity extends AppCompatActivity {
         boolean surveysToDo = false;
         String msg = getIntent().getStringExtra("user");
 
-        for(Survey s: surveys.values()) {
-            if(s.responses.get(msg) == null) {
-                surveysToDo = true;
-            }
-        }
+        Intent i = new Intent(getApplicationContext(), SurveyActivity.class);
+        i.putExtra("user", msg);
+        startActivity(i);
 
-        if(!surveysToDo) {
-            Toast.makeText(getApplicationContext(), "There are no surveys available.", Toast.LENGTH_LONG).show();
-        } else {
-            Intent i = new Intent(getApplicationContext(), SurveyActivity.class);
-            i.putExtra("user", msg);
-            startActivity(i);
-        }
     }
 }
