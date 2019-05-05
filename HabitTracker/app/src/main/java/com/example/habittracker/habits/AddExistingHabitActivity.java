@@ -50,7 +50,7 @@ public class AddExistingHabitActivity extends AppCompatActivity {
         for(String s : t.keySet()) {
             RadioButton r = new RadioButton(this);
             r.setText(s);
-            r.setTextSize(30);
+            r.setTextSize(20);
             rg.addView(r);
         }
         String u = getIntent().getStringExtra("user");

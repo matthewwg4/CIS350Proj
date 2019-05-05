@@ -25,32 +25,40 @@
             android:id="@+id/do_text_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:text="TextView"
-            android:textSize="30sp"/>
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/do_text_add_entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/happiness_text_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:text="TextView"
-            android:textSize="30sp"/>
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/happiness_text_enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:ems="10"
             android:hint="1-10 (10 being the most happy)"
             android:inputType="textPersonName"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/add_data_submit_button"
