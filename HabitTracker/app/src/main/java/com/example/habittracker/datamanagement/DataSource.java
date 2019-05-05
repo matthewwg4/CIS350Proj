@@ -1,5 +1,6 @@
 package com.example.habittracker.datamanagement;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -100,8 +101,11 @@ public class DataSource {
 
     public boolean addInfoPoint(UserEntry user, HabitTracker habit, DateInfo info) {
         try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
+            String timeStampStr = dateFormat.format(info.getDate().getTime());
+
             String urlAddress = "http://10.0.2.2:3000/api/addInfoPoint?name=" + user.username +
-                    "&habit=" + habit.habitName + "&timestamp=" + info.getDate().getTime() +
+                    "&habit=" + habit.habitName + "&timestamp=" + timeStampStr +
                     "&amount=" + info.getUnitValue() + "&isDone=" + info.isDone() +
                     "&happiness=" + info.getHappiness();
             URL url = new URL(urlAddress);
@@ -192,7 +196,7 @@ class AccessWebTask extends AsyncTask<URL, String, UserEntry> {
                     JSONArray jsonTags = habitObj.getJSONArray("tags");
                     JSONArray jsonEntries = habitObj.getJSONArray("dailyEntries");
                     Set<String> tags = new TreeSet<>();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
 
                     for (int j = 0; j < jsonTags.length(); j++) {
                         String tagName = jsonTags.getString(i);

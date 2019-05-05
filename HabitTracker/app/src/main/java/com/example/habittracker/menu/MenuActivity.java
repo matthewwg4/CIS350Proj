@@ -76,7 +76,6 @@ public class MenuActivity extends AppCompatActivity {
         String msg = getIntent().getStringExtra("user");
 
         for(Survey s: surveys.values()) {
-            Log.wtf("AAAAAAA", s.responses.get(msg));
             if(s.responses.get(msg) == null) {
                 surveysToDo = true;
             }
